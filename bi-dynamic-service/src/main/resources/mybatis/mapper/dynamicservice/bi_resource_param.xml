@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ejet.bi.dynamicservice.mapper.BiResourceParamDao">
+
+	<sql id="SqlWhere">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+			<if test="uuid!=null and uuid!='' ">and uuid=#{uuid} </if>
+			<if test="resourceUuid!=null and resourceUuid!='' ">and resource_uuid=#{resourceUuid} </if>
+			<if test="paramName!=null and paramName!='' ">and param_name=#{paramName} </if>
+			<if test="paramType!=null and paramType!='' ">and param_type=#{paramType} </if>
+			<if test="status!=null and status!='' ">and status=#{status} </if>
+			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
+			<if test="modifyTime!=null and modifyTime!='' ">and modify_time=#{modifyTime} </if>
+			<if test="modifyUser!=null and modifyUser!='' ">and modify_user=#{modifyUser} </if>
+			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
+			<if test="ext1!=null and ext1!='' ">and ext1=#{ext1} </if>
+			<if test="ext2!=null and ext2!='' ">and ext2=#{ext2} </if>
+			<if test="paramValue!=null and paramValue!='' ">and param_value=#{paramValue} </if>
+		</where>
+	</sql>
+	<sql id="SqlWherePK">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+		</where>
+	</sql>
+	<sql id="SqlSet">
+		<set>
+			<if test="id!=null "> id=#{id}, </if>
+			<if test="uuid!=null and uuid!='' "> uuid=#{uuid}, </if>
+			<if test="resourceUuid!=null and resourceUuid!='' "> resource_uuid=#{resourceUuid}, </if>
+			<if test="paramName!=null and paramName!='' "> param_name=#{paramName}, </if>
+			<if test="paramType!=null and paramType!='' "> param_type=#{paramType}, </if>
+			<if test="status!=null and status!='' "> status=#{status}, </if>
+			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
+			<if test="modifyTime!=null and modifyTime!='' "> modify_time=#{modifyTime}, </if>
+			<if test="modifyUser!=null and modifyUser!='' "> modify_user=#{modifyUser}, </if>
+			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
+			<if test="ext1!=null and ext1!='' "> ext1=#{ext1}, </if>
+			<if test="ext2!=null and ext2!='' "> ext2=#{ext2}, </if>
+			<if test="paramValue!=null and paramValue!='' "> param_value=#{paramValue}, </if>
+		</set>
+	</sql>
+
+
+	<insert  id="insertAutoKey" parameterType="com.ejet.bi.dynamicservice.model.BiResourceParamModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bi_resource_param (
+ 			uuid, resource_uuid, param_name, param_type, 
+ 			status, remark, modify_time, modify_user, ext, 
+ 			ext1, ext2, param_value ) 	 VALUES ( 
+ 			#{uuid}, #{resourceUuid}, #{paramName}, #{paramType}, 
+ 			#{status}, #{remark}, #{modifyTime}, #{modifyUser}, #{ext}, 
+ 			#{ext1}, #{ext2}, #{paramValue} ) 
+	</insert>
+
+	<insert  id="insertSingle" parameterType="com.ejet.bi.dynamicservice.model.BiResourceParamModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bi_resource_param (
+ 			uuid, resource_uuid, param_name, param_type, 
+ 			status, remark, modify_time, modify_user, ext, 
+ 			ext1, ext2, param_value,  id ) 
+		 VALUES( 
+ 			#{uuid}, #{resourceUuid}, #{paramName}, #{paramType}, 
+ 			#{status}, #{remark}, #{modifyTime}, #{modifyUser}, #{ext}, 
+ 			#{ext1}, #{ext2}, #{paramValue},  #{id} ) 
+	</insert>
+
+	<delete  id="delete" parameterType="com.ejet.bi.dynamicservice.model.BiResourceParamModel" >
+		 DELETE FROM bi_resource_param
+		 <include refid="SqlWhere"></include> 
+	</delete>
+
+	<update  id="update" parameterType="com.ejet.bi.dynamicservice.model.BiResourceParamModel" >
+		 UPDATE bi_resource_param
+		 <include refid="SqlSet"></include> 
+		 <include refid="SqlWherePK"></include> 
+	</update>
+
+	<select  id="findByPK" parameterType="com.ejet.bi.dynamicservice.model.BiResourceParamModel" resultType="com.ejet.bi.dynamicservice.model.BiResourceParamModel" >
+		 SELECT * FROM bi_resource_param
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByCond" parameterType="com.ejet.bi.dynamicservice.model.BiResourceParamModel" resultType="com.ejet.bi.dynamicservice.model.BiResourceParamModel" >
+		 SELECT * FROM bi_resource_param
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryTree" parameterType="com.ejet.bi.dynamicservice.model.BiResourceParamModel" resultType="com.ejet.bi.dynamicservice.model.BiResourceParamModel" >
+		 SELECT * FROM bi_resource_param
+		 <include refid="SqlWhere"></include> 
+		 <if test=" extSQL !=null "> ${extSQL} </if> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByPage" parameterType="com.ejet.bi.dynamicservice.model.BiResourceParamModel" resultType="com.ejet.bi.dynamicservice.model.BiResourceParamModel" >
+		 SELECT * FROM bi_resource_param
+		 <include refid="SqlWhere"></include> 
+		 <if test="extSQL!=null "> ${extSQL} </if> 
+	</select>
+
+	<select  id="findMaxId" parameterType="com.ejet.bi.dynamicservice.model.BiResourceParamModel" resultType="int" >
+		 SELECT max(id) FROM bi_resource_param
+		 <include refid="SqlWhere"></include> 
+	</select>
+
+</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ejet.bi.dynamicservice.mapper.BiApiDefineDao">
+
+	<sql id="SqlWhere">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+			<if test="uuid!=null and uuid!='' ">and uuid=#{uuid} </if>
+			<if test="apiCategoryUuid!=null and apiCategoryUuid!='' ">and api_category_uuid=#{apiCategoryUuid} </if>
+			<if test="name!=null and name!='' ">and name=#{name} </if>
+			<if test="path!=null and path!='' ">and path=#{path} </if>
+			<if test="url!=null and url!='' ">and url=#{url} </if>
+			<if test="prefix!=null and prefix!='' ">and prefix=#{prefix} </if>
+			<if test="resourceUuid!=null and resourceUuid!='' ">and resource_uuid=#{resourceUuid} </if>
+			<if test="status!=null and status!='' ">and status=#{status} </if>
+			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
+			<if test="modifyTime!=null and modifyTime!='' ">and modify_time=#{modifyTime} </if>
+			<if test="modifyUser!=null and modifyUser!='' ">and modify_user=#{modifyUser} </if>
+			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
+			<if test="ext1!=null and ext1!='' ">and ext1=#{ext1} </if>
+			<if test="ext2!=null and ext2!='' ">and ext2=#{ext2} </if>
+		</where>
+	</sql>
+	<sql id="SqlWherePK">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+		</where>
+	</sql>
+	<sql id="SqlSet">
+		<set>
+			<if test="id!=null "> id=#{id}, </if>
+			<if test="uuid!=null and uuid!='' "> uuid=#{uuid}, </if>
+			<if test="apiCategoryUuid!=null and apiCategoryUuid!='' "> api_category_uuid=#{apiCategoryUuid}, </if>
+			<if test="name!=null and name!='' "> name=#{name}, </if>
+			<if test="path!=null and path!='' "> path=#{path}, </if>
+			<if test="url!=null and url!='' "> url=#{url}, </if>
+			<if test="prefix!=null and prefix!='' "> prefix=#{prefix}, </if>
+			<if test="resourceUuid!=null and resourceUuid!='' "> resource_uuid=#{resourceUuid}, </if>
+			<if test="status!=null and status!='' "> status=#{status}, </if>
+			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
+			<if test="modifyTime!=null and modifyTime!='' "> modify_time=#{modifyTime}, </if>
+			<if test="modifyUser!=null and modifyUser!='' "> modify_user=#{modifyUser}, </if>
+			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
+			<if test="ext1!=null and ext1!='' "> ext1=#{ext1}, </if>
+			<if test="ext2!=null and ext2!='' "> ext2=#{ext2}, </if>
+		</set>
+	</sql>
+
+
+	<insert  id="insertAutoKey" parameterType="com.ejet.bi.dynamicservice.model.BiApiDefineModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bi_api_define (
+ 			uuid, api_category_uuid, name, path, 
+ 			url, prefix, resource_uuid, status, remark, 
+ 			modify_time, modify_user, ext, ext1, ext2 ) 
+ 				 VALUES ( 
+ 			#{uuid}, #{apiCategoryUuid}, #{name}, #{path}, 
+ 			#{url}, #{prefix}, #{resourceUuid}, #{status}, #{remark}, 
+ 			#{modifyTime}, #{modifyUser}, #{ext}, #{ext1}, #{ext2} ) 
+ 			
+	</insert>
+
+	<insert  id="insertSingle" parameterType="com.ejet.bi.dynamicservice.model.BiApiDefineModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bi_api_define (
+ 			uuid, api_category_uuid, name, path, 
+ 			url, prefix, resource_uuid, status, remark, 
+ 			modify_time, modify_user, ext, ext1, ext2, 
+ 			 id ) 
+		 VALUES( 
+ 			#{uuid}, #{apiCategoryUuid}, #{name}, #{path}, 
+ 			#{url}, #{prefix}, #{resourceUuid}, #{status}, #{remark}, 
+ 			#{modifyTime}, #{modifyUser}, #{ext}, #{ext1}, #{ext2}, 
+ 			 #{id} ) 
+	</insert>
+
+	<delete  id="delete" parameterType="com.ejet.bi.dynamicservice.model.BiApiDefineModel" >
+		 DELETE FROM bi_api_define
+		 <include refid="SqlWhere"></include> 
+	</delete>
+
+	<update  id="update" parameterType="com.ejet.bi.dynamicservice.model.BiApiDefineModel" >
+		 UPDATE bi_api_define
+		 <include refid="SqlSet"></include> 
+		 <include refid="SqlWherePK"></include> 
+	</update>
+
+	<select  id="findByPK" parameterType="com.ejet.bi.dynamicservice.model.BiApiDefineModel" resultType="com.ejet.bi.dynamicservice.model.BiApiDefineModel" >
+		 SELECT * FROM bi_api_define
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByCond" parameterType="com.ejet.bi.dynamicservice.model.BiApiDefineModel" resultType="com.ejet.bi.dynamicservice.model.BiApiDefineModel" >
+		 SELECT * FROM bi_api_define
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryTree" parameterType="com.ejet.bi.dynamicservice.model.BiApiDefineModel" resultType="com.ejet.bi.dynamicservice.model.BiApiDefineModel" >
+		 SELECT * FROM bi_api_define
+		 <include refid="SqlWhere"></include> 
+		 <if test=" extSQL !=null "> ${extSQL} </if> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByPage" parameterType="com.ejet.bi.dynamicservice.model.BiApiDefineModel" resultType="com.ejet.bi.dynamicservice.model.BiApiDefineModel" >
+		 SELECT * FROM bi_api_define
+		 <include refid="SqlWhere"></include> 
+		 <if test="extSQL!=null "> ${extSQL} </if> 
+	</select>
+
+	<select  id="findMaxId" parameterType="com.ejet.bi.dynamicservice.model.BiApiDefineModel" resultType="int" >
+		 SELECT max(id) FROM bi_api_define
+		 <include refid="SqlWhere"></include> 
+	</select>
+
+
+    <select  id="queryApi" parameterType="com.ejet.bi.dynamicservice.vo.BiApiVO" resultType="com.ejet.bi.dynamicservice.vo.BiApiVO" >
+        SELECT C.uuid as api_category_uuid, C.`name` as api_category_name, C.url_prefix,
+        API.uuid, API.`name`, API.path, API.url, API.prefix, API.resource_uuid
+        FROM bi_api_category C, bi_api_define API
+        WHERE C.uuid=API.api_category_uuid
+        <if test="id!=null ">and API.id=#{id} </if>
+        <if test="uuid!=null and uuid!='' ">and API.uuid=#{uuid} </if>
+        <if test="apiCategoryUuid!=null and apiCategoryUuid!='' ">and API.api_category_uuid=#{apiCategoryUuid} </if>
+        <if test="name!=null and name!='' ">and API.name=#{name} </if>
+        <if test="path!=null and path!='' ">and API.path=#{path} </if>
+        <if test="url!=null and url!='' ">and API.url=#{url} </if>
+        <if test="prefix!=null and prefix!='' ">and API.prefix=#{prefix} </if>
+        <if test="resourceUuid!=null and resourceUuid!='' ">and API.resource_uuid=#{resourceUuid} </if>
+        <if test="status!=null and status!='' ">and API.status=#{status} </if>
+        <if test="extSQL!=null "> ${extSQL} </if>
+    </select>
+
+
+</mapper>

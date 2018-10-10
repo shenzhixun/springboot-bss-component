@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ejet.bi.dynamicservice.mapper.BiResourceDao">
+
+	<sql id="SqlWhere">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+			<if test="uuid!=null and uuid!='' ">and uuid=#{uuid} </if>
+			<if test="databaseInfoUuid!=null and databaseInfoUuid!='' ">and database_info_uuid=#{databaseInfoUuid} </if>
+			<if test="resourceCategoryUuid!=null and resourceCategoryUuid!='' ">and resource_category_uuid=#{resourceCategoryUuid} </if>
+			<if test="resourceCategoryName!=null and resourceCategoryName!='' ">and resource_category_name=#{resourceCategoryName} </if>
+			<if test="name!=null and name!='' ">and name=#{name} </if>
+			<if test="type!=null and type!='' ">and type=#{type} </if>
+			<if test="status!=null and status!='' ">and status=#{status} </if>
+			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
+			<if test="modifyTime!=null and modifyTime!='' ">and modify_time=#{modifyTime} </if>
+			<if test="modifyUser!=null and modifyUser!='' ">and modify_user=#{modifyUser} </if>
+			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
+			<if test="ext1!=null and ext1!='' ">and ext1=#{ext1} </if>
+			<if test="ext2!=null and ext2!='' ">and ext2=#{ext2} </if>
+			<if test="sqlContent!=null and sqlContent!='' ">and sql_content=#{sqlContent} </if>
+		</where>
+	</sql>
+	<sql id="SqlWherePK">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+		</where>
+	</sql>
+	<sql id="SqlSet">
+		<set>
+			<if test="id!=null "> id=#{id}, </if>
+			<if test="uuid!=null and uuid!='' "> uuid=#{uuid}, </if>
+			<if test="databaseInfoUuid!=null and databaseInfoUuid!='' "> database_info_uuid=#{databaseInfoUuid}, </if>
+			<if test="resourceCategoryUuid!=null and resourceCategoryUuid!='' "> resource_category_uuid=#{resourceCategoryUuid}, </if>
+			<if test="resourceCategoryName!=null and resourceCategoryName!='' "> resource_category_name=#{resourceCategoryName}, </if>
+			<if test="name!=null and name!='' "> name=#{name}, </if>
+			<if test="type!=null and type!='' "> type=#{type}, </if>
+			<if test="status!=null and status!='' "> status=#{status}, </if>
+			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
+			<if test="modifyTime!=null and modifyTime!='' "> modify_time=#{modifyTime}, </if>
+			<if test="modifyUser!=null and modifyUser!='' "> modify_user=#{modifyUser}, </if>
+			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
+			<if test="ext1!=null and ext1!='' "> ext1=#{ext1}, </if>
+			<if test="ext2!=null and ext2!='' "> ext2=#{ext2}, </if>
+			<if test="sqlContent!=null and sqlContent!='' "> sql_content=#{sqlContent}, </if>
+		</set>
+	</sql>
+
+
+	<insert  id="insertAutoKey" parameterType="com.ejet.bi.dynamicservice.model.BiResourceModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bi_resource (
+ 			uuid, database_info_uuid, resource_category_uuid, resource_category_name, 
+ 			name, type, status, remark, modify_time, 
+ 			modify_user, ext, ext1, ext2, sql_content ) 
+ 				 VALUES ( 
+ 			#{uuid}, #{databaseInfoUuid}, #{resourceCategoryUuid}, #{resourceCategoryName}, 
+ 			#{name}, #{type}, #{status}, #{remark}, #{modifyTime}, 
+ 			#{modifyUser}, #{ext}, #{ext1}, #{ext2}, #{sqlContent} ) 
+ 			
+	</insert>
+
+	<insert  id="insertSingle" parameterType="com.ejet.bi.dynamicservice.model.BiResourceModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bi_resource (
+ 			uuid, database_info_uuid, resource_category_uuid, resource_category_name, 
+ 			name, type, status, remark, modify_time, 
+ 			modify_user, ext, ext1, ext2, sql_content, 
+ 			 id ) 
+		 VALUES( 
+ 			#{uuid}, #{databaseInfoUuid}, #{resourceCategoryUuid}, #{resourceCategoryName}, 
+ 			#{name}, #{type}, #{status}, #{remark}, #{modifyTime}, 
+ 			#{modifyUser}, #{ext}, #{ext1}, #{ext2}, #{sqlContent}, 
+ 			 #{id} ) 
+	</insert>
+
+	<delete  id="delete" parameterType="com.ejet.bi.dynamicservice.model.BiResourceModel" >
+		 DELETE FROM bi_resource
+		 <include refid="SqlWhere"></include> 
+	</delete>
+
+	<update  id="update" parameterType="com.ejet.bi.dynamicservice.model.BiResourceModel" >
+		 UPDATE bi_resource
+		 <include refid="SqlSet"></include> 
+		 <include refid="SqlWherePK"></include> 
+	</update>
+
+	<select  id="findByPK" parameterType="com.ejet.bi.dynamicservice.model.BiResourceModel" resultType="com.ejet.bi.dynamicservice.model.BiResourceModel" >
+		 SELECT * FROM bi_resource
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByCond" parameterType="com.ejet.bi.dynamicservice.model.BiResourceModel" resultType="com.ejet.bi.dynamicservice.model.BiResourceModel" >
+		 SELECT * FROM bi_resource
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryTree" parameterType="com.ejet.bi.dynamicservice.model.BiResourceModel" resultType="com.ejet.bi.dynamicservice.model.BiResourceModel" >
+		 SELECT * FROM bi_resource
+		 <include refid="SqlWhere"></include> 
+		 <if test=" extSQL !=null "> ${extSQL} </if> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByPage" parameterType="com.ejet.bi.dynamicservice.model.BiResourceModel" resultType="com.ejet.bi.dynamicservice.model.BiResourceModel" >
+		 SELECT * FROM bi_resource
+		 <include refid="SqlWhere"></include> 
+		 <if test="extSQL!=null "> ${extSQL} </if> 
+	</select>
+
+	<select  id="findMaxId" parameterType="com.ejet.bi.dynamicservice.model.BiResourceModel" resultType="int" >
+		 SELECT max(id) FROM bi_resource
+		 <include refid="SqlWhere"></include> 
+	</select>
+
+
+	<select  id="queryResourceByPK" parameterType="com.ejet.bi.dynamicservice.vo.BiResourceVO" resultType="com.ejet.bi.dynamicservice.vo.BiResourceVO" >
+        SELECT DB.`name` as beanName, R.*
+        FROM bi_resource R, bi_database_info DB
+        WHERE DB.uuid=R.database_info_uuid
+        <if test="uuid!=null and uuid!='' "> AND R.uuid=#{uuid} </if>
+        <if test="status!=null and status!='' "> AND R.status=#{status} AND DB.status=#{status} </if>
+        <if test="extSQL!=null "> ${extSQL} </if>
+    </select>
+
+
+</mapper>
