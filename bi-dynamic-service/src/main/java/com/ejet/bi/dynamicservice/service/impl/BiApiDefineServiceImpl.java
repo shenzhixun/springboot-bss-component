@@ -77,5 +77,15 @@ public class BiApiDefineServiceImpl implements IBiApiDefineService {
         return mDao.queryApi(model);
     }
 
+    /**
+     * 重新加载api接口
+     * @param model
+     * @return
+     * @throws CoBusinessException
+     */
+    public void reloadApi(BiApiVO model) throws CoBusinessException {
+
+        //return mDao.queryApi(model);
+    }
 
 }

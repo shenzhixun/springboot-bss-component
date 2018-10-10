@@ -67,4 +67,17 @@ public class BiDatabaseInfoServiceImpl implements IBiDatabaseInfoService {
  	}
 
 
+    /**
+     * 重新注册bean
+     *
+     * @param model
+     * @throws CoBusinessException
+     */
+    public void reloadDatabase(BiDatabaseInfoModel model) throws CoBusinessException {
+
+
+    }
+
+
+
 }

@@ -1,5 +1,5 @@
 -- -----------------------------------------------
--- 数据库配置表 `bi_database_info`
+-- 数据库信息表 `bi_database_info`
 -- -----------------------------------------------
 DROP TABLE IF EXISTS `bi_database_info`;
 CREATE TABLE `bi_database_info` (
@@ -24,6 +24,30 @@ CREATE TABLE `bi_database_info` (
  ENGINE=InnoDB
  DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
 
+-- -----------------------------------------------
+-- 数据库配置表 `bi_database_config`
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `bi_database_config`;
+CREATE TABLE `bi_database_config` (
+       `id`          		        int(11) 			    NOT NULL 					        AUTO_INCREMENT ,
+       `uuid`  			            varchar(64)			  NOT NULL  					      COMMENT '标识ID' ,
+       `database_info_uuid`     varchar(200)		  NOT NULL  					      COMMENT '库名称' ,
+       `initial_size`           int(11) 			    NOT NULL  					      COMMENT '初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时' ,
+       `max_active`             int(11) 			    NOT NULL  					      COMMENT '最大连接数数，如果为0的话，表示无限制' ,
+       `min_idle`               int(11) 			    NOT NULL  					      COMMENT '最小连接池数量' ,
+       `max_wait`               int(11) 			    NOT NULL  					      COMMENT '可用连接是的等待时间，单位毫秒，配置了maxWait之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置useUnfairLock属性为true使用非公平锁。' ,
+       `pool_pre_statements`    int(1) 			      NOT NULL  					      COMMENT '1:true 0:false 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。' ,
+       `max_open_pre_statements`int(11) 			    NOT NULL  					      COMMENT '当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100' ,
+       `min_evictable_idletime` int(11) 			    NOT NULL  					      COMMENT '连接被收回前的空闲时间，超过这个时间，该连接会被收回，单位毫秒' ,
+       `ext`  					   varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
+       `ext`  					   varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
+       `ext1`  				     varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
+       `ext2`  				     varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
+       PRIMARY KEY (`id`),
+       UNIQUE INDEX `uuid` (`uuid`) USING BTREE
+)  comment='数据库信息表'
+ ENGINE=InnoDB
+ DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
 
 -- -----------------------------------------------
 -- 业务sql资源分类 `bi_resource_category`

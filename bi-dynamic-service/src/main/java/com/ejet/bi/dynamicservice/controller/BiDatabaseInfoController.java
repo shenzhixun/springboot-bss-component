@@ -1,24 +1,25 @@
 package com.ejet.bi.dynamicservice.controller;
 
+import com.alibaba.fastjson.TypeReference;
+import com.ejet.bi.dynamicservice.model.BiDatabaseInfoModel;
+import com.ejet.bi.dynamicservice.service.impl.BiDatabaseInfoServiceImpl;
+import com.ejet.comm.PageBean;
+import com.ejet.comm.Param;
+import com.ejet.comm.Result;
+import com.ejet.comm.base.CoBaseController;
 import com.ejet.comm.exception.CoBusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.alibaba.fastjson.TypeReference;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.ejet.comm.Result;
-import com.ejet.comm.Param;
-import com.ejet.comm.PageBean;
-import com.ejet.comm.base.CoBaseController;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 import static com.ejet.comm.exception.ExceptionCode.SYS_ERROR;
-import com.ejet.bi.dynamicservice.model.BiDatabaseInfoModel;
-import com.ejet.bi.dynamicservice.service.impl.BiDatabaseInfoServiceImpl;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value="/bi-database-info")
@@ -105,5 +106,17 @@ public class BiDatabaseInfoController extends CoBaseController {
 		return rs;
 	}
 
+    @ResponseBody
+    @RequestMapping(value="/reload")
+    public Result reload(@RequestBody(required=false) BiDatabaseInfoModel model) {
+        Result rs = new Result();
+        try{
+            mService.reloadDatabase(model);
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }
+        return rs;
+    }
 
 }
