@@ -1,4 +1,4 @@
-package com.ejet.bi.dynamicservice;
+package com.ejet.bi.dynamicservice.comm;
 
 import com.ejet.context.CoApplicationContext;
 import org.slf4j.Logger;

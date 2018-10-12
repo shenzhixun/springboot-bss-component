@@ -1,12 +1,12 @@
 package com.ejet.bi.dynamicservice.comm;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.ejet.bi.dynamicservice.DynamicBeanFactory;
 import com.ejet.bi.dynamicservice.DynamicUrlHelper;
 import com.ejet.bi.dynamicservice.model.BiDatabaseInfoModel;
-import com.ejet.bi.dynamicservice.service.impl.BiApiDefineServiceImpl;
+import com.ejet.bi.dynamicservice.service.impl.BiApiServiceServiceImpl;
 import com.ejet.bi.dynamicservice.service.impl.BiDatabaseInfoServiceImpl;
 import com.ejet.bi.dynamicservice.utils.DataSourceUtils;
+import com.ejet.bi.dynamicservice.vo.BiApiBO;
 import com.ejet.bi.dynamicservice.vo.BiApiVO;
 import com.ejet.comm.exception.CoBusinessException;
 import com.ejet.configurer.IApplicationBootCallback;
@@ -15,10 +15,7 @@ import com.ejet.global.CoConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +33,7 @@ public class DynamicServiceCallback implements IApplicationBootCallback {
     @Autowired
     BiDatabaseInfoServiceImpl biDatabaseInfoService;
     @Autowired
-    BiApiDefineServiceImpl biApiDefineService;
+    BiApiServiceServiceImpl biApiService;
 
     @Override
     public void callApplicationReadyEvent() {
@@ -45,8 +42,8 @@ public class DynamicServiceCallback implements IApplicationBootCallback {
             if(biDatabaseInfoService==null) {
                 biDatabaseInfoService = CoApplicationContext.getBean(BiDatabaseInfoServiceImpl.class);
             }
-            if(biApiDefineService==null) {
-                biApiDefineService = CoApplicationContext.getBean(BiApiDefineServiceImpl.class);
+            if(biApiService==null) {
+                biApiService = CoApplicationContext.getBean(BiApiServiceServiceImpl.class);
             }
 
             new Thread(new Runnable() {
@@ -84,7 +81,6 @@ public class DynamicServiceCallback implements IApplicationBootCallback {
         }
     }
 
-
     /**
      * 加载api到内存
      */
@@ -92,14 +88,9 @@ public class DynamicServiceCallback implements IApplicationBootCallback {
         try {
             BiApiVO query = new BiApiVO();
             query.setStatus(CoConstant.STATUS_NORMAL);
-            List<BiApiVO> list = biApiDefineService.queryApi(query);
-            if(list!=null) {
-                for (BiApiVO item : list) {
-                    String key = item.getPath();
-                    if(key!=null && !"".equals(key.trim())) {
-                        DynamicUrlHelper.addApi(key, item);
-                    }
-                }
+            Map<String, BiApiBO> map = biApiService.queryApi(query);
+            if(map!=null) {
+                DynamicUrlHelper.addApis(map);
             }
         } catch (CoBusinessException e) {
             log.error("注册数据库资源失败", e);

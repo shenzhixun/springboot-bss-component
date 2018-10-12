@@ -1,8 +1,6 @@
 package com.ejet.bi.dynamicservice.utils;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.ejet.bi.dynamicservice.model.BiDatabaseInfoModel;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 
 import java.util.HashMap;
 import java.util.Map;

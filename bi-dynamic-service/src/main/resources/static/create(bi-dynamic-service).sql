@@ -31,9 +31,9 @@ DROP TABLE IF EXISTS `bi_database_config`;
 CREATE TABLE `bi_database_config` (
        `id`          		        int(11) 			    NOT NULL 					        AUTO_INCREMENT ,
        `uuid`  			            varchar(64)			  NOT NULL  					      COMMENT '标识ID' ,
-       `database_info_uuid`     varchar(200)		  NOT NULL  					      COMMENT '库名称' ,
-       `initial_size`           int(11) 			    NOT NULL  					      COMMENT '初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时' ,
-       `max_active`             int(11) 			    NOT NULL  					      COMMENT '最大连接数数，如果为0的话，表示无限制' ,
+       `param_type`             varchar(200)		  NOT NULL  					      COMMENT '库名称' ,
+       `param_name`             int(11) 			    NOT NULL  					      COMMENT '初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时' ,
+       `param_value`             int(11) 			    NOT NULL  					      COMMENT '最大连接数数，如果为0的话，表示无限制' ,
        `min_idle`               int(11) 			    NOT NULL  					      COMMENT '最小连接池数量' ,
        `max_wait`               int(11) 			    NOT NULL  					      COMMENT '可用连接是的等待时间，单位毫秒，配置了maxWait之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置useUnfairLock属性为true使用非公平锁。' ,
        `pool_pre_statements`    int(1) 			      NOT NULL  					      COMMENT '1:true 0:false 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。' ,
@@ -145,19 +145,47 @@ CREATE TABLE `bi_api_category` (
  DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
 
 
+-- -- -----------------------------------------------
+-- -- 业务api配置 `bi_api_define`
+-- -- -----------------------------------------------
+-- DROP TABLE IF EXISTS `bi_api_define`;
+-- CREATE TABLE `bi_api_define` (
+--        `id`          		    int(11) 			  NOT NULL 					        AUTO_INCREMENT ,
+--        `uuid`  			        varchar(64)			NOT NULL  					      COMMENT 'sql标识ID' ,
+--        `api_category_uuid`  varchar(64)			NOT NULL  					      COMMENT '分类UUID' ,
+--        `name`               varchar(200)		NOT NULL  					      COMMENT '服务名称' ,
+--        `path`               varchar(200)		NOT NULL  					      COMMENT '定义请求的路径' ,
+--        `url`  			        varchar(200)		NOT NULL  					      COMMENT '参数名称' ,
+--        `prefix`  			      varchar(100)		NOT NULL  					      COMMENT 'url前缀信息' ,
+--        `resource_uuid`      varchar(200)		NOT NULL  					      COMMENT '业务sql配置表uuid' ,
+--        `status`  				    tinyint(1) 			NOT NULL  DEFAULT '1'   	COMMENT '状态, 1: 正常，0：禁用',
+--        `remark`  				    varchar(100) 	  NULL DEFAULT NULL  			  COMMENT '备注,描述' ,
+--        `modify_time`  		  varchar(32) 		NULL DEFAULT NULL  			  COMMENT '修改时间',
+--        `modify_user`  		  varchar(32) 		NULL DEFAULT NULL  			  COMMENT '修改人' ,
+--        `ext`  					    varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
+--        `ext1`  				      varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
+--        `ext2`  				      varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
+--        PRIMARY KEY (`id`),
+--        UNIQUE INDEX `uuid` (`uuid`) USING BTREE,
+--        UNIQUE INDEX `url` (`url`) USING BTREE
+-- )  comment='api定义表'
+--  ENGINE=InnoDB
+--  DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
+
+
+
 -- -----------------------------------------------
--- 业务api配置 `bi_api_define`
+-- 业务服务配置 `bi_api_service`
 -- -----------------------------------------------
-DROP TABLE IF EXISTS `bi_api_define`;
-CREATE TABLE `bi_api_define` (
+DROP TABLE IF EXISTS `bi_api_service`;
+CREATE TABLE `bi_api_service` (
        `id`          		    int(11) 			  NOT NULL 					        AUTO_INCREMENT ,
-       `uuid`  			        varchar(64)			NOT NULL  					      COMMENT 'sql标识ID' ,
+       `uuid`  			        varchar(64)			NOT NULL  					      COMMENT '标识ID' ,
        `api_category_uuid`  varchar(64)			NOT NULL  					      COMMENT '分类UUID' ,
-       `name`               varchar(200)		NOT NULL  					      COMMENT '服务名称' ,
+       `name`               varchar(200)		NOT NULL  					      COMMENT '服务名称',
        `path`               varchar(200)		NOT NULL  					      COMMENT '定义请求的路径' ,
        `url`  			        varchar(200)		NOT NULL  					      COMMENT '参数名称' ,
        `prefix`  			      varchar(100)		NOT NULL  					      COMMENT 'url前缀信息' ,
-       `resource_uuid`      varchar(200)		NOT NULL  					      COMMENT '业务sql配置表uuid' ,
        `status`  				    tinyint(1) 			NOT NULL  DEFAULT '1'   	COMMENT '状态, 1: 正常，0：禁用',
        `remark`  				    varchar(100) 	  NULL DEFAULT NULL  			  COMMENT '备注,描述' ,
        `modify_time`  		  varchar(32) 		NULL DEFAULT NULL  			  COMMENT '修改时间',
@@ -168,6 +196,31 @@ CREATE TABLE `bi_api_define` (
        PRIMARY KEY (`id`),
        UNIQUE INDEX `uuid` (`uuid`) USING BTREE,
        UNIQUE INDEX `url` (`url`) USING BTREE
-)  comment='api定义表'
+)  comment='业务服务配置表'
+ ENGINE=InnoDB
+ DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
+
+
+
+-- -----------------------------------------------
+-- api服务与资源关系 `bi_api_service_resource_r`
+-- -----------------------------------------------
+DROP TABLE IF EXISTS `bi_api_service_resource_r`;
+CREATE TABLE `bi_api_service_resource_r` (
+       `id`          		    int(11) 			  NOT NULL 					        AUTO_INCREMENT ,
+       `uuid`  			        varchar(64)			NOT NULL  					      COMMENT '标识ID' ,
+       `api_service_uuid`   varchar(64)			NOT NULL  					      COMMENT '服务uuid' ,
+       `resource_uuid`      varchar(64)			NOT NULL  					      COMMENT '资源表uuid' ,
+       `status`  				    tinyint(1) 			NOT NULL  DEFAULT '1'   	COMMENT '状态, 1: 正常，0：禁用',
+       `remark`  				    varchar(100) 	  NULL DEFAULT NULL  			  COMMENT '备注,描述' ,
+       `modify_time`  		  varchar(32) 		NULL DEFAULT NULL  			  COMMENT '修改时间',
+       `modify_user`  		  varchar(32) 		NULL DEFAULT NULL  			  COMMENT '修改人' ,
+       `ext`  					    varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
+       `ext1`  				      varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
+       `ext2`  				      varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
+       PRIMARY KEY (`id`),
+       UNIQUE INDEX `uuid` (`uuid`) USING BTREE,
+       UNIQUE INDEX `api_service_uuid_resource_uuid` (`api_service_uuid`, `resource_uuid`) USING BTREE
+)  comment='api服务与资源关系'
  ENGINE=InnoDB
  DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;

@@ -25,7 +25,7 @@ public class BiResourceCategoryServiceImpl implements IBiResourceCategoryService
 
 	@Override
 	public void insertAutoKey(BiResourceCategoryModel model) throws CoBusinessException { 
- 		 mDao.insertAutoKey(model);
+ 		mDao.insertAutoKey(model);
  	}  
 
 	@Override
@@ -33,29 +33,29 @@ public class BiResourceCategoryServiceImpl implements IBiResourceCategoryService
  		if(model.getId()==null) { 
  			throw new CoBusinessException(ExceptionCode.PARAM_MISSING_ID);
  		}
- 		 mDao.update(model);
+ 		mDao.update(model);
  	}  
 
 	@Override
 	public void delete(BiResourceCategoryModel model) throws CoBusinessException { 
- 		 mDao.delete(model);
+ 		mDao.delete(model);
  	}  
 
 	public BiResourceCategoryModel  findByPK(BiResourceCategoryModel model) throws CoBusinessException { 
  		return mDao.findByPK(model);
- 	}  
+ 	}
 
 	@Override
 	public List<BiResourceCategoryModel>  queryByCond(BiResourceCategoryModel model) throws CoBusinessException { 
  		return mDao.queryByCond(model);
- 	}  
+ 	}
 
 	public PageBean<BiResourceCategoryModel>  queryByPage(BiResourceCategoryModel model, Integer pageNum, Integer pageSize) throws CoBusinessException { 
 		PageHelper.startPage(pageNum, pageSize);
 		List<BiResourceCategoryModel> list = mDao.queryByPage(model);
 		PageBean<BiResourceCategoryModel> page = new PageBean<BiResourceCategoryModel>(list);
  		return page;
- 	}  
+ 	}
 
 	public int insertSingle(BiResourceCategoryModel model) throws CoBusinessException { 
  		// 获取最大id。保证连续性

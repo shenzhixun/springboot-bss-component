@@ -1,5 +1,6 @@
 package com.ejet.bi.dynamicservice;
 
+import com.ejet.bi.dynamicservice.vo.BiApiBO;
 import com.ejet.bi.dynamicservice.vo.BiApiVO;
 import com.ejet.interceptor.InterceptorBase;
 import com.ejet.utils.HttpServletResponseUtils;
@@ -35,12 +36,12 @@ public class DynamicInterceptor extends InterceptorBase {
         String contextPath = request.getContextPath();
         String servletPath = request.getServletPath();
 
-        BiApiVO vo = DynamicUrlHelper.getApi(servletPath);
+        BiApiBO vo = DynamicUrlHelper.queryApi(servletPath);
         logger.info("===★uri:{}",  uri);
         logger.info("===★url:{}",  url);
         logger.info("===★contextPath:{}",  contextPath);
         logger.info("===★servletPath:{}",  servletPath);
-        logger.info("===★vo:{}",  vo==null? null : vo.getName());
+        logger.info("===★vo:{}",  vo==null? null : vo.getUrl());
         if(vo!=null) {
             String result = DynamicUrlHelper.responseBody(vo);
             HttpServletResponseUtils.writeResponse(result, "utf-8", response);

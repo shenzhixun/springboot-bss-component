@@ -1,6 +1,6 @@
 package com.ejet.bi.dynamicservice.vo;
 
-import com.ejet.bi.dynamicservice.model.BiApiDefineModel;
+import com.ejet.bi.dynamicservice.model.BiApiServiceModel;
 
 /**
  * Copyright (C), 2016-2018, 武汉康华数海有限公司
@@ -11,11 +11,13 @@ import com.ejet.bi.dynamicservice.model.BiApiDefineModel;
  * History:
  * Version: 1.0
  */
-public class BiApiVO extends BiApiDefineModel {
+public class BiApiVO extends BiApiServiceModel {
     /**  分组名称  */
     private String apiCategoryame;
     /** 分组URL前缀   */
     private String urlPrefix;
+    /** 资源ID */
+    private String resourceUuid;
 
     public String getApiCategoryame() {
         return apiCategoryame;
@@ -31,5 +33,13 @@ public class BiApiVO extends BiApiDefineModel {
 
     public void setUrlPrefix(String urlPrefix) {
         this.urlPrefix = urlPrefix;
+    }
+
+    public String getResourceUuid() {
+        return resourceUuid;
+    }
+
+    public void setResourceUuid(String resourceUuid) {
+        this.resourceUuid = resourceUuid;
     }
 }

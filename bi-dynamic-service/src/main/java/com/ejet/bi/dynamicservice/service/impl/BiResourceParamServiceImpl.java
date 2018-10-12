@@ -1,5 +1,6 @@
 package com.ejet.bi.dynamicservice.service.impl;
 
+import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ public class BiResourceParamServiceImpl implements IBiResourceParamService {
 
 	@Override
 	public void insertAutoKey(BiResourceParamModel model) throws CoBusinessException { 
- 		 mDao.insertAutoKey(model);
+ 		mDao.insertAutoKey(model);
  	}  
 
 	@Override
@@ -32,29 +33,29 @@ public class BiResourceParamServiceImpl implements IBiResourceParamService {
  		if(model.getId()==null) { 
  			throw new CoBusinessException(ExceptionCode.PARAM_MISSING_ID);
  		}
- 		 mDao.update(model);
+ 		mDao.update(model);
  	}  
 
 	@Override
 	public void delete(BiResourceParamModel model) throws CoBusinessException { 
- 		 mDao.delete(model);
+ 		mDao.delete(model);
  	}  
 
 	public BiResourceParamModel  findByPK(BiResourceParamModel model) throws CoBusinessException { 
  		return mDao.findByPK(model);
- 	}  
+ 	}
 
 	@Override
 	public List<BiResourceParamModel>  queryByCond(BiResourceParamModel model) throws CoBusinessException { 
  		return mDao.queryByCond(model);
- 	}  
+ 	}
 
 	public PageBean<BiResourceParamModel>  queryByPage(BiResourceParamModel model, Integer pageNum, Integer pageSize) throws CoBusinessException { 
 		PageHelper.startPage(pageNum, pageSize);
 		List<BiResourceParamModel> list = mDao.queryByPage(model);
 		PageBean<BiResourceParamModel> page = new PageBean<BiResourceParamModel>(list);
  		return page;
- 	}  
+ 	}
 
 	public int insertSingle(BiResourceParamModel model) throws CoBusinessException { 
  		// 获取最大id。保证连续性

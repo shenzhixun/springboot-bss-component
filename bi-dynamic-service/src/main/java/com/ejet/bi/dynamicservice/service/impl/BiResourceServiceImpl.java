@@ -1,5 +1,8 @@
 package com.ejet.bi.dynamicservice.service.impl;
 
+import java.sql.SQLException;
+
+import com.ejet.bi.dynamicservice.vo.BiApiVO;
 import com.ejet.bi.dynamicservice.vo.BiResourceVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +28,7 @@ public class BiResourceServiceImpl implements IBiResourceService {
 
 	@Override
 	public void insertAutoKey(BiResourceModel model) throws CoBusinessException { 
- 		 mDao.insertAutoKey(model);
+ 		mDao.insertAutoKey(model);
  	}  
 
 	@Override
@@ -33,29 +36,29 @@ public class BiResourceServiceImpl implements IBiResourceService {
  		if(model.getId()==null) { 
  			throw new CoBusinessException(ExceptionCode.PARAM_MISSING_ID);
  		}
- 		 mDao.update(model);
+ 		mDao.update(model);
  	}  
 
 	@Override
 	public void delete(BiResourceModel model) throws CoBusinessException { 
- 		 mDao.delete(model);
+ 		mDao.delete(model);
  	}  
 
-	public BiResourceModel findByPK(BiResourceModel model) throws CoBusinessException {
+	public BiResourceModel  findByPK(BiResourceModel model) throws CoBusinessException { 
  		return mDao.findByPK(model);
- 	}  
+ 	}
 
 	@Override
 	public List<BiResourceModel>  queryByCond(BiResourceModel model) throws CoBusinessException { 
  		return mDao.queryByCond(model);
- 	}  
+ 	}
 
 	public PageBean<BiResourceModel>  queryByPage(BiResourceModel model, Integer pageNum, Integer pageSize) throws CoBusinessException { 
 		PageHelper.startPage(pageNum, pageSize);
 		List<BiResourceModel> list = mDao.queryByPage(model);
 		PageBean<BiResourceModel> page = new PageBean<BiResourceModel>(list);
  		return page;
- 	}  
+ 	}
 
 	public int insertSingle(BiResourceModel model) throws CoBusinessException { 
  		// 获取最大id。保证连续性
@@ -67,16 +70,12 @@ public class BiResourceServiceImpl implements IBiResourceService {
  	}
 
 
-    /**
-     * 查询资源信息
-     *
-     * @return
-     * @throws CoBusinessException
-     */
-    @Override
-    public BiResourceVO queryResourceByPK(BiResourceVO model) throws CoBusinessException {
-        return mDao.queryResourceByPK(model);
+ 	public List<BiResourceVO> queryResouceBatch(List<BiApiVO> list) throws CoBusinessException {
+        List<BiResourceVO> result = null;
+
+        return result;
     }
+
 
 
 

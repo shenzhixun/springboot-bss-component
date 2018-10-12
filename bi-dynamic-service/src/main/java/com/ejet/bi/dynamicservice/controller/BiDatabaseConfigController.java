@@ -6,9 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.TypeReference;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.ejet.comm.Result;
 import com.ejet.comm.Param;
 import com.ejet.comm.PageBean;
@@ -16,25 +14,23 @@ import com.ejet.comm.base.CoBaseController;
 import java.util.List;
 
 import static com.ejet.comm.exception.ExceptionCode.SYS_ERROR;
-import com.ejet.bi.dynamicservice.model.BiApiDefineModel;
-import com.ejet.bi.dynamicservice.service.impl.BiApiDefineServiceImpl;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.ejet.bi.dynamicservice.model.BiDatabaseConfigModel;
+import com.ejet.bi.dynamicservice.service.impl.BiDatabaseConfigServiceImpl;
 @RestController
-@RequestMapping(value="/bi-api-define")
-public class BiApiDefineController extends CoBaseController { 
+@RequestMapping(value="/bi-database-config")
+public class BiDatabaseConfigController extends CoBaseController { 
 
-	private final Logger log = LoggerFactory.getLogger(BiApiDefineController.class);
+	private final Logger log = LoggerFactory.getLogger(BiDatabaseConfigController.class);
 	@Autowired
-	private BiApiDefineServiceImpl mService;
+	private BiDatabaseConfigServiceImpl mService;
 
 
 	@ResponseBody
 	@RequestMapping(value="/query")
-	public Result query(@RequestBody(required=false)BiApiDefineModel model) {
+	public Result query(@RequestBody(required=false)BiDatabaseConfigModel model) {
 		Result rs = new Result();
 		try {
-			List<BiApiDefineModel> page = mService.queryByCond(model);
+			List<BiDatabaseConfigModel> page = mService.queryByCond(model);
 			rs = new Result(page);
 		}catch (CoBusinessException e) {
 			log.error("", e);
@@ -46,7 +42,7 @@ public class BiApiDefineController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/delete")
-	public Result delete(@RequestBody(required=true)BiApiDefineModel model) {
+	public Result delete(@RequestBody(required=true)BiDatabaseConfigModel model) {
 		Result rs = new Result();
 		try{
 			mService.delete(model);
@@ -60,7 +56,7 @@ public class BiApiDefineController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/add")
-	public Result add(@RequestBody(required=true)BiApiDefineModel model) {
+	public Result add(@RequestBody(required=true)BiDatabaseConfigModel model) {
 		Result rs = new Result();
 		try{
 			mService.insertSingle(model);
@@ -74,7 +70,7 @@ public class BiApiDefineController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/update")
-	public Result update(@RequestBody(required=true)BiApiDefineModel model) {
+	public Result update(@RequestBody(required=true)BiDatabaseConfigModel model) {
 		Result rs = new Result();
 		try{
 			mService.update(model);
@@ -92,8 +88,8 @@ public class BiApiDefineController extends CoBaseController {
 		Result rs = new Result();
 		try{
 			checkBindResult(bindResult);
-			BiApiDefineModel model = toBean(param, new TypeReference<BiApiDefineModel>(){});
-			PageBean<BiApiDefineModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
+			BiDatabaseConfigModel model = toBean(param, new TypeReference<BiDatabaseConfigModel>(){});
+			PageBean<BiDatabaseConfigModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
 			rs = new Result(pageBean.getPage(), pageBean.getResult());
 		}catch (CoBusinessException e) {
 			log.error("", e);

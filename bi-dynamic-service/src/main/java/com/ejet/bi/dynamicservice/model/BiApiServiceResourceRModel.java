@@ -1,23 +1,15 @@
 package com.ejet.bi.dynamicservice.model;
 
 import com.ejet.comm.base.CoBaseVO;
-public class BiApiDefineModel extends CoBaseVO { 
+public class BiApiServiceResourceRModel extends CoBaseVO { 
 
 	/**    */ 
  	private Integer id;
-	/**  标识ID  */
+	/**  标识ID  */ 
  	private String uuid;
-	/**  分类UUID  */ 
- 	private String apiCategoryUuid;
-	/**  服务名称  */ 
- 	private String name;
-	/**  定义请求的路径  */ 
- 	private String path;
-	/**  参数名称  */ 
- 	private String url;
-	/**  url前缀信息  */ 
- 	private String prefix;
-	/**  业务sql配置表uuid  */ 
+	/**  服务uuid  */ 
+ 	private String apiServiceUuid;
+	/**  资源表uuid  */ 
  	private String resourceUuid;
 	/**  状态, 1: 正常，0：禁用  */ 
  	private Integer status;
@@ -50,44 +42,12 @@ public class BiApiDefineModel extends CoBaseVO {
 		return uuid;
 	}
 
-	public void setApiCategoryUuid(String apiCategoryUuid) {
-		this.apiCategoryUuid=apiCategoryUuid;
+	public void setApiServiceUuid(String apiServiceUuid) {
+		this.apiServiceUuid=apiServiceUuid;
 	} 
 
-	public String getApiCategoryUuid(){
-		return apiCategoryUuid;
-	}
-
-	public void setName(String name) {
-		this.name=name;
-	} 
-
-	public String getName(){
-		return name;
-	}
-
-	public void setPath(String path) {
-		this.path=path;
-	} 
-
-	public String getPath(){
-		return path;
-	}
-
-	public void setUrl(String url) {
-		this.url=url;
-	} 
-
-	public String getUrl(){
-		return url;
-	}
-
-	public void setPrefix(String prefix) {
-		this.prefix=prefix;
-	} 
-
-	public String getPrefix(){
-		return prefix;
+	public String getApiServiceUuid(){
+		return apiServiceUuid;
 	}
 
 	public void setResourceUuid(String resourceUuid) {

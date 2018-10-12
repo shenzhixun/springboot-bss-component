@@ -14,23 +14,23 @@ import com.ejet.comm.base.CoBaseController;
 import java.util.List;
 
 import static com.ejet.comm.exception.ExceptionCode.SYS_ERROR;
-import com.ejet.bi.dynamicservice.model.BiDatabaseInfoModel;
-import com.ejet.bi.dynamicservice.service.impl.BiDatabaseInfoServiceImpl;
+import com.ejet.bi.dynamicservice.model.BiApiServiceModel;
+import com.ejet.bi.dynamicservice.service.impl.BiApiServiceServiceImpl;
 @RestController
-@RequestMapping(value="/bi-database-info")
-public class BiDatabaseInfoController extends CoBaseController { 
+@RequestMapping(value="/bi-api-service")
+public class BiApiServiceController extends CoBaseController { 
 
-	private final Logger log = LoggerFactory.getLogger(BiDatabaseInfoController.class);
+	private final Logger log = LoggerFactory.getLogger(BiApiServiceController.class);
 	@Autowired
-	private BiDatabaseInfoServiceImpl mService;
+	private BiApiServiceServiceImpl mService;
 
 
 	@ResponseBody
 	@RequestMapping(value="/query")
-	public Result query(@RequestBody(required=false)BiDatabaseInfoModel model) {
+	public Result query(@RequestBody(required=false)BiApiServiceModel model) {
 		Result rs = new Result();
 		try {
-			List<BiDatabaseInfoModel> page = mService.queryByCond(model);
+			List<BiApiServiceModel> page = mService.queryByCond(model);
 			rs = new Result(page);
 		}catch (CoBusinessException e) {
 			log.error("", e);
@@ -42,7 +42,7 @@ public class BiDatabaseInfoController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/delete")
-	public Result delete(@RequestBody(required=true)BiDatabaseInfoModel model) {
+	public Result delete(@RequestBody(required=true)BiApiServiceModel model) {
 		Result rs = new Result();
 		try{
 			mService.delete(model);
@@ -56,7 +56,7 @@ public class BiDatabaseInfoController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/add")
-	public Result add(@RequestBody(required=true)BiDatabaseInfoModel model) {
+	public Result add(@RequestBody(required=true)BiApiServiceModel model) {
 		Result rs = new Result();
 		try{
 			mService.insertSingle(model);
@@ -70,7 +70,7 @@ public class BiDatabaseInfoController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/update")
-	public Result update(@RequestBody(required=true)BiDatabaseInfoModel model) {
+	public Result update(@RequestBody(required=true)BiApiServiceModel model) {
 		Result rs = new Result();
 		try{
 			mService.update(model);
@@ -88,8 +88,8 @@ public class BiDatabaseInfoController extends CoBaseController {
 		Result rs = new Result();
 		try{
 			checkBindResult(bindResult);
-			BiDatabaseInfoModel model = toBean(param, new TypeReference<BiDatabaseInfoModel>(){});
-			PageBean<BiDatabaseInfoModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
+			BiApiServiceModel model = toBean(param, new TypeReference<BiApiServiceModel>(){});
+			PageBean<BiApiServiceModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
 			rs = new Result(pageBean.getPage(), pageBean.getResult());
 		}catch (CoBusinessException e) {
 			log.error("", e);

@@ -1,8 +1,10 @@
 package com.ejet.bi.dynamicservice;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.ejet.bi.dynamicservice.comm.DbExtUtils;
 import com.ejet.bi.dynamicservice.service.IBiResourceService;
 import com.ejet.bi.dynamicservice.service.impl.BiResourceServiceImpl;
+import com.ejet.bi.dynamicservice.vo.BiApiBO;
 import com.ejet.bi.dynamicservice.vo.BiApiVO;
 import com.ejet.bi.dynamicservice.vo.BiResourceVO;
 import com.ejet.comm.Result;
@@ -11,14 +13,17 @@ import com.ejet.comm.utils.StringUtils;
 import com.ejet.context.CoApplicationContext;
 import com.ejet.global.CoConstant;
 import com.google.gson.Gson;
+import jdk.management.resource.ResourceContext;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import sun.security.jca.GetInstance;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,45 +38,55 @@ import java.util.concurrent.ConcurrentHashMap;
  * Version: 1.0
  */
 public class DynamicUrlHelper {
-
     private static final Logger log = LoggerFactory.getLogger(DynamicUrlHelper.class);
     private static Gson gson = new Gson();
+    private static DynamicUrlHelper instance;
     /**
      * 接口与资源映射缓存
      */
-    public static Map<String, BiApiVO> api = new ConcurrentHashMap<>();
+    private static Map<String, BiApiBO> api = new ConcurrentHashMap<>();
 
     @Autowired
     private static IBiResourceService biResourceService;
 
+    private DynamicUrlHelper() {}
 
-    public static void addApis(Map<String, BiApiVO> map) {
-        api.putAll(map);
+    public static DynamicUrlHelper getInstance() {
+        if(instance == null) {
+            instance = new DynamicUrlHelper();
+        }
+        try {
+            if(biResourceService==null) {
+                instance.biResourceService = CoApplicationContext.getBean(BiResourceServiceImpl.class);
+            }
+        }catch (Exception e) {
+            log.error("", e);
+        }
+        return instance;
     }
-
-    public static void addApi(String key, BiApiVO vo) {
-        api.put(key, vo);
+    /**
+     * 添加api服务
+     * @param map
+     */
+    public static void addApis(Map<String, BiApiBO> map) {
+        getInstance().api.putAll(map);
     }
-
-    public static BiApiVO getApi(String uri) {
-        if(uri==null) return null;
-        return api.get(uri);
+    public static void addApi(String key, BiApiBO vo) {
+        getInstance().api.put(key, vo);
     }
 
     /**
-     *
+     * 查询请求的url，是否配置服务
+     * @param uri
      * @return
      */
-    public static List<Map<String,Object>> execute(String dataSourceBeanName, String sql) {
-        List<Map<String,Object>> list =  new ArrayList<>();
-        try {
-            DruidDataSource dataSource = (DruidDataSource) CoApplicationContext.getBean(dataSourceBeanName);
-            QueryRunner qr = new QueryRunner(dataSource);
-            list = qr.query(sql, new MapListHandler());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
+    public static BiApiBO queryApi(String uri) {
+        if(uri==null || uri.equals("")) return null;
+        return getInstance().api.get(uri);
+    }
+
+    public static void init() {
+
     }
 
 
@@ -80,25 +95,22 @@ public class DynamicUrlHelper {
      * @param vo
      * @return
      */
-    public static String responseBody(BiApiVO vo) {
+    public static String responseBody(BiApiBO vo) {
         String result = "";
-        String resourceUuid = vo.getResourceUuid();
-        BiResourceVO query = new BiResourceVO();
-        query.setUuid(resourceUuid);
-        query.setStatus(CoConstant.STATUS_NORMAL);
         Result rs = new Result();
+        Map<String, Object> data = new HashMap<>();
         try {
-            if(biResourceService==null) {
-                biResourceService = CoApplicationContext.getBean(BiResourceServiceImpl.class);
-            }
-            BiResourceVO resource = biResourceService.queryResourceByPK(query);
-            if(resource!=null) {
-                String sql = resource.getSqlContent();
-                if(!StringUtils.isBlank(sql)) {
-                    List<Map<String, Object>> map = execute(resource.getBeanName(), sql);
-                    rs.setData(map);
+            List<BiResourceVO> list = biResourceService.queryResouceBatch(vo.getList());
+            if(list!=null) {
+                for(BiResourceVO resource : list) {
+                    String sql = resource.getSqlContent();
+                    if (!StringUtils.isBlank(sql)) {
+                        List<Map<String, Object>> map = DbExtUtils.executeQuery(resource.getBeanName(), sql);
+                        data.put(resource.getName(), map);
+                    }
                 }
             }
+            rs.setData(data);
         }catch (CoBusinessException e) {
             log.error("", e);
             rs = new Result(e.getCode(), e);
@@ -106,6 +118,9 @@ public class DynamicUrlHelper {
         result = gson.toJson(rs);
         return  result;
     }
+
+
+
 
 
 }

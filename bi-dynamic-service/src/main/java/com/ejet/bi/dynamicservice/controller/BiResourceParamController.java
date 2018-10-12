@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.TypeReference;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ejet.comm.Result;
@@ -18,8 +19,6 @@ import java.util.List;
 import static com.ejet.comm.exception.ExceptionCode.SYS_ERROR;
 import com.ejet.bi.dynamicservice.model.BiResourceParamModel;
 import com.ejet.bi.dynamicservice.service.impl.BiResourceParamServiceImpl;
-import org.springframework.web.bind.annotation.RestController;
-
 @RestController
 @RequestMapping(value="/bi-resource-param")
 public class BiResourceParamController extends CoBaseController { 

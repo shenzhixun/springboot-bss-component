@@ -116,15 +116,4 @@
 		 <include refid="SqlWhere"></include> 
 	</select>
 
-
-	<select  id="queryResourceByPK" parameterType="com.ejet.bi.dynamicservice.vo.BiResourceVO" resultType="com.ejet.bi.dynamicservice.vo.BiResourceVO" >
-        SELECT DB.`name` as beanName, R.*
-        FROM bi_resource R, bi_database_info DB
-        WHERE DB.uuid=R.database_info_uuid
-        <if test="uuid!=null and uuid!='' "> AND R.uuid=#{uuid} </if>
-        <if test="status!=null and status!='' "> AND R.status=#{status} AND DB.status=#{status} </if>
-        <if test="extSQL!=null "> ${extSQL} </if>
-    </select>
-
-
 </mapper>

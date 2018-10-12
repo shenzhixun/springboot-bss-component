@@ -25,7 +25,7 @@ public class BiApiCategoryServiceImpl implements IBiApiCategoryService {
 
 	@Override
 	public void insertAutoKey(BiApiCategoryModel model) throws CoBusinessException { 
- 		 mDao.insertAutoKey(model);
+ 		mDao.insertAutoKey(model);
  	}  
 
 	@Override
@@ -33,29 +33,29 @@ public class BiApiCategoryServiceImpl implements IBiApiCategoryService {
  		if(model.getId()==null) { 
  			throw new CoBusinessException(ExceptionCode.PARAM_MISSING_ID);
  		}
- 		 mDao.update(model);
+ 		mDao.update(model);
  	}  
 
 	@Override
 	public void delete(BiApiCategoryModel model) throws CoBusinessException { 
- 		 mDao.delete(model);
+ 		mDao.delete(model);
  	}  
 
 	public BiApiCategoryModel  findByPK(BiApiCategoryModel model) throws CoBusinessException { 
  		return mDao.findByPK(model);
- 	}  
+ 	}
 
 	@Override
 	public List<BiApiCategoryModel>  queryByCond(BiApiCategoryModel model) throws CoBusinessException { 
  		return mDao.queryByCond(model);
- 	}  
+ 	}
 
 	public PageBean<BiApiCategoryModel>  queryByPage(BiApiCategoryModel model, Integer pageNum, Integer pageSize) throws CoBusinessException { 
 		PageHelper.startPage(pageNum, pageSize);
 		List<BiApiCategoryModel> list = mDao.queryByPage(model);
 		PageBean<BiApiCategoryModel> page = new PageBean<BiApiCategoryModel>(list);
  		return page;
- 	}  
+ 	}
 
 	public int insertSingle(BiApiCategoryModel model) throws CoBusinessException { 
  		// 获取最大id。保证连续性

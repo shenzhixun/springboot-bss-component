@@ -25,7 +25,7 @@ public class BiDatabaseInfoServiceImpl implements IBiDatabaseInfoService {
 
 	@Override
 	public void insertAutoKey(BiDatabaseInfoModel model) throws CoBusinessException { 
- 		 mDao.insertAutoKey(model);
+ 		mDao.insertAutoKey(model);
  	}  
 
 	@Override
@@ -33,29 +33,29 @@ public class BiDatabaseInfoServiceImpl implements IBiDatabaseInfoService {
  		if(model.getId()==null) { 
  			throw new CoBusinessException(ExceptionCode.PARAM_MISSING_ID);
  		}
- 		 mDao.update(model);
+ 		mDao.update(model);
  	}  
 
 	@Override
 	public void delete(BiDatabaseInfoModel model) throws CoBusinessException { 
- 		 mDao.delete(model);
+ 		mDao.delete(model);
  	}  
 
 	public BiDatabaseInfoModel  findByPK(BiDatabaseInfoModel model) throws CoBusinessException { 
  		return mDao.findByPK(model);
- 	}  
+ 	}
 
 	@Override
 	public List<BiDatabaseInfoModel>  queryByCond(BiDatabaseInfoModel model) throws CoBusinessException { 
  		return mDao.queryByCond(model);
- 	}  
+ 	}
 
 	public PageBean<BiDatabaseInfoModel>  queryByPage(BiDatabaseInfoModel model, Integer pageNum, Integer pageSize) throws CoBusinessException { 
 		PageHelper.startPage(pageNum, pageSize);
 		List<BiDatabaseInfoModel> list = mDao.queryByPage(model);
 		PageBean<BiDatabaseInfoModel> page = new PageBean<BiDatabaseInfoModel>(list);
  		return page;
- 	}  
+ 	}
 
 	public int insertSingle(BiDatabaseInfoModel model) throws CoBusinessException { 
  		// 获取最大id。保证连续性
@@ -65,19 +65,6 @@ public class BiDatabaseInfoServiceImpl implements IBiDatabaseInfoService {
  		mDao.insertSingle(model);
  		return maxId;
  	}
-
-
-    /**
-     * 重新注册bean
-     *
-     * @param model
-     * @throws CoBusinessException
-     */
-    public void reloadDatabase(BiDatabaseInfoModel model) throws CoBusinessException {
-
-
-    }
-
 
 
 }
