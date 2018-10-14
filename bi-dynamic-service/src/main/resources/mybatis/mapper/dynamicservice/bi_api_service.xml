@@ -114,10 +114,10 @@
     <select  id="queryApi" parameterType="com.ejet.bi.dynamicservice.vo.BiApiVO" resultType="com.ejet.bi.dynamicservice.vo.BiApiVO" >
         SELECT C.`name` as api_category_name, C.url_prefix,
         S.uuid, S.name, S.path, S.url, S.prefix, R.resource_uuid
-        FROM bi_api_category C, bi_api_service S, bi_api_service_resource_r R, bi_resource E
+        FROM bi_api_category C, bi_api_service S, bi_api_service_resource_r R
         WHERE C.uuid=S.api_category_uuid ANd R.api_service_uuid=S.uuid
-        AND R.resource_uuid=R.uuid AND E.uuid=R
-        <if test="id!=null ">and API.id=#{id} </if>
+        AND S.status=1
+        <if test="id!=null ">and S.id=#{id} </if>
         <if test="uuid!=null and uuid!='' ">and S.uuid=#{uuid} </if>
         <if test="resourceUuid!=null and resourceUuid!='' ">and R.resource_uuid=#{resourceUuid} </if>
         <if test="apiCategoryUuid!=null and apiCategoryUuid!='' ">and S.api_category_uuid=#{apiCategoryUuid} </if>
@@ -125,7 +125,7 @@
         <if test="path!=null and path!='' ">and S.path=#{path} </if>
         <if test="url!=null and url!='' ">and S.url=#{url} </if>
         <if test="prefix!=null and prefix!='' ">and S.prefix=#{prefix} </if>
-        <if test="status!=null and status!='' ">and S.status=#{status} </if>
+        <if test="status!=null and status!='' ">and R.status=#{status} </if>
         <if test="extSQL!=null "> ${extSQL} </if>
     </select>
 

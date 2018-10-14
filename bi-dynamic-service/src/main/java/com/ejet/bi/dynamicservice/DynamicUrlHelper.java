@@ -1,28 +1,20 @@
 package com.ejet.bi.dynamicservice;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import com.ejet.bi.dynamicservice.comm.DbExtUtils;
+import com.ejet.bi.dynamicservice.utils.DbExtUtils;
 import com.ejet.bi.dynamicservice.service.IBiResourceService;
+import com.ejet.bi.dynamicservice.service.impl.BiCommServiceImpl;
 import com.ejet.bi.dynamicservice.service.impl.BiResourceServiceImpl;
 import com.ejet.bi.dynamicservice.vo.BiApiBO;
-import com.ejet.bi.dynamicservice.vo.BiApiVO;
 import com.ejet.bi.dynamicservice.vo.BiResourceVO;
 import com.ejet.comm.Result;
 import com.ejet.comm.exception.CoBusinessException;
 import com.ejet.comm.utils.StringUtils;
 import com.ejet.context.CoApplicationContext;
-import com.ejet.global.CoConstant;
 import com.google.gson.Gson;
-import jdk.management.resource.ResourceContext;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import sun.security.jca.GetInstance;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +41,9 @@ public class DynamicUrlHelper {
     @Autowired
     private static IBiResourceService biResourceService;
 
+    @Autowired
+    private static BiCommServiceImpl biCommService;
+
     private DynamicUrlHelper() {}
 
     public static DynamicUrlHelper getInstance() {
@@ -58,6 +53,9 @@ public class DynamicUrlHelper {
         try {
             if(biResourceService==null) {
                 instance.biResourceService = CoApplicationContext.getBean(BiResourceServiceImpl.class);
+            }
+            if(biCommService==null) {
+                instance.biCommService = CoApplicationContext.getBean(BiCommServiceImpl.class);
             }
         }catch (Exception e) {
             log.error("", e);
@@ -92,10 +90,11 @@ public class DynamicUrlHelper {
 
     /**
      * 返回查询结果信息
+     *
      * @param vo
      * @return
      */
-    public static String responseBody(BiApiBO vo) {
+    public static String queryDynamic(BiApiBO vo) {
         String result = "";
         Result rs = new Result();
         Map<String, Object> data = new HashMap<>();
@@ -118,6 +117,11 @@ public class DynamicUrlHelper {
         result = gson.toJson(rs);
         return  result;
     }
+
+
+
+
+
 
 
 

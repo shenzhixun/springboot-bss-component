@@ -1,4 +1,4 @@
-package com.ejet.bi.dynamicservice.comm;
+package com.ejet.bi.dynamicservice.utils;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.ejet.context.CoApplicationContext;
@@ -30,16 +30,31 @@ public class DbExtUtils {
         try {
             DruidDataSource dataSource = (DruidDataSource) CoApplicationContext.getBean(dataSourceBeanName);
             QueryRunner qr = new QueryRunner(dataSource);
-            if(params!=null) {
                 list = qr.query(sql, new MapListHandler(), params);
-            } else {
-                list = qr.query(sql, new MapListHandler());
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
+
+    // /**
+    //  * 执行sql查询并返回结果
+    //  * @return
+    //  */
+    // public static List<Map<String,Object>> executeQuery(String dataSourceBeanName, String sql) {
+    //     List<Map<String,Object>> list =  new ArrayList<>();
+    //     try {
+    //         DruidDataSource dataSource = (DruidDataSource) CoApplicationContext.getBean(dataSourceBeanName);
+    //         QueryRunner qr = new QueryRunner(dataSource);
+    //         list = qr.query(sql, new MapListHandler());
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     }
+    //     return list;
+    // }
+
+
+
 
 
 }

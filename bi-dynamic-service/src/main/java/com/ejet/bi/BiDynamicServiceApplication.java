@@ -1,7 +1,7 @@
 package com.ejet.bi;
 
 import com.ejet.CommWebApplication;
-import com.ejet.bi.dynamicservice.DynamicInterceptor;
+import com.ejet.bi.dynamicservice.DynamicURLInterceptor;
 import com.ejet.bi.dynamicservice.comm.DynamicServiceCallback;
 import com.ejet.context.CoApplicationContext;
 import org.slf4j.Logger;
@@ -36,7 +36,7 @@ public class BiDynamicServiceApplication extends SpringBootServletInitializer {
         CoApplicationContext.getInstance().addApplicationBootCallback(callbackImpl);
 
         //增加拦截器
-        CoApplicationContext.addInterceptor(new DynamicInterceptor());
+        CoApplicationContext.addInterceptor(new DynamicURLInterceptor());
 
         //每个模块都可以有自己的拦截器，过滤器，只需要将相关接口加进去。
         List<Class> list  = new ArrayList<>();

@@ -116,4 +116,17 @@
 		 <include refid="SqlWhere"></include> 
 	</select>
 
+
+    <select  id="queryResouceBatch" parameterType="com.ejet.bi.dynamicservice.vo.BiApiVO" resultType="com.ejet.bi.dynamicservice.vo.BiResourceVO" >
+        SELECT B.`name` AS beanName, C.uuid AS resourceCategoryUuid, C.`name` AS resouceCategoryName,
+        R.*
+        FROM bi_resource_category C, bi_database_info B, bi_resource R
+        WHERE C.uuid = R.resource_category_uuid AND
+        B.uuid = R.database_info_uuid AND R.uuid IN
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item.resourceUuid}
+        </foreach>
+    </select>
+
+
 </mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ejet.bi.dynamicservice.mapper.BiCommDao">
+
+	<sql id="SqlWhere">
+		<where>
+			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
+			<if test="sqlContent!=null and sqlContent!='' ">and sql_content=#{sqlContent} </if>
+		</where>
+	</sql>
+
+	<sql id="SqlSet">
+		<set>
+			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
+			<if test="sqlContent!=null and sqlContent!='' "> sql_content=#{sqlContent}, </if>
+		</set>
+	</sql>
+
+
+	<select  id="queryByCond" parameterType="java.util.Map" resultType="java.util.Map" statementType="STATEMENT" >
+		 SELECT * FROM bi_resource
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+
+	<select  id="queryByPage" parameterType="java.util.Map" resultType="java.util.HashMap" statementType="STATEMENT" >
+		 SELECT * FROM bi_resource
+		 <include refid="SqlWhere"></include> 
+		 <if test="extSQL!=null "> ${extSQL} </if> 
+	</select>
+
+
+</mapper>

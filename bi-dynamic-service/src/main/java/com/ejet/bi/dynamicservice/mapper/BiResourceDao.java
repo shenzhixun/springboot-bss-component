@@ -1,5 +1,7 @@
 package com.ejet.bi.dynamicservice.mapper;
 
+import com.ejet.bi.dynamicservice.vo.BiApiVO;
+import com.ejet.bi.dynamicservice.vo.BiResourceVO;
 import org.apache.ibatis.annotations.Mapper;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,7 +27,9 @@ public interface BiResourceDao {
 
 	public abstract List<BiResourceModel>  queryTree(BiResourceModel obj) throws CoBusinessException; 
 
-	public abstract Integer  findMaxId(BiResourceModel obj) throws CoBusinessException; 
+	public abstract Integer  findMaxId(BiResourceModel obj) throws CoBusinessException;
+
+    public List<BiResourceVO> queryResouceBatch(List<BiApiVO> list) throws CoBusinessException;
 
 
 }

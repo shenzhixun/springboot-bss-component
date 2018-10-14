@@ -70,12 +70,17 @@ public class BiResourceServiceImpl implements IBiResourceService {
  	}
 
 
+    /**
+     * 批量查询 资源对应sql
+     * @param list
+     * @return
+     * @throws CoBusinessException
+     */
+    @Override
  	public List<BiResourceVO> queryResouceBatch(List<BiApiVO> list) throws CoBusinessException {
-        List<BiResourceVO> result = null;
-
+        List<BiResourceVO> result = mDao.queryResouceBatch(list);
         return result;
     }
-
 
 
 
