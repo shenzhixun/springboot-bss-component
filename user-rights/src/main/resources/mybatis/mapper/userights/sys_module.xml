@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ejet.bss.userrights.mapper.SysModuleDao">
+
+	<sql id="SqlWhere">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+			<if test="moduleId!=null ">and module_id=#{moduleId} </if>
+			<if test="modulePid!=null ">and module_pid=#{modulePid} </if>
+			<if test="moduleLevel!=null ">and module_level=#{moduleLevel} </if>
+			<if test="moduleName!=null and moduleName!='' ">and module_name=#{moduleName} </if>
+			<if test="moduleNameEn!=null and moduleNameEn!='' ">and module_name_en=#{moduleNameEn} </if>
+			<if test="moduleType!=null and moduleType!='' ">and module_type=#{moduleType} </if>
+			<if test="sortOrder!=null ">and sort_order=#{sortOrder} </if>
+			<if test="url!=null and url!='' ">and url=#{url} </if>
+			<if test="act!=null and act!='' ">and act=#{act} </if>
+			<if test="flag!=null and flag!='' ">and flag=#{flag} </if>
+			<if test="icon!=null and icon!='' ">and icon=#{icon} </if>
+			<if test="css!=null and css!='' ">and css=#{css} </if>
+			<if test="status!=null and status!='' ">and status=#{status} </if>
+			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
+			<if test="modifyTime!=null and modifyTime!='' ">and modify_time=#{modifyTime} </if>
+			<if test="modifyUser!=null and modifyUser!='' ">and modify_user=#{modifyUser} </if>
+			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
+			<if test="ext1!=null and ext1!='' ">and ext1=#{ext1} </if>
+			<if test="ext2!=null and ext2!='' ">and ext2=#{ext2} </if>
+		</where>
+	</sql>
+	<sql id="SqlWherePK">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+		</where>
+	</sql>
+	<sql id="SqlSet">
+		<set>
+			<if test="id!=null "> id=#{id}, </if>
+			<if test="moduleId!=null "> module_id=#{moduleId}, </if>
+			<if test="modulePid!=null "> module_pid=#{modulePid}, </if>
+			<if test="moduleLevel!=null "> module_level=#{moduleLevel}, </if>
+			<if test="moduleName!=null and moduleName!='' "> module_name=#{moduleName}, </if>
+			<if test="moduleNameEn!=null and moduleNameEn!='' "> module_name_en=#{moduleNameEn}, </if>
+			<if test="moduleType!=null and moduleType!='' "> module_type=#{moduleType}, </if>
+			<if test="sortOrder!=null "> sort_order=#{sortOrder}, </if>
+			<if test="url!=null and url!='' "> url=#{url}, </if>
+			<if test="act!=null and act!='' "> act=#{act}, </if>
+			<if test="flag!=null and flag!='' "> flag=#{flag}, </if>
+			<if test="icon!=null and icon!='' "> icon=#{icon}, </if>
+			<if test="css!=null and css!='' "> css=#{css}, </if>
+			<if test="status!=null and status!='' "> status=#{status}, </if>
+			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
+			<if test="modifyTime!=null and modifyTime!='' "> modify_time=#{modifyTime}, </if>
+			<if test="modifyUser!=null and modifyUser!='' "> modify_user=#{modifyUser}, </if>
+			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
+			<if test="ext1!=null and ext1!='' "> ext1=#{ext1}, </if>
+			<if test="ext2!=null and ext2!='' "> ext2=#{ext2}, </if>
+		</set>
+	</sql>
+
+
+	<insert  id="insertAutoKey" parameterType="com.ejet.bss.userrights.model.SysModuleModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO sys_module (
+ 			module_id, module_pid, module_level, module_name, 
+ 			module_name_en, module_type, sort_order, url, act, 
+ 			flag, icon, css, status, remark, 
+ 			modify_time, modify_user, ext, ext1, ext2 ) 
+ 				 VALUES ( 
+ 			#{moduleId}, #{modulePid}, #{moduleLevel}, #{moduleName}, 
+ 			#{moduleNameEn}, #{moduleType}, #{sortOrder}, #{url}, #{act}, 
+ 			#{flag}, #{icon}, #{css}, #{status}, #{remark}, 
+ 			#{modifyTime}, #{modifyUser}, #{ext}, #{ext1}, #{ext2} ) 
+ 			
+	</insert>
+
+	<insert  id="insertSingle" parameterType="com.ejet.bss.userrights.model.SysModuleModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO sys_module (
+ 			module_id, module_pid, module_level, module_name, 
+ 			module_name_en, module_type, sort_order, url, act, 
+ 			flag, icon, css, status, remark, 
+ 			modify_time, modify_user, ext, ext1, ext2, 
+ 			 id ) 
+		 VALUES( 
+ 			#{moduleId}, #{modulePid}, #{moduleLevel}, #{moduleName}, 
+ 			#{moduleNameEn}, #{moduleType}, #{sortOrder}, #{url}, #{act}, 
+ 			#{flag}, #{icon}, #{css}, #{status}, #{remark}, 
+ 			#{modifyTime}, #{modifyUser}, #{ext}, #{ext1}, #{ext2}, 
+ 			 #{id} ) 
+	</insert>
+
+	<delete  id="delete" parameterType="com.ejet.bss.userrights.model.SysModuleModel" >
+		 DELETE FROM sys_module
+		 <include refid="SqlWhere"></include> 
+	</delete>
+
+	<update  id="update" parameterType="com.ejet.bss.userrights.model.SysModuleModel" >
+		 UPDATE sys_module
+		 <include refid="SqlSet"></include> 
+		 <include refid="SqlWherePK"></include> 
+	</update>
+
+	<select  id="findByPK" parameterType="com.ejet.bss.userrights.model.SysModuleModel" resultType="com.ejet.bss.userrights.model.SysModuleModel" >
+		 SELECT * FROM sys_module
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByCond" parameterType="com.ejet.bss.userrights.model.SysModuleModel" resultType="com.ejet.bss.userrights.model.SysModuleModel" >
+		 SELECT * FROM sys_module
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryTree" parameterType="com.ejet.bss.userrights.model.SysModuleModel" resultType="com.ejet.bss.userrights.model.SysModuleModel" >
+		 SELECT * FROM sys_module
+		 <include refid="SqlWhere"></include> 
+		 <if test=" extSQL !=null "> ${extSQL} </if> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByPage" parameterType="com.ejet.bss.userrights.model.SysModuleModel" resultType="com.ejet.bss.userrights.model.SysModuleModel" >
+		 SELECT * FROM sys_module
+		 <include refid="SqlWhere"></include> 
+		 <if test="extSQL!=null "> ${extSQL} </if> 
+	</select>
+
+	<select  id="findMaxId" parameterType="com.ejet.bss.userrights.model.SysModuleModel" resultType="int" >
+		 SELECT max(id) FROM sys_module
+		 <include refid="SqlWhere"></include> 
+	</select>
+
+</mapper>
