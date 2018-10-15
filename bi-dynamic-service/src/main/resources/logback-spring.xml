@@ -4,7 +4,7 @@
 
     <!--配置变量-->
     <!--文件路径前缀-->
-    <property name="LOG_HOME" value="C:/ALogs" />
+    <property name="LOG_HOME" value="/opt/ALogs" />
     <property name="encoder_pattern" value="%red(%d{MMdd HH:mm:ss.SSS}) %highlight(%-5level) %green([%thread] [%c{0}:%L]) - %cyan(%msg%n)"/>
     <property name="maxHistory" value="60"/>
     <property name="maxFileSize" value="100MB"/>

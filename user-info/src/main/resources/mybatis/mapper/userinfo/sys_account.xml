@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ejet.bss.userinfo.mapper.SysAccountDao">
+
+	<sql id="SqlWhere">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+			<if test="uuid!=null and uuid!='' ">and uuid=#{uuid} </if>
+			<if test="userId!=null and userId!='' ">and user_id=#{userId} </if>
+			<if test="name!=null and name!='' ">and name=#{name} </if>
+			<if test="fullname!=null and fullname!='' ">and fullname=#{fullname} </if>
+			<if test="password!=null and password!='' ">and password=#{password} </if>
+			<if test="orgzId!=null ">and orgz_id=#{orgzId} </if>
+			<if test="userType!=null ">and user_type=#{userType} </if>
+			<if test="userState!=null ">and user_state=#{userState} </if>
+			<if test="lastLogin!=null and lastLogin!='' ">and last_login=#{lastLogin} </if>
+			<if test="phone!=null and phone!='' ">and phone=#{phone} </if>
+			<if test="idcard!=null and idcard!='' ">and idcard=#{idcard} </if>
+			<if test="email!=null and email!='' ">and email=#{email} </if>
+			<if test="userPhoto!=null and userPhoto!='' ">and user_photo=#{userPhoto} </if>
+			<if test="effectStart!=null and effectStart!='' ">and effect_start=#{effectStart} </if>
+			<if test="effectEnd!=null and effectEnd!='' ">and effect_end=#{effectEnd} </if>
+			<if test="status!=null and status!='' ">and status=#{status} </if>
+			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
+			<if test="modifyTime!=null and modifyTime!='' ">and modify_time=#{modifyTime} </if>
+			<if test="modifyUser!=null and modifyUser!='' ">and modify_user=#{modifyUser} </if>
+			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
+			<if test="ext1!=null and ext1!='' ">and ext1=#{ext1} </if>
+			<if test="ext2!=null and ext2!='' ">and ext2=#{ext2} </if>
+		</where>
+	</sql>
+	<sql id="SqlWherePK">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+		</where>
+	</sql>
+	<sql id="SqlSet">
+		<set>
+			<if test="id!=null "> id=#{id}, </if>
+			<if test="uuid!=null and uuid!='' "> uuid=#{uuid}, </if>
+			<if test="userId!=null and userId!='' "> user_id=#{userId}, </if>
+			<if test="name!=null and name!='' "> name=#{name}, </if>
+			<if test="fullname!=null and fullname!='' "> fullname=#{fullname}, </if>
+			<if test="password!=null and password!='' "> password=#{password}, </if>
+			<if test="orgzId!=null "> orgz_id=#{orgzId}, </if>
+			<if test="userType!=null "> user_type=#{userType}, </if>
+			<if test="userState!=null "> user_state=#{userState}, </if>
+			<if test="lastLogin!=null and lastLogin!='' "> last_login=#{lastLogin}, </if>
+			<if test="phone!=null and phone!='' "> phone=#{phone}, </if>
+			<if test="idcard!=null and idcard!='' "> idcard=#{idcard}, </if>
+			<if test="email!=null and email!='' "> email=#{email}, </if>
+			<if test="userPhoto!=null and userPhoto!='' "> user_photo=#{userPhoto}, </if>
+			<if test="effectStart!=null and effectStart!='' "> effect_start=#{effectStart}, </if>
+			<if test="effectEnd!=null and effectEnd!='' "> effect_end=#{effectEnd}, </if>
+			<if test="status!=null and status!='' "> status=#{status}, </if>
+			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
+			<if test="modifyTime!=null and modifyTime!='' "> modify_time=#{modifyTime}, </if>
+			<if test="modifyUser!=null and modifyUser!='' "> modify_user=#{modifyUser}, </if>
+			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
+			<if test="ext1!=null and ext1!='' "> ext1=#{ext1}, </if>
+			<if test="ext2!=null and ext2!='' "> ext2=#{ext2}, </if>
+		</set>
+	</sql>
+
+
+	<insert  id="insertAutoKey" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO sys_account (
+ 			uuid, user_id, name, fullname, 
+ 			password, orgz_id, user_type, user_state, last_login, 
+ 			phone, idcard, email, user_photo, effect_start, 
+ 			effect_end, status, remark, modify_time, modify_user, 
+ 			ext, ext1, ext2 ) 	 VALUES ( 
+ 			#{uuid}, #{userId}, #{name}, #{fullname}, 
+ 			#{password}, #{orgzId}, #{userType}, #{userState}, #{lastLogin}, 
+ 			#{phone}, #{idcard}, #{email}, #{userPhoto}, #{effectStart}, 
+ 			#{effectEnd}, #{status}, #{remark}, #{modifyTime}, #{modifyUser}, 
+ 			#{ext}, #{ext1}, #{ext2} ) 
+	</insert>
+
+	<insert  id="insertSingle" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO sys_account (
+ 			uuid, user_id, name, fullname, 
+ 			password, orgz_id, user_type, user_state, last_login, 
+ 			phone, idcard, email, user_photo, effect_start, 
+ 			effect_end, status, remark, modify_time, modify_user, 
+ 			ext, ext1, ext2,  id ) 
+		 VALUES( 
+ 			#{uuid}, #{userId}, #{name}, #{fullname}, 
+ 			#{password}, #{orgzId}, #{userType}, #{userState}, #{lastLogin}, 
+ 			#{phone}, #{idcard}, #{email}, #{userPhoto}, #{effectStart}, 
+ 			#{effectEnd}, #{status}, #{remark}, #{modifyTime}, #{modifyUser}, 
+ 			#{ext}, #{ext1}, #{ext2},  #{id} ) 
+	</insert>
+
+	<delete  id="delete" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" >
+		 DELETE FROM sys_account
+		 <include refid="SqlWhere"></include> 
+	</delete>
+
+	<update  id="update" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" >
+		 UPDATE sys_account
+		 <include refid="SqlSet"></include> 
+		 <include refid="SqlWherePK"></include> 
+	</update>
+
+	<select  id="findByPK" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" resultType="com.ejet.bss.userinfo.model.SysAccountModel" >
+		 SELECT * FROM sys_account
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByCond" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" resultType="com.ejet.bss.userinfo.model.SysAccountModel" >
+		 SELECT * FROM sys_account
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryTree" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" resultType="com.ejet.bss.userinfo.model.SysAccountModel" >
+		 SELECT * FROM sys_account
+		 <include refid="SqlWhere"></include> 
+		 <if test=" extSQL !=null "> ${extSQL} </if> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByPage" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" resultType="com.ejet.bss.userinfo.model.SysAccountModel" >
+		 SELECT * FROM sys_account
+		 <include refid="SqlWhere"></include> 
+		 <if test="extSQL!=null "> ${extSQL} </if> 
+	</select>
+
+	<select  id="findMaxId" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" resultType="int" >
+		 SELECT max(id) FROM sys_account
+		 <include refid="SqlWhere"></include> 
+	</select>
+
+</mapper>

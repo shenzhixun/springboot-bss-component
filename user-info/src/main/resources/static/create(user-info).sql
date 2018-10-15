@@ -37,19 +37,20 @@ CREATE TABLE `sys_account` (
 
 
 -- -----------------------------------------------
--- 用户扩展信息表 `sys_user_ext`
+-- 用户扩展信息表 `sys_user_eav`
 -- -----------------------------------------------
-DROP TABLE IF EXISTS `sys_user_ext`;
-CREATE TABLE `sys_user_ext` (
-       `id`          		    int(11) 			  NOT NULL 				      AUTO_INCREMENT ,
-       `user_uuid`  			  varchar(64)			NOT NULL  		        COMMENT 'sys_account表中uuid',
-       `dict_key`  			    varchar(64)			NOT NULL  		         COMMENT '员工uuid',
-       `dict_value`  			  varchar(64)			NOT NULL  		          COMMENT '员工uuid',
+DROP TABLE IF EXISTS `sys_user_eav`;
+CREATE TABLE `sys_user_eav` (
+       `id`          		    int(11) 			  NOT NULL 				        AUTO_INCREMENT ,
+       `user_id`  			    bigint(18)			NOT NULL  					    COMMENT '用户id' ,
+       `dict_key`  			    varchar(64)			NOT NULL  		          COMMENT '字段key',
+       `dict_code`  			  varchar(64)			NOT NULL  		          COMMENT '字段编码',
+       `dict_value`  			  varchar(64)			NOT NULL  		          COMMENT '字段值',
        `status`  				    tinyint(1) 			NOT NULL  DEFAULT '1'   COMMENT '状态, 1: 正常，0：禁用',
-       `remark`  				    varchar(100) 	NULL DEFAULT NULL  			  COMMENT '备注,描述' ,
-       `modify_time`  		  varchar(32) 		NULL DEFAULT NULL  			  COMMENT '修改时间',
-       `modify_user`  		  varchar(32) 		NULL DEFAULT NULL  			  COMMENT '修改人' ,
-       `ext`  					    varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
+       `remark`  				    varchar(100) 	  NULL DEFAULT NULL  			COMMENT '备注,描述' ,
+       `modify_time`  		  varchar(32) 		NULL DEFAULT NULL  			COMMENT '修改时间',
+       `modify_user`  		  varchar(32) 		NULL DEFAULT NULL  			COMMENT '修改人' ,
+       `ext`  					    varchar(100)		NULL DEFAULT NULL       COMMENT '预留字段',
        PRIMARY KEY (`id`),
        UNIQUE INDEX `user_uuid` (`user_uuid`) USING BTREE
 )  comment='用户扩展信息表'
