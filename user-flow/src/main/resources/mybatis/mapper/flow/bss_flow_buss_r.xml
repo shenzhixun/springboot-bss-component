@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ejet.bss.userflow.mapper.BssFlowBussRDao">
+
+	<sql id="SqlWhere">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+			<if test="bussType!=null and bussType!='' ">and buss_type=#{bussType} </if>
+			<if test="bussUuid!=null and bussUuid!='' ">and buss_uuid=#{bussUuid} </if>
+			<if test="bussConditionId!=null ">and buss_condition_id=#{bussConditionId} </if>
+			<if test="flowId!=null ">and flow_id=#{flowId} </if>
+			<if test="flowCode!=null and flowCode!='' ">and flowCode=#{flowCode} </if>
+			<if test="priority!=null ">and priority=#{priority} </if>
+			<if test="effectStart!=null and effectStart!='' ">and effect_start=#{effectStart} </if>
+			<if test="effectEnd!=null and effectEnd!='' ">and effect_end=#{effectEnd} </if>
+			<if test="status!=null and status!='' ">and status=#{status} </if>
+			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
+			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
+		</where>
+	</sql>
+	<sql id="SqlWherePK">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+		</where>
+	</sql>
+	<sql id="SqlSet">
+		<set>
+			<if test="id!=null "> id=#{id}, </if>
+			<if test="bussType!=null and bussType!='' "> buss_type=#{bussType}, </if>
+			<if test="bussUuid!=null and bussUuid!='' "> buss_uuid=#{bussUuid}, </if>
+			<if test="bussConditionId!=null "> buss_condition_id=#{bussConditionId}, </if>
+			<if test="flowId!=null "> flow_id=#{flowId}, </if>
+			<if test="flowCode!=null and flowCode!='' "> flowCode=#{flowCode}, </if>
+			<if test="priority!=null "> priority=#{priority}, </if>
+			<if test="effectStart!=null and effectStart!='' "> effect_start=#{effectStart}, </if>
+			<if test="effectEnd!=null and effectEnd!='' "> effect_end=#{effectEnd}, </if>
+			<if test="status!=null and status!='' "> status=#{status}, </if>
+			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
+			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
+		</set>
+	</sql>
+
+
+	<insert  id="insertAutoKey" parameterType="com.ejet.bss.userflow.model.BssFlowBussRModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bss_flow_buss_r (
+ 			buss_type, buss_uuid, buss_condition_id, flow_id, 
+ 			flowCode, priority, effect_start, effect_end, status, 
+ 			remark, ext ) 	 VALUES ( 
+ 			#{bussType}, #{bussUuid}, #{bussConditionId}, #{flowId}, 
+ 			#{flowCode}, #{priority}, #{effectStart}, #{effectEnd}, #{status}, 
+ 			#{remark}, #{ext} ) 
+	</insert>
+
+	<insert  id="insertSingle" parameterType="com.ejet.bss.userflow.model.BssFlowBussRModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bss_flow_buss_r (
+ 			buss_type, buss_uuid, buss_condition_id, flow_id, 
+ 			flowCode, priority, effect_start, effect_end, status, 
+ 			remark, ext,  id ) 
+		 VALUES( 
+ 			#{bussType}, #{bussUuid}, #{bussConditionId}, #{flowId}, 
+ 			#{flowCode}, #{priority}, #{effectStart}, #{effectEnd}, #{status}, 
+ 			#{remark}, #{ext},  #{id} ) 
+	</insert>
+
+	<delete  id="delete" parameterType="com.ejet.bss.userflow.model.BssFlowBussRModel" >
+		 DELETE FROM bss_flow_buss_r
+		 <include refid="SqlWhere"></include> 
+	</delete>
+
+	<update  id="update" parameterType="com.ejet.bss.userflow.model.BssFlowBussRModel" >
+		 UPDATE bss_flow_buss_r
+		 <include refid="SqlSet"></include> 
+		 <include refid="SqlWherePK"></include> 
+	</update>
+
+	<select  id="findByPK" parameterType="com.ejet.bss.userflow.model.BssFlowBussRModel" resultType="com.ejet.bss.userflow.model.BssFlowBussRModel" >
+		 SELECT * FROM bss_flow_buss_r
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByCond" parameterType="com.ejet.bss.userflow.model.BssFlowBussRModel" resultType="com.ejet.bss.userflow.model.BssFlowBussRModel" >
+		 SELECT * FROM bss_flow_buss_r
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryTree" parameterType="com.ejet.bss.userflow.model.BssFlowBussRModel" resultType="com.ejet.bss.userflow.model.BssFlowBussRModel" >
+		 SELECT * FROM bss_flow_buss_r
+		 <include refid="SqlWhere"></include> 
+		 <if test=" extSQL !=null "> ${extSQL} </if> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByPage" parameterType="com.ejet.bss.userflow.model.BssFlowBussRModel" resultType="com.ejet.bss.userflow.model.BssFlowBussRModel" >
+		 SELECT * FROM bss_flow_buss_r
+		 <include refid="SqlWhere"></include> 
+		 <if test="extSQL!=null "> ${extSQL} </if> 
+	</select>
+
+	<select  id="findMaxId" parameterType="com.ejet.bss.userflow.model.BssFlowBussRModel" resultType="int" >
+		 SELECT max(id) FROM bss_flow_buss_r
+		 <include refid="SqlWhere"></include> 
+	</select>
+
+</mapper>

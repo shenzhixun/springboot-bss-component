@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ejet.bss.userflow.mapper.BssFlowBussRecordDao">
+
+	<sql id="SqlWhere">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+			<if test="bussType!=null and bussType!='' ">and buss_type=#{bussType} </if>
+			<if test="bussUuid!=null and bussUuid!='' ">and buss_uuid=#{bussUuid} </if>
+			<if test="bussRecordUuid!=null and bussRecordUuid!='' ">and buss_record_uuid=#{bussRecordUuid} </if>
+			<if test="bussApplyTime!=null and bussApplyTime!='' ">and buss_apply_time=#{bussApplyTime} </if>
+			<if test="flowId!=null ">and flow_id=#{flowId} </if>
+			<if test="flowName!=null and flowName!='' ">and flow_name=#{flowName} </if>
+			<if test="flowStatus!=null and flowStatus!='' ">and flow_status=#{flowStatus} </if>
+			<if test="approverResult!=null and approverResult!='' ">and approver_result=#{approverResult} </if>
+			<if test="approveStartTime!=null and approveStartTime!='' ">and approve_start_time=#{approveStartTime} </if>
+			<if test="approveEndTime!=null and approveEndTime!='' ">and approve_end_time=#{approveEndTime} </if>
+			<if test="status!=null and status!='' ">and status=#{status} </if>
+			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
+			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
+		</where>
+	</sql>
+	<sql id="SqlWherePK">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+		</where>
+	</sql>
+	<sql id="SqlSet">
+		<set>
+			<if test="id!=null "> id=#{id}, </if>
+			<if test="bussType!=null and bussType!='' "> buss_type=#{bussType}, </if>
+			<if test="bussUuid!=null and bussUuid!='' "> buss_uuid=#{bussUuid}, </if>
+			<if test="bussRecordUuid!=null and bussRecordUuid!='' "> buss_record_uuid=#{bussRecordUuid}, </if>
+			<if test="bussApplyTime!=null and bussApplyTime!='' "> buss_apply_time=#{bussApplyTime}, </if>
+			<if test="flowId!=null "> flow_id=#{flowId}, </if>
+			<if test="flowName!=null and flowName!='' "> flow_name=#{flowName}, </if>
+			<if test="flowStatus!=null and flowStatus!='' "> flow_status=#{flowStatus}, </if>
+			<if test="approverResult!=null and approverResult!='' "> approver_result=#{approverResult}, </if>
+			<if test="approveStartTime!=null and approveStartTime!='' "> approve_start_time=#{approveStartTime}, </if>
+			<if test="approveEndTime!=null and approveEndTime!='' "> approve_end_time=#{approveEndTime}, </if>
+			<if test="status!=null and status!='' "> status=#{status}, </if>
+			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
+			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
+		</set>
+	</sql>
+
+
+	<insert  id="insertAutoKey" parameterType="com.ejet.bss.userflow.model.BssFlowBussRecordModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bss_flow_buss_record (
+ 			buss_type, buss_uuid, buss_record_uuid, buss_apply_time, 
+ 			flow_id, flow_name, flow_status, approver_result, approve_start_time, 
+ 			approve_end_time, status, remark, ext ) 	 VALUES ( 
+ 			#{bussType}, #{bussUuid}, #{bussRecordUuid}, #{bussApplyTime}, 
+ 			#{flowId}, #{flowName}, #{flowStatus}, #{approverResult}, #{approveStartTime}, 
+ 			#{approveEndTime}, #{status}, #{remark}, #{ext} ) 
+	</insert>
+
+	<insert  id="insertSingle" parameterType="com.ejet.bss.userflow.model.BssFlowBussRecordModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bss_flow_buss_record (
+ 			buss_type, buss_uuid, buss_record_uuid, buss_apply_time, 
+ 			flow_id, flow_name, flow_status, approver_result, approve_start_time, 
+ 			approve_end_time, status, remark, ext,  id ) 
+		 VALUES( 
+ 			#{bussType}, #{bussUuid}, #{bussRecordUuid}, #{bussApplyTime}, 
+ 			#{flowId}, #{flowName}, #{flowStatus}, #{approverResult}, #{approveStartTime}, 
+ 			#{approveEndTime}, #{status}, #{remark}, #{ext},  #{id} ) 
+	</insert>
+
+	<delete  id="delete" parameterType="com.ejet.bss.userflow.model.BssFlowBussRecordModel" >
+		 DELETE FROM bss_flow_buss_record
+		 <include refid="SqlWhere"></include> 
+	</delete>
+
+	<update  id="update" parameterType="com.ejet.bss.userflow.model.BssFlowBussRecordModel" >
+		 UPDATE bss_flow_buss_record
+		 <include refid="SqlSet"></include> 
+		 <include refid="SqlWherePK"></include> 
+	</update>
+
+	<select  id="findByPK" parameterType="com.ejet.bss.userflow.model.BssFlowBussRecordModel" resultType="com.ejet.bss.userflow.model.BssFlowBussRecordModel" >
+		 SELECT * FROM bss_flow_buss_record
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByCond" parameterType="com.ejet.bss.userflow.model.BssFlowBussRecordModel" resultType="com.ejet.bss.userflow.model.BssFlowBussRecordModel" >
+		 SELECT * FROM bss_flow_buss_record
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryTree" parameterType="com.ejet.bss.userflow.model.BssFlowBussRecordModel" resultType="com.ejet.bss.userflow.model.BssFlowBussRecordModel" >
+		 SELECT * FROM bss_flow_buss_record
+		 <include refid="SqlWhere"></include> 
+		 <if test=" extSQL !=null "> ${extSQL} </if> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByPage" parameterType="com.ejet.bss.userflow.model.BssFlowBussRecordModel" resultType="com.ejet.bss.userflow.model.BssFlowBussRecordModel" >
+		 SELECT * FROM bss_flow_buss_record
+		 <include refid="SqlWhere"></include> 
+		 <if test="extSQL!=null "> ${extSQL} </if> 
+	</select>
+
+	<select  id="findMaxId" parameterType="com.ejet.bss.userflow.model.BssFlowBussRecordModel" resultType="int" >
+		 SELECT max(id) FROM bss_flow_buss_record
+		 <include refid="SqlWhere"></include> 
+	</select>
+
+</mapper>

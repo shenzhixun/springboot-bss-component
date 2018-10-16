@@ -1,6 +1,6 @@
 package com.ejet.bi.dynamicservice;
 
-import com.ejet.bi.dynamicservice.vo.BiApiBO;
+import com.ejet.bi.dynamicservice.bo.BiApiBO;
 import com.ejet.comm.Param;
 import com.ejet.interceptor.InterceptorBase;
 import com.ejet.utils.HttpServletRequestUtils;

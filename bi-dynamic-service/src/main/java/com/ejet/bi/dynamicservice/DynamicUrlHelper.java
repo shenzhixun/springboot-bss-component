@@ -4,7 +4,7 @@ import com.ejet.bi.dynamicservice.utils.DbExtUtils;
 import com.ejet.bi.dynamicservice.service.IBiResourceService;
 import com.ejet.bi.dynamicservice.service.impl.BiCommServiceImpl;
 import com.ejet.bi.dynamicservice.service.impl.BiResourceServiceImpl;
-import com.ejet.bi.dynamicservice.vo.BiApiBO;
+import com.ejet.bi.dynamicservice.bo.BiApiBO;
 import com.ejet.bi.dynamicservice.vo.BiResourceVO;
 import com.ejet.comm.Result;
 import com.ejet.comm.exception.CoBusinessException;

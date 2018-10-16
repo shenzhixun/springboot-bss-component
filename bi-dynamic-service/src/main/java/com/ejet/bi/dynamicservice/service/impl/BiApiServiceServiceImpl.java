@@ -1,6 +1,6 @@
 package com.ejet.bi.dynamicservice.service.impl;
 
-import com.ejet.bi.dynamicservice.vo.BiApiBO;
+import com.ejet.bi.dynamicservice.bo.BiApiBO;
 import com.ejet.bi.dynamicservice.vo.BiApiVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

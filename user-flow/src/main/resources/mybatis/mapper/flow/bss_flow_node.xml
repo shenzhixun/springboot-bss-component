@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ejet.bss.userflow.mapper.BssFlowNodeDao">
+
+	<sql id="SqlWhere">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+			<if test="nodeId!=null ">and node_id=#{nodeId} </if>
+			<if test="flowId!=null ">and flow_id=#{flowId} </if>
+			<if test="nodeName!=null and nodeName!='' ">and node_name=#{nodeName} </if>
+			<if test="nodeType!=null and nodeType!='' ">and node_type=#{nodeType} </if>
+			<if test="nodeStep!=null ">and node_step=#{nodeStep} </if>
+			<if test="nodeDes!=null and nodeDes!='' ">and node_des=#{nodeDes} </if>
+			<if test="approverPersonType!=null ">and approver_person_type=#{approverPersonType} </if>
+			<if test="approveMode!=null ">and approve_mode=#{approveMode} </if>
+			<if test="approveDepth!=null ">and approve_depth=#{approveDepth} </if>
+			<if test="approverFill!=null ">and approver_fill=#{approverFill} </if>
+			<if test="runtime!=null and runtime!='' ">and runtime=#{runtime} </if>
+			<if test="status!=null and status!='' ">and status=#{status} </if>
+			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
+			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
+			<if test="approverUsers!=null and approverUsers!='' ">and approver_users=#{approverUsers} </if>
+		</where>
+	</sql>
+	<sql id="SqlWherePK">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+		</where>
+	</sql>
+	<sql id="SqlSet">
+		<set>
+			<if test="id!=null "> id=#{id}, </if>
+			<if test="nodeId!=null "> node_id=#{nodeId}, </if>
+			<if test="flowId!=null "> flow_id=#{flowId}, </if>
+			<if test="nodeName!=null and nodeName!='' "> node_name=#{nodeName}, </if>
+			<if test="nodeType!=null and nodeType!='' "> node_type=#{nodeType}, </if>
+			<if test="nodeStep!=null "> node_step=#{nodeStep}, </if>
+			<if test="nodeDes!=null and nodeDes!='' "> node_des=#{nodeDes}, </if>
+			<if test="approverPersonType!=null "> approver_person_type=#{approverPersonType}, </if>
+			<if test="approveMode!=null "> approve_mode=#{approveMode}, </if>
+			<if test="approveDepth!=null "> approve_depth=#{approveDepth}, </if>
+			<if test="approverFill!=null "> approver_fill=#{approverFill}, </if>
+			<if test="runtime!=null and runtime!='' "> runtime=#{runtime}, </if>
+			<if test="status!=null and status!='' "> status=#{status}, </if>
+			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
+			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
+			<if test="approverUsers!=null and approverUsers!='' "> approver_users=#{approverUsers}, </if>
+		</set>
+	</sql>
+
+
+	<insert  id="insertAutoKey" parameterType="com.ejet.bss.userflow.model.BssFlowNodeModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bss_flow_node (
+ 			node_id, flow_id, node_name, node_type, 
+ 			node_step, node_des, approver_person_type, approve_mode, approve_depth, 
+ 			approver_fill, runtime, status, remark, ext, 
+ 			approver_users ) 	 VALUES ( 
+ 			#{nodeId}, #{flowId}, #{nodeName}, #{nodeType}, 
+ 			#{nodeStep}, #{nodeDes}, #{approverPersonType}, #{approveMode}, #{approveDepth}, 
+ 			#{approverFill}, #{runtime}, #{status}, #{remark}, #{ext}, 
+ 			#{approverUsers} ) 
+	</insert>
+
+	<insert  id="insertSingle" parameterType="com.ejet.bss.userflow.model.BssFlowNodeModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bss_flow_node (
+ 			node_id, flow_id, node_name, node_type, 
+ 			node_step, node_des, approver_person_type, approve_mode, approve_depth, 
+ 			approver_fill, runtime, status, remark, ext, 
+ 			approver_users,  id ) 
+		 VALUES( 
+ 			#{nodeId}, #{flowId}, #{nodeName}, #{nodeType}, 
+ 			#{nodeStep}, #{nodeDes}, #{approverPersonType}, #{approveMode}, #{approveDepth}, 
+ 			#{approverFill}, #{runtime}, #{status}, #{remark}, #{ext}, 
+ 			#{approverUsers},  #{id} ) 
+	</insert>
+
+	<delete  id="delete" parameterType="com.ejet.bss.userflow.model.BssFlowNodeModel" >
+		 DELETE FROM bss_flow_node
+		 <include refid="SqlWhere"></include> 
+	</delete>
+
+	<update  id="update" parameterType="com.ejet.bss.userflow.model.BssFlowNodeModel" >
+		 UPDATE bss_flow_node
+		 <include refid="SqlSet"></include> 
+		 <include refid="SqlWherePK"></include> 
+	</update>
+
+	<select  id="findByPK" parameterType="com.ejet.bss.userflow.model.BssFlowNodeModel" resultType="com.ejet.bss.userflow.model.BssFlowNodeModel" >
+		 SELECT * FROM bss_flow_node
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByCond" parameterType="com.ejet.bss.userflow.model.BssFlowNodeModel" resultType="com.ejet.bss.userflow.model.BssFlowNodeModel" >
+		 SELECT * FROM bss_flow_node
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryTree" parameterType="com.ejet.bss.userflow.model.BssFlowNodeModel" resultType="com.ejet.bss.userflow.model.BssFlowNodeModel" >
+		 SELECT * FROM bss_flow_node
+		 <include refid="SqlWhere"></include> 
+		 <if test=" extSQL !=null "> ${extSQL} </if> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByPage" parameterType="com.ejet.bss.userflow.model.BssFlowNodeModel" resultType="com.ejet.bss.userflow.model.BssFlowNodeModel" >
+		 SELECT * FROM bss_flow_node
+		 <include refid="SqlWhere"></include> 
+		 <if test="extSQL!=null "> ${extSQL} </if> 
+	</select>
+
+	<select  id="findMaxId" parameterType="com.ejet.bss.userflow.model.BssFlowNodeModel" resultType="int" >
+		 SELECT max(id) FROM bss_flow_node
+		 <include refid="SqlWhere"></include> 
+	</select>
+
+</mapper>

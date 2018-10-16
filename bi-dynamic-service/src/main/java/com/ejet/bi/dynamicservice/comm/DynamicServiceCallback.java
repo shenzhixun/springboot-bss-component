@@ -6,7 +6,7 @@ import com.ejet.bi.dynamicservice.model.BiDatabaseInfoModel;
 import com.ejet.bi.dynamicservice.service.impl.BiApiServiceServiceImpl;
 import com.ejet.bi.dynamicservice.service.impl.BiDatabaseInfoServiceImpl;
 import com.ejet.bi.dynamicservice.utils.DataSourceUtils;
-import com.ejet.bi.dynamicservice.vo.BiApiBO;
+import com.ejet.bi.dynamicservice.bo.BiApiBO;
 import com.ejet.bi.dynamicservice.vo.BiApiVO;
 import com.ejet.comm.exception.CoBusinessException;
 import com.ejet.configurer.IApplicationBootCallback;

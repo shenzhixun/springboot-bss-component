@@ -1,5 +1,6 @@
 package com.ejet.bi.dynamicservice.service.impl;
 
+import com.alibaba.druid.support.ibatis.SqlMapExecutorWrapper;
 import com.ejet.bi.dynamicservice.mapper.BiApiServiceDao;
 import com.ejet.bi.dynamicservice.mapper.BiCommDao;
 import com.ejet.bi.dynamicservice.model.BiApiServiceModel;
@@ -31,6 +32,9 @@ public class BiCommServiceImpl {
     private BiCommDao mDao;
 
     public Object queryByCond(Object obj) throws CoBusinessException {
+        SqlMapExecutorWrapper
+
+
         return mDao.queryByCond(obj);
     }
 

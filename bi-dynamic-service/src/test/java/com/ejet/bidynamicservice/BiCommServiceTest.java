@@ -5,7 +5,7 @@ import com.ejet.bi.dynamicservice.comm.DataSourceContextHolder;
 import com.ejet.bi.dynamicservice.service.impl.BiApiServiceServiceImpl;
 import com.ejet.bi.dynamicservice.service.impl.BiCommServiceImpl;
 import com.ejet.bi.dynamicservice.service.impl.BiResourceServiceImpl;
-import com.ejet.bi.dynamicservice.vo.BiApiBO;
+import com.ejet.bi.dynamicservice.bo.BiApiBO;
 import com.ejet.bi.dynamicservice.vo.BiApiVO;
 import com.ejet.bi.dynamicservice.vo.BiResourceVO;
 import com.ejet.comm.Page;

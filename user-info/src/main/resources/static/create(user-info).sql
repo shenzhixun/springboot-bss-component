@@ -17,8 +17,8 @@ CREATE TABLE `sys_account` (
        `idcard`           varchar(255)    DEFAULT NULL              COMMENT '身份证号',
        `email`            varchar(255)    DEFAULT NULL              COMMENT '邮箱',
        `user_photo`       varchar(255)    DEFAULT NULL              COMMENT '个人头像',
-       `effect_start`     varchar(255)    DEFAULT NULL              COMMENT '有效期限开始时间',
-       `effect_end`       varchar(255)    DEFAULT NULL              COMMENT '有效期限结束时间',
+       `effect_start`     varchar(32)     DEFAULT NULL              COMMENT '有效期限开始时间',
+       `effect_end`       varchar(32)     DEFAULT NULL              COMMENT '有效期限结束时间',
        `status`  				  tinyint(1) 			NOT NULL  DEFAULT '1'   	COMMENT '状态, 1: 正常，0：禁用',
        `remark`  				  varchar(100) 	 NULL DEFAULT NULL  			  COMMENT '备注,描述' ,
        `modify_time`  		varchar(32) 		NULL DEFAULT NULL  			  COMMENT '修改时间',
@@ -52,7 +52,7 @@ CREATE TABLE `sys_user_eav` (
        `modify_user`  		  varchar(32) 		NULL DEFAULT NULL  			COMMENT '修改人' ,
        `ext`  					    varchar(100)		NULL DEFAULT NULL       COMMENT '预留字段',
        PRIMARY KEY (`id`),
-       UNIQUE INDEX `user_uuid` (`user_uuid`) USING BTREE
+       UNIQUE INDEX `user_id_dict_code` (`user_id`,`dict_code`) USING BTREE
 )  comment='用户扩展信息表'
  ENGINE=InnoDB
  DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;

@@ -1,4 +1,6 @@
-package com.ejet.bi.dynamicservice.vo;
+package com.ejet.bi.dynamicservice.bo;
+
+import com.ejet.bi.dynamicservice.vo.BiApiVO;
 
 import java.util.ArrayList;
 import java.util.List;

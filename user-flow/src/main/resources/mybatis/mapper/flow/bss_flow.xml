@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ejet.bss.userflow.mapper.BssFlowDao">
+
+	<sql id="SqlWhere">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+			<if test="flowId!=null ">and flow_id=#{flowId} </if>
+			<if test="flowCode!=null and flowCode!='' ">and flow_code=#{flowCode} </if>
+			<if test="flowType!=null and flowType!='' ">and flow_type=#{flowType} </if>
+			<if test="flowName!=null and flowName!='' ">and flow_name=#{flowName} </if>
+			<if test="flowVersion!=null and flowVersion!='' ">and flow_version=#{flowVersion} </if>
+			<if test="priority!=null ">and priority=#{priority} </if>
+			<if test="fullname!=null and fullname!='' ">and fullname=#{fullname} </if>
+			<if test="ccType!=null ">and cc_type=#{ccType} </if>
+			<if test="runtime!=null and runtime!='' ">and runtime=#{runtime} </if>
+			<if test="status!=null and status!='' ">and status=#{status} </if>
+			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
+			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
+			<if test="ccUsers!=null and ccUsers!='' ">and cc_users=#{ccUsers} </if>
+		</where>
+	</sql>
+	<sql id="SqlWherePK">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+		</where>
+	</sql>
+	<sql id="SqlSet">
+		<set>
+			<if test="id!=null "> id=#{id}, </if>
+			<if test="flowId!=null "> flow_id=#{flowId}, </if>
+			<if test="flowCode!=null and flowCode!='' "> flow_code=#{flowCode}, </if>
+			<if test="flowType!=null and flowType!='' "> flow_type=#{flowType}, </if>
+			<if test="flowName!=null and flowName!='' "> flow_name=#{flowName}, </if>
+			<if test="flowVersion!=null and flowVersion!='' "> flow_version=#{flowVersion}, </if>
+			<if test="priority!=null "> priority=#{priority}, </if>
+			<if test="fullname!=null and fullname!='' "> fullname=#{fullname}, </if>
+			<if test="ccType!=null "> cc_type=#{ccType}, </if>
+			<if test="runtime!=null and runtime!='' "> runtime=#{runtime}, </if>
+			<if test="status!=null and status!='' "> status=#{status}, </if>
+			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
+			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
+			<if test="ccUsers!=null and ccUsers!='' "> cc_users=#{ccUsers}, </if>
+		</set>
+	</sql>
+
+
+	<insert  id="insertAutoKey" parameterType="com.ejet.bss.userflow.model.BssFlowModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bss_flow (
+ 			flow_id, flow_code, flow_type, flow_name, 
+ 			flow_version, priority, fullname, cc_type, runtime, 
+ 			status, remark, ext, cc_users ) 	 VALUES ( 
+ 			#{flowId}, #{flowCode}, #{flowType}, #{flowName}, 
+ 			#{flowVersion}, #{priority}, #{fullname}, #{ccType}, #{runtime}, 
+ 			#{status}, #{remark}, #{ext}, #{ccUsers} ) 
+	</insert>
+
+	<insert  id="insertSingle" parameterType="com.ejet.bss.userflow.model.BssFlowModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bss_flow (
+ 			flow_id, flow_code, flow_type, flow_name, 
+ 			flow_version, priority, fullname, cc_type, runtime, 
+ 			status, remark, ext, cc_users,  id ) 
+		 VALUES( 
+ 			#{flowId}, #{flowCode}, #{flowType}, #{flowName}, 
+ 			#{flowVersion}, #{priority}, #{fullname}, #{ccType}, #{runtime}, 
+ 			#{status}, #{remark}, #{ext}, #{ccUsers},  #{id} ) 
+	</insert>
+
+	<delete  id="delete" parameterType="com.ejet.bss.userflow.model.BssFlowModel" >
+		 DELETE FROM bss_flow
+		 <include refid="SqlWhere"></include> 
+	</delete>
+
+	<update  id="update" parameterType="com.ejet.bss.userflow.model.BssFlowModel" >
+		 UPDATE bss_flow
+		 <include refid="SqlSet"></include> 
+		 <include refid="SqlWherePK"></include> 
+	</update>
+
+	<select  id="findByPK" parameterType="com.ejet.bss.userflow.model.BssFlowModel" resultType="com.ejet.bss.userflow.model.BssFlowModel" >
+		 SELECT * FROM bss_flow
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByCond" parameterType="com.ejet.bss.userflow.model.BssFlowModel" resultType="com.ejet.bss.userflow.model.BssFlowModel" >
+		 SELECT * FROM bss_flow
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryTree" parameterType="com.ejet.bss.userflow.model.BssFlowModel" resultType="com.ejet.bss.userflow.model.BssFlowModel" >
+		 SELECT * FROM bss_flow
+		 <include refid="SqlWhere"></include> 
+		 <if test=" extSQL !=null "> ${extSQL} </if> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByPage" parameterType="com.ejet.bss.userflow.model.BssFlowModel" resultType="com.ejet.bss.userflow.model.BssFlowModel" >
+		 SELECT * FROM bss_flow
+		 <include refid="SqlWhere"></include> 
+		 <if test="extSQL!=null "> ${extSQL} </if> 
+	</select>
+
+	<select  id="findMaxId" parameterType="com.ejet.bss.userflow.model.BssFlowModel" resultType="int" >
+		 SELECT max(id) FROM bss_flow
+		 <include refid="SqlWhere"></include> 
+	</select>
+
+</mapper>
