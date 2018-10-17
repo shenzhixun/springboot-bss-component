@@ -2,7 +2,6 @@ package com.ejet.bss.userinfo.comm;
 
 import com.ejet.comm.exception.CoBusinessException;
 import com.ejet.comm.utils.StringUtils;
-import com.ejet.global.CoGlobal;
 import com.ejet.utils.CookieUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +22,8 @@ public class TokenHelper {
      *
      * @throws CoBusinessException
      */
-    public static String getToken(HttpServletRequest request, CoGlobal global) throws CoBusinessException {
-        final String ACCESS_TOKEN_KEY = global.getTokenAuthKey();
+    public static String getToken(HttpServletRequest request, String authTokenKey) throws CoBusinessException {
+        final String ACCESS_TOKEN_KEY = authTokenKey;
         String authToken = request.getHeader(ACCESS_TOKEN_KEY);
         if(null == authToken || "".equals(authToken)) {
             authToken = request.getParameter(ACCESS_TOKEN_KEY);

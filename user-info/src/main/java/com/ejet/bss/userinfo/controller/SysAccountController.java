@@ -1,6 +1,10 @@
 package com.ejet.bss.userinfo.controller;
 
+import com.ejet.bss.userinfo.service.ILoginService;
+import com.ejet.bss.userinfo.vo.SysAccountVO;
 import com.ejet.comm.exception.CoBusinessException;
+import com.ejet.comm.exception.ExceptionCode;
+import com.ejet.comm.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,9 @@ import java.util.List;
 import static com.ejet.comm.exception.ExceptionCode.SYS_ERROR;
 import com.ejet.bss.userinfo.model.SysAccountModel;
 import com.ejet.bss.userinfo.service.impl.SysAccountServiceImpl;
+
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping(value="/sys-account")
 public class SysAccountController extends CoBaseController { 
@@ -23,6 +30,8 @@ public class SysAccountController extends CoBaseController {
 	private final Logger log = LoggerFactory.getLogger(SysAccountController.class);
 	@Autowired
 	private SysAccountServiceImpl mService;
+    @Autowired
+    private ILoginService loginService;
 
 
 	@ResponseBody
@@ -84,11 +93,12 @@ public class SysAccountController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/query-by-page")
-	public Result queryByPage(@RequestBody(required=true)Param param, BindingResult bindResult) {
+	public Result queryByPage(@RequestBody(required=true)Param<SysAccountModel> param, BindingResult bindResult) {
 		Result rs = new Result();
 		try{
 			checkBindResult(bindResult);
-			SysAccountModel model = toBean(param, new TypeReference<SysAccountModel>(){});
+			checkParam(param);
+			SysAccountModel model = param.getData();
 			PageBean<SysAccountModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
 			rs = new Result(pageBean.getPage(), pageBean.getResult());
 		}catch (CoBusinessException e) {
@@ -102,6 +112,24 @@ public class SysAccountController extends CoBaseController {
 	}
 
 
+    @ResponseBody
+    @RequestMapping(value="/login")
+    public Result login(HttpServletRequest request, @RequestBody(required=true) SysAccountVO user) {
+        Result rs = new Result();
+        try {
+            loginService.login(user);
+
+
+
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }catch (Exception e) {
+            log.error("", e);
+            rs = new Result(SYS_ERROR, e);
+        }
+        return rs;
+    }
 
 
 

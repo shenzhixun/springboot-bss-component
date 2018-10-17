@@ -72,7 +72,13 @@ mybatis:
 # 基础的comm-web包配置信息
 comm-web:
   tokenAuth: false
-  tokenAuthKey: token
   sessionIgnore: true
   # 忽略的拦截url地址信息,用‘,’分割
   ignoreURL: /login,/logout,.*/comm-web/version
+
+# 用户登录模块
+bss-user-info:
+  token:
+    authTokenKey: token
+    # token超时时间
+    authTokenTimeout: 30

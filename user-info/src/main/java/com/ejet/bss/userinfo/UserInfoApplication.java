@@ -1,8 +1,13 @@
 package com.ejet.bss.userinfo;
 
 import com.ejet.CommWebApplication;
+import com.ejet.bss.userinfo.global.GlobalUserInfo;
+import com.ejet.bss.userinfo.interceptor.TokenAuthInterceptor;
+import com.ejet.context.CoApplicationContext;
+import com.ejet.global.CoGlobal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -20,6 +25,12 @@ public class UserInfoApplication extends SpringBootServletInitializer {
     private static final Logger logger = LoggerFactory.getLogger(UserInfoApplication.class);
 
 
+    @Autowired
+    private static CoGlobal global;
+
+    @Autowired
+    private static GlobalUserInfo globalUserInfo;
+
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(UserInfoApplication.class);
@@ -32,8 +43,14 @@ public class UserInfoApplication extends SpringBootServletInitializer {
         // //设置启动回调接口
         // CoApplicationContext.getInstance().addApplicationBootCallback(callbackImpl);
 
-        //增加拦截器
-        //CoApplicationContext.addInterceptor(new DynamicURLInterceptor());
+        //如果配置为token认证，则需要添加token拦截器
+        if(global.isTokenAuth()) {
+            //增加拦截器
+            TokenAuthInterceptor tokeAuth = new TokenAuthInterceptor();
+            CoApplicationContext.addInterceptor(tokeAuth);
+        }
+
+
 
         //每个模块都可以有自己的拦截器，过滤器，只需要将相关接口加进去。
         List<Class> list  = new ArrayList<>();

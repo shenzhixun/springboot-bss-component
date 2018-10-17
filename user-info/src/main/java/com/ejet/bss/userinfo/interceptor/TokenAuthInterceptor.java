@@ -1,9 +1,16 @@
 package com.ejet.bss.userinfo.interceptor;
 
+import com.ejet.bss.userinfo.comm.TokenHelper;
+import com.ejet.bss.userinfo.global.GlobalUserInfo;
 import com.ejet.comm.exception.CoBusinessException;
+import com.ejet.comm.exception.ExceptionCode;
+import com.ejet.comm.redis.RedisServiceHelper;
+import com.ejet.context.CoApplicationContext;
 import com.ejet.interceptor.InterceptorBase;
+import com.ejet.utils.HttpServletResponseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,7 +25,12 @@ import java.util.List;
  */
 @Component
 public class TokenAuthInterceptor extends InterceptorBase {
-	Logger logger = LoggerFactory.getLogger(com.ejet.interceptor.TokenAuthInterceptor.class);
+    Logger logger = LoggerFactory.getLogger(TokenAuthInterceptor.class);
+    @Autowired
+    RedisServiceHelper redis;
+    @Autowired
+    GlobalUserInfo globalUserInfo;
+    private List<String> excludePathPatterns = new ArrayList<>();
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object arg2, Exception arg3)
 			throws Exception {
@@ -33,40 +45,41 @@ public class TokenAuthInterceptor extends InterceptorBase {
 
     @Override
     public String[] excludePathPatterns() {
-        List<String> excludePathPatterns = new ArrayList<>();
         return excludePathPatterns.toArray(new String[excludePathPatterns.size()]);
     }
 
-//	//拦截请求是否携带token
-//	@Override
-//	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
-//		try {
-//			if (redis == null) {
-//		         BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext()); 
-//		         redis = (JedisUtilService) factory.getBean("jedisUtilService"); 
-//		      }
-//			//拦截请求方式POST/GET，如果是GET则直接返回
-//			String token = getToken(request);
-//			if(null == token || "".equals(token)){
-//				responseJson(response, new CoBusinessException(CoReturnFormat.SYS_TOKEN_TIMEOUT));
-//				return false;
-//			}
-//			//从redis中查看token是否存在
-//			Object obj = redis.get(token);
-//			if(null == obj){
-//				responseJson(response, new CoBusinessException(CoReturnFormat.SYS_TOKEN_TIMEOUT));
-//				return false;
-//			}
-//			
-//			redis.updateExpires(token , 20L*60) ;
-//			
-//		} catch (CoBusinessException e) {
-//			responseJson(response, e);
-//			return false;
-//		}
-//		return true;
-//	}
-//	
-//	
+	//拦截请求是否携带token
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
+		try {
+			if (redis == null) {
+			    redis = CoApplicationContext.getBean(RedisServiceHelper.class);
+			}
+			if (globalUserInfo == null) {
+                globalUserInfo = CoApplicationContext.getBean(GlobalUserInfo.class);
+			}
+            String authToken = TokenHelper.getToken(request, globalUserInfo.getAuthTokenKey());
+			if(null == authToken || "".equals(authToken)){
+				HttpServletResponseUtils.responseJson(response, new CoBusinessException(ExceptionCode.SYS_TOKEN_TIMEOUT));
+				return false;
+			}
+			//从redis中查看token是否存在
+			Object obj = redis.get(authToken);
+			if(null == obj){
+                HttpServletResponseUtils.responseJson(response, new CoBusinessException(ExceptionCode.SYS_TOKEN_TIMEOUT));
+				return false;
+			}
+			redis.refresh(authToken , globalUserInfo.getAuthTokenTimeout()); ;
+
+		} catch (CoBusinessException e) {
+            HttpServletResponseUtils.responseJson(response, new CoBusinessException(ExceptionCode.SYS_ERROR, e));
+			return false;
+		}
+		return true;
+	}
+
+    public void setExcludePathPatterns(List<String> excludePathPatterns) {
+        this.excludePathPatterns = excludePathPatterns;
+    }
 
 }
