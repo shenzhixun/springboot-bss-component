@@ -5,8 +5,8 @@ public class SysUserEavModel extends CoBaseVO {
 
 	/**    */ 
  	private Integer id;
-	/**  sys_account表中uuid  */ 
- 	private String userUuid;
+	/**  用户id  */ 
+ 	private Long userId;
 	/**  字段key  */ 
  	private String dictKey;
 	/**  字段编码  */ 
@@ -32,12 +32,12 @@ public class SysUserEavModel extends CoBaseVO {
 		return id;
 	}
 
-	public void setUserUuid(String userUuid) {
-		this.userUuid=userUuid;
+	public void setUserId(Long userId) {
+		this.userId=userId;
 	} 
 
-	public String getUserUuid(){
-		return userUuid;
+	public Long getUserId(){
+		return userId;
 	}
 
 	public void setDictKey(String dictKey) {

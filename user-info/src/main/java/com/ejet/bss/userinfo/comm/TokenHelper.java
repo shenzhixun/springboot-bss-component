@@ -2,6 +2,7 @@ package com.ejet.bss.userinfo.comm;
 
 import com.ejet.comm.exception.CoBusinessException;
 import com.ejet.comm.utils.StringUtils;
+import com.ejet.comm.utils.UuidUtils;
 import com.ejet.utils.CookieUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +41,26 @@ public class TokenHelper {
         return authToken;
     }
 
+    /**
+     * 校验
+     * @return
+     */
+    public static boolean valToken() {
+        boolean r = false;
+
+        return r;
+    }
+
+
+    /**
+     *  生成Token信息
+     *
+     * @return
+     */
+    public static String createToken() {
+        String token = UuidUtils.getUUID();
+        return token;
+    }
 
 
 

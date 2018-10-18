@@ -3,6 +3,7 @@ package com.ejet.bss.userinfo;
 import com.ejet.CommWebApplication;
 import com.ejet.bss.userinfo.global.GlobalUserInfo;
 import com.ejet.bss.userinfo.interceptor.TokenAuthInterceptor;
+import com.ejet.comm.CommWebRedisApplication;
 import com.ejet.context.CoApplicationContext;
 import com.ejet.global.CoGlobal;
 import org.slf4j.Logger;
@@ -23,7 +24,6 @@ import java.util.List;
 @EnableCaching
 public class UserInfoApplication extends SpringBootServletInitializer {
     private static final Logger logger = LoggerFactory.getLogger(UserInfoApplication.class);
-
 
     @Autowired
     private static CoGlobal global;
@@ -50,12 +50,11 @@ public class UserInfoApplication extends SpringBootServletInitializer {
             CoApplicationContext.addInterceptor(tokeAuth);
         }
 
-
-
         //每个模块都可以有自己的拦截器，过滤器，只需要将相关接口加进去。
         List<Class> list  = new ArrayList<>();
-        list.add(UserInfoApplication.class);       //本项目
+        list.add(UserInfoApplication.class);        //本项目
         list.add(CommWebApplication.class);         //基础项目
+        list.add(CommWebRedisApplication.class);    //redis项目
 
         SpringApplication.run(list.toArray(new Class[list.size()]), args);
 

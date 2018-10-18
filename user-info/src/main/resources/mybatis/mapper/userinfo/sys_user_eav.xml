@@ -7,7 +7,7 @@
 		<where>
 			1=1
 			<if test="id!=null ">and id=#{id} </if>
-			<if test="userUuid!=null and userUuid!='' ">and user_uuid=#{userUuid} </if>
+			<if test="userId!=null and userId!='' ">and user_id=#{userId} </if>
 			<if test="dictKey!=null and dictKey!='' ">and dict_key=#{dictKey} </if>
 			<if test="dictCode!=null and dictCode!='' ">and dict_code=#{dictCode} </if>
 			<if test="dictValue!=null and dictValue!='' ">and dict_value=#{dictValue} </if>
@@ -27,7 +27,7 @@
 	<sql id="SqlSet">
 		<set>
 			<if test="id!=null "> id=#{id}, </if>
-			<if test="userUuid!=null and userUuid!='' "> user_uuid=#{userUuid}, </if>
+			<if test="userId!=null and userId!='' "> user_id=#{userId}, </if>
 			<if test="dictKey!=null and dictKey!='' "> dict_key=#{dictKey}, </if>
 			<if test="dictCode!=null and dictCode!='' "> dict_code=#{dictCode}, </if>
 			<if test="dictValue!=null and dictValue!='' "> dict_value=#{dictValue}, </if>
@@ -42,21 +42,21 @@
 
 	<insert  id="insertAutoKey" parameterType="com.ejet.bss.userinfo.model.SysUserEavModel" useGeneratedKeys="true" keyProperty="id" >
 		 INSERT INTO sys_user_eav (
- 			user_uuid, dict_key, dict_code, dict_value, 
+ 			user_id, dict_key, dict_code, dict_value, 
  			status, remark, modify_time, modify_user, ext ) 
  				 VALUES ( 
- 			#{userUuid}, #{dictKey}, #{dictCode}, #{dictValue}, 
+ 			#{userId}, #{dictKey}, #{dictCode}, #{dictValue}, 
  			#{status}, #{remark}, #{modifyTime}, #{modifyUser}, #{ext} ) 
  			
 	</insert>
 
 	<insert  id="insertSingle" parameterType="com.ejet.bss.userinfo.model.SysUserEavModel" useGeneratedKeys="true" keyProperty="id" >
 		 INSERT INTO sys_user_eav (
- 			user_uuid, dict_key, dict_code, dict_value, 
+ 			user_id, dict_key, dict_code, dict_value, 
  			status, remark, modify_time, modify_user, ext, 
  			 id ) 
 		 VALUES( 
- 			#{userUuid}, #{dictKey}, #{dictCode}, #{dictValue}, 
+ 			#{userId}, #{dictKey}, #{dictCode}, #{dictValue}, 
  			#{status}, #{remark}, #{modifyTime}, #{modifyUser}, #{ext}, 
  			 #{id} ) 
 	</insert>

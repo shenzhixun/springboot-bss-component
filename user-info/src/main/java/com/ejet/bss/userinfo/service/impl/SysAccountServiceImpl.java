@@ -1,6 +1,8 @@
 package com.ejet.bss.userinfo.service.impl;
 
 import java.sql.SQLException;
+
+import com.ejet.bss.userinfo.vo.SysAccountVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -65,6 +67,12 @@ public class SysAccountServiceImpl implements ISysAccountService {
  		mDao.insertSingle(model);
  		return maxId;
  	}
+
+
+    public SysAccountVO login(SysAccountModel model) throws CoBusinessException {
+        return mDao.login(model);
+    }
+
 
 
 }

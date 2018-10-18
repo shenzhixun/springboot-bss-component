@@ -3,6 +3,8 @@ package com.ejet.bss.userinfo.global;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Copyright (C), 2016-2018, 武汉康华数海有限公司
  * FileName: GlobalUserInfo
@@ -24,6 +26,8 @@ public class GlobalUserInfo {
      */
     private Integer authTokenTimeout;
 
+    private List<String> authTokenIgnoreURL;
+
     public String getAuthTokenKey() {
         return authTokenKey;
     }
@@ -38,5 +42,13 @@ public class GlobalUserInfo {
 
     public void setAuthTokenTimeout(Integer authTokenTimeout) {
         this.authTokenTimeout = authTokenTimeout;
+    }
+
+    public List<String> getAuthTokenIgnoreURL() {
+        return authTokenIgnoreURL;
+    }
+
+    public void setAuthTokenIgnoreURL(List<String> authTokenIgnoreURL) {
+        this.authTokenIgnoreURL = authTokenIgnoreURL;
     }
 }

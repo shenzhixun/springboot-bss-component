@@ -1,13 +1,6 @@
 package com.ejet.bss.userinfo.controller;
 
-import com.ejet.bss.userinfo.comm.LoginServiceImpl;
-import com.ejet.bss.userinfo.global.GlobalUserInfo;
-import com.ejet.bss.userinfo.model.SysUserModel;
-import com.ejet.bss.userinfo.vo.SysAccountVO;
-import com.ejet.bss.userinfo.vo.SysUserVO;
 import com.ejet.comm.exception.CoBusinessException;
-import com.ejet.filter.CoSessionManager;
-import com.ejet.global.CoGlobal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,29 +14,26 @@ import com.ejet.comm.base.CoBaseController;
 import java.util.List;
 
 import static com.ejet.comm.exception.ExceptionCode.SYS_ERROR;
-import com.ejet.bss.userinfo.model.SysAccountModel;
-import com.ejet.bss.userinfo.service.impl.SysAccountServiceImpl;
+import com.ejet.bss.userinfo.model.SysUserModel;
+import com.ejet.bss.userinfo.service.impl.SysUserServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping(value="/sys-account")
-public class SysAccountController extends CoBaseController { 
+@RequestMapping(value="/sys-user")
+public class SysUserController extends CoBaseController { 
 
-	private final Logger log = LoggerFactory.getLogger(SysAccountController.class);
+	private final Logger log = LoggerFactory.getLogger(SysUserController.class);
 	@Autowired
-	private SysAccountServiceImpl mService;
+	private SysUserServiceImpl mService;
 
-	@Autowired
-	private LoginServiceImpl loginService;
 
 	@ResponseBody
 	@RequestMapping(value="/query")
-	public Result query(@RequestBody(required=false)SysAccountModel model) {
+	public Result query(@RequestBody(required=false)SysUserModel model) {
 		Result rs = new Result();
 		try {
-			List<SysAccountModel> page = mService.queryByCond(model);
+			List<SysUserModel> page = mService.queryByCond(model);
 			rs = new Result(page);
 		}catch (CoBusinessException e) {
 			log.error("", e);
@@ -55,7 +45,7 @@ public class SysAccountController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/delete")
-	public Result delete(@RequestBody(required=true)SysAccountModel model) {
+	public Result delete(@RequestBody(required=true)SysUserModel model) {
 		Result rs = new Result();
 		try{
 			mService.delete(model);
@@ -69,7 +59,7 @@ public class SysAccountController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/add")
-	public Result add(@RequestBody(required=true)SysAccountModel model) {
+	public Result add(@RequestBody(required=true)SysUserModel model) {
 		Result rs = new Result();
 		try{
 			mService.insertSingle(model);
@@ -83,7 +73,7 @@ public class SysAccountController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/update")
-	public Result update(@RequestBody(required=true)SysAccountModel model) {
+	public Result update(@RequestBody(required=true)SysUserModel model) {
 		Result rs = new Result();
 		try{
 			mService.update(model);
@@ -101,8 +91,8 @@ public class SysAccountController extends CoBaseController {
 		Result rs = new Result();
 		try{
 			checkBindResult(bindResult);
-			SysAccountModel model = toBean(param, new TypeReference<SysAccountModel>(){});
-			PageBean<SysAccountModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
+			SysUserModel model = toBean(param, new TypeReference<SysUserModel>(){});
+			PageBean<SysUserModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
 			rs = new Result(pageBean.getPage(), pageBean.getResult());
 		}catch (CoBusinessException e) {
 			log.error("", e);
@@ -113,24 +103,6 @@ public class SysAccountController extends CoBaseController {
 		}
 		return rs;
 	}
-
-
-
-    @ResponseBody
-    @RequestMapping(value="/login")
-    public Result login(HttpServletRequest request, @RequestBody(required=true) SysAccountVO model) {
-        Result rs = new Result();
-        try {
-            SysAccountVO result = loginService.login(request, model);
-            rs = new Result(result);
-        }catch (CoBusinessException e) {
-            log.error("", e);
-            rs = new Result(e.getCode(), e);
-        }
-        return rs;
-    }
-
-
 
 
 }

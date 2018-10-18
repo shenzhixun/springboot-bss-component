@@ -1,5 +1,6 @@
 package com.ejet.bss.userinfo.mapper;
 
+import com.ejet.bss.userinfo.vo.SysAccountVO;
 import org.apache.ibatis.annotations.Mapper;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,7 +26,8 @@ public interface SysAccountDao {
 
 	public abstract List<SysAccountModel>  queryTree(SysAccountModel obj) throws CoBusinessException; 
 
-	public abstract Integer  findMaxId(SysAccountModel obj) throws CoBusinessException; 
+	public abstract Integer findMaxId(SysAccountModel obj) throws CoBusinessException;
 
 
+    public abstract SysAccountVO login(SysAccountModel model) throws CoBusinessException;
 }

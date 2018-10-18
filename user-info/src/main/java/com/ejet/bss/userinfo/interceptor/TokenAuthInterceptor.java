@@ -30,7 +30,8 @@ public class TokenAuthInterceptor extends InterceptorBase {
     RedisServiceHelper redis;
     @Autowired
     GlobalUserInfo globalUserInfo;
-    private List<String> excludePathPatterns = new ArrayList<>();
+
+    private List<String> excludePath = new ArrayList<>();
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object arg2, Exception arg3)
 			throws Exception {
@@ -45,7 +46,13 @@ public class TokenAuthInterceptor extends InterceptorBase {
 
     @Override
     public String[] excludePathPatterns() {
-        return excludePathPatterns.toArray(new String[excludePathPatterns.size()]);
+        if (globalUserInfo == null) {
+            globalUserInfo = CoApplicationContext.getBean(GlobalUserInfo.class);
+        }
+        if(globalUserInfo.getAuthTokenIgnoreURL()!=null) {
+            excludePath.addAll(globalUserInfo.getAuthTokenIgnoreURL());
+        }
+        return excludePath.toArray(new String[excludePath.size()]);
     }
 
 	//拦截请求是否携带token
@@ -69,6 +76,7 @@ public class TokenAuthInterceptor extends InterceptorBase {
                 HttpServletResponseUtils.responseJson(response, new CoBusinessException(ExceptionCode.SYS_TOKEN_TIMEOUT));
 				return false;
 			}
+			//刷新token
 			redis.refresh(authToken , globalUserInfo.getAuthTokenTimeout()); ;
 
 		} catch (CoBusinessException e) {
@@ -78,8 +86,10 @@ public class TokenAuthInterceptor extends InterceptorBase {
 		return true;
 	}
 
-    public void setExcludePathPatterns(List<String> excludePathPatterns) {
-        this.excludePathPatterns = excludePathPatterns;
+    public void setExcludePath(List<String> excludePath) {
+	    if(excludePath !=null && excludePath.size()>0) {
+            this.excludePath = excludePath;
+        }
     }
 
 }
