@@ -32,7 +32,7 @@ public class BiCommServiceImpl {
     private BiCommDao mDao;
 
     public Object queryByCond(Object obj) throws CoBusinessException {
-        SqlMapExecutorWrapper
+        //SqlMapExecutorWrapper
 
 
         return mDao.queryByCond(obj);

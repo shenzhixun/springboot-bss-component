@@ -1,6 +1,7 @@
 package com.ejet.bss.userinfo;
 
 import com.ejet.CommWebApplication;
+import com.ejet.bss.userinfo.comm.TokenHelper;
 import com.ejet.bss.userinfo.global.GlobalUserInfo;
 import com.ejet.bss.userinfo.interceptor.TokenAuthInterceptor;
 import com.ejet.comm.CommWebRedisApplication;
@@ -28,8 +29,20 @@ public class UserInfoApplication extends SpringBootServletInitializer {
     @Autowired
     private static CoGlobal global;
 
-    @Autowired
-    private static GlobalUserInfo globalUserInfo;
+    //每一个模块，都可以有自己的启动回调实现接口，只需要将实现类添加进去即可
+    static {
+        logger.info("======== [comm-bss-userinfo] add config  ======");
+        BssUserInfoAppCallback callback = new BssUserInfoAppCallback();
+        CoApplicationContext.getInstance().addApplicationBootCallback(callback);
+
+        GlobalUserInfo tokenConf = TokenHelper.loadTokenAuth();
+        if(tokenConf.isTokenAuth()) {
+            TokenAuthInterceptor tokenInterceptor = new TokenAuthInterceptor();
+            tokenInterceptor.setName("authToken");
+            tokenInterceptor.setExcludePath(tokenConf.getAuthTokenIgnoreURL());
+            CoApplicationContext.addInterceptor(tokenInterceptor);
+        }
+    }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
@@ -38,25 +51,17 @@ public class UserInfoApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
 
-        //每一个模块，都可以有自己的启动回调实现接口，只需要将实现类添加进去即可
-        // DynamicServiceCallback callbackImpl = new DynamicServiceCallback();
-        // //设置启动回调接口
-        // CoApplicationContext.getInstance().addApplicationBootCallback(callbackImpl);
 
-        //如果配置为token认证，则需要添加token拦截器
-        if(global.isTokenAuth()) {
-            //增加拦截器
-            TokenAuthInterceptor tokeAuth = new TokenAuthInterceptor();
-            CoApplicationContext.addInterceptor(tokeAuth);
-        }
-
-        //每个模块都可以有自己的拦截器，过滤器，只需要将相关接口加进去。
         List<Class> list  = new ArrayList<>();
         list.add(UserInfoApplication.class);        //本项目
         list.add(CommWebApplication.class);         //基础项目
         list.add(CommWebRedisApplication.class);    //redis项目
 
         SpringApplication.run(list.toArray(new Class[list.size()]), args);
+
+        //每个模块都可以有自己的拦截器，过滤器，只需要将相关接口加进去。
+        TokenAuthInterceptor tokeAuth = new TokenAuthInterceptor();
+        CoApplicationContext.addInterceptor(tokeAuth);
 
         logger.info("======== start  ======");
     }

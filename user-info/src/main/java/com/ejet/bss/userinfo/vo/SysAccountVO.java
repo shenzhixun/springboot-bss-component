@@ -10,6 +10,8 @@ public class SysAccountVO extends SysAccountModel {
     private String phone;
     /**  身份证号  */
     private String idcard;
+    /** token信息 */
+    private String token;
 
     public Long getUserId() {
         return userId;
@@ -41,5 +43,13 @@ public class SysAccountVO extends SysAccountModel {
 
     public void setIdcard(String idcard) {
         this.idcard = idcard;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

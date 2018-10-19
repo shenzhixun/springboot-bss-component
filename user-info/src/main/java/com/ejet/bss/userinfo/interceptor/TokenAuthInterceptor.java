@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * 用户Token验证拦截器
  *
@@ -46,13 +45,8 @@ public class TokenAuthInterceptor extends InterceptorBase {
 
     @Override
     public String[] excludePathPatterns() {
-        if (globalUserInfo == null) {
-            globalUserInfo = CoApplicationContext.getBean(GlobalUserInfo.class);
-        }
-        if(globalUserInfo.getAuthTokenIgnoreURL()!=null) {
-            excludePath.addAll(globalUserInfo.getAuthTokenIgnoreURL());
-        }
         return excludePath.toArray(new String[excludePath.size()]);
+        //return new String[]{};
     }
 
 	//拦截请求是否携带token

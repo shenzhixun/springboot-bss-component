@@ -47,7 +47,7 @@ public class LoginServiceImpl {
         if ( user == null ) {
             throw new CoBusinessException(ExceptionCode.PARAM_MISSING); // "用户名为空!"
         }
-        if( user.getUserId()==null &&
+        if( user.getUserId()==null && StringUtils.isBlank(user.getName()) &&
                 StringUtils.isBlank(user.getUserName()) &&
                 StringUtils.isBlank(user.getPhone()) &&
                 StringUtils.isBlank(user.getIdcard()) ) {
@@ -66,9 +66,31 @@ public class LoginServiceImpl {
             session.setAttribute(CoSessionManager.USER_SESSION_KEY, result);
         }
         if(global.isTokenAuth()) { //token认证
-            TokenHelper.createToken();
+            String token = TokenHelper.createToken();
+            result.setToken(token);
+            TokenHelper.cacheToken(token, result, globalUserInfo.getAuthTokenTimeout());
         }
         return result;
+    }
+
+
+    /**
+     * 退出登录
+     *
+     * @throws CoBusinessException
+     */
+    public void logout(HttpServletRequest request, SysAccountVO user) throws CoBusinessException {
+        if ( user == null ) {
+            throw new CoBusinessException(ExceptionCode.PARAM_MISSING); // "用户名为空!"
+        }
+        String authToken = TokenHelper.getToken(request, globalUserInfo.getAuthTokenKey());
+        if(!global.isSessionIgnore()) { //session认证
+            HttpSession session = request.getSession();
+            session.removeAttribute(CoSessionManager.USER_SESSION_KEY);
+        }
+        if(global.isTokenAuth()) { //token认证
+            TokenHelper.delToken(authToken);
+        }
     }
 
 

@@ -15,8 +15,13 @@ import java.util.List;
  * Version: 1.0
  */
 @Component
-@ConfigurationProperties(prefix="bss-user-info.token")
+@ConfigurationProperties(prefix="bss-user-info")
 public class GlobalUserInfo {
+
+    /**
+     * 是否开启token认证
+     */
+    private boolean tokenAuth;
     /**
      * token认证字段key信息
      */
@@ -50,5 +55,13 @@ public class GlobalUserInfo {
 
     public void setAuthTokenIgnoreURL(List<String> authTokenIgnoreURL) {
         this.authTokenIgnoreURL = authTokenIgnoreURL;
+    }
+
+    public boolean isTokenAuth() {
+        return tokenAuth;
+    }
+
+    public void setTokenAuth(boolean tokenAuth) {
+        this.tokenAuth = tokenAuth;
     }
 }

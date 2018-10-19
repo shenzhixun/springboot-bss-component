@@ -33,7 +33,7 @@ spring:
   #数据源配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://127.0.0.1:3306/bi_dynamic_service?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/bi_user?useSSL=false&serverTimezone=UTC
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -67,7 +67,8 @@ spring:
     cluster:
       # （普通集群，不使用则不用开启）在群集中执行命令时要遵循的最大重定向数目。
       #max-redirects:
-      nodes: 192.168.0.127:7000,192.168.0.127:7001,192.168.0.127:7002
+      #nodes: 192.168.0.127:7000,192.168.0.127:7001,192.168.0.127:7002
+      nodes: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002
 
     password:
     lettuce:
@@ -86,7 +87,7 @@ mybatis:
 # 基础的comm-web包配置信息
 ### ===========================   comm-web   ===============================
 comm-web:
-  tokenAuth: false
+  tokenAuth: true
   sessionIgnore: true
   # 忽略的拦截url地址信息(session过滤器),用‘,’分割
   ignoreURL: /login,/logout,.*/comm-web/version
@@ -94,9 +95,8 @@ comm-web:
 # 用户登录模块
 ### ===========================   user-info   ===============================
 bss-user-info:
-  token:
-    authTokenKey: token
-    # token 超时时间
-    authTokenTimeout: 30
-    # token 忽略地址
-    authTokenIgnoreURL: /sys_account/login,/sys_account/logout
+  authTokenKey: AuthToken
+  # token 超时时间
+  authTokenTimeout: 30
+  # token 忽略地址
+  authTokenIgnoreURL: /sys_account/login,/sys_account/logout

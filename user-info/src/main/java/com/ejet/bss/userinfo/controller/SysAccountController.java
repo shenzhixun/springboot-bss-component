@@ -131,6 +131,19 @@ public class SysAccountController extends CoBaseController {
     }
 
 
+    @ResponseBody
+    @RequestMapping(value="/logout")
+    public Result logout(HttpServletRequest request, @RequestBody(required=true) SysAccountVO model) {
+        Result rs = new Result();
+        try {
+            loginService.logout(request, model);
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }
+        return rs;
+    }
+
 
 
 }
