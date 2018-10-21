@@ -84,11 +84,12 @@ public class SysOrgzController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/query-by-page")
-	public Result queryByPage(@RequestBody(required=true)Param param, BindingResult bindResult) {
+	public Result queryByPage(@RequestBody(required=true)Param<SysOrgzModel> param, BindingResult bindResult) {
 		Result rs = new Result();
 		try{
 			checkBindResult(bindResult);
-			SysOrgzModel model = toBean(param, new TypeReference<SysOrgzModel>(){});
+			checkParam(param);
+			SysOrgzModel model = param.getData();
 			PageBean<SysOrgzModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
 			rs = new Result(pageBean.getPage(), pageBean.getResult());
 		}catch (CoBusinessException e) {

@@ -1,6 +1,8 @@
 package com.ejet.bss.userrights.service.impl;
 
 import java.sql.SQLException;
+
+import com.ejet.global.CoConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -29,15 +31,18 @@ public class SysRoleTypeServiceImpl implements ISysRoleTypeService {
  	}  
 
 	@Override
-	public void update(SysRoleTypeModel model) throws CoBusinessException { 
- 		if(model.getId()==null) { 
+	public void update(SysRoleTypeModel model) throws CoBusinessException {
+        if(model.getId()==null && model.getRoleTypeId()==null) {
  			throw new CoBusinessException(ExceptionCode.PARAM_MISSING_ID);
  		}
  		mDao.update(model);
  	}  
 
 	@Override
-	public void delete(SysRoleTypeModel model) throws CoBusinessException { 
+	public void delete(SysRoleTypeModel model) throws CoBusinessException {
+        if(model.getId()==null && model.getRoleTypeId()==null) {
+            throw new CoBusinessException(ExceptionCode.PARAM_MISSING_ID);
+        }
  		mDao.delete(model);
  	}  
 
@@ -62,6 +67,9 @@ public class SysRoleTypeServiceImpl implements ISysRoleTypeService {
  		Integer maxId = mDao.findMaxId(null);
  		maxId = maxId==null? 1 : maxId+1;
  		model.setId(maxId);
+        model.setRoleTypeId(maxId);
+        model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
+
  		mDao.insertSingle(model);
  		return maxId;
  	}

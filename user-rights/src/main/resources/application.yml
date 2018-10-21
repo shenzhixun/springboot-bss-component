@@ -33,7 +33,7 @@ spring:
   #数据源配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://127.0.0.1:3306/bi_dynamic_service?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/bi_user?useSSL=false&serverTimezone=UTC
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -62,7 +62,22 @@ spring:
     # 合并多个DruidDataSource的监控数据
     useGlobalDataSourceStat: true
     
-# 下面为连接池的补充设置，应用到上面所有数据源中
+
+  ### ===========================   redis   ===============================
+  redis:
+    cluster:
+      # （普通集群，不使用则不用开启）在群集中执行命令时要遵循的最大重定向数目。
+      #max-redirects:
+      #nodes: 192.168.0.127:7000,192.168.0.127:7001,192.168.0.127:7002
+      nodes: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002
+
+    password:
+    lettuce:
+      pool:
+        max-idle: 8
+        max-active: 8
+        min-idle: 0
+        max-wait: -1ms
 
 # mybatis配置
 mybatis:
@@ -70,9 +85,18 @@ mybatis:
   mapper-locations: classpath:mybatis/mapper/**/*.xml
   
 # 基础的comm-web包配置信息
+### ===========================   comm-web   ===============================
 comm-web:
-  tokenAuth: false
-  tokenAuthKey: token
+  tokenAuth: true
   sessionIgnore: true
-  # 忽略的拦截url地址信息,用‘,’分割
+  # 忽略的拦截url地址信息(session过滤器),用‘,’分割
   ignoreURL: /login,/logout,.*/comm-web/version
+
+# 用户登录模块
+### ===========================   user-info   ===============================
+bss-user-info:
+  authTokenKey: Authorization
+  # token 超时时间
+  authTokenTimeout: 30
+  # token 忽略地址
+  authTokenIgnoreURL: /sys-account/login,/sys-account/logout

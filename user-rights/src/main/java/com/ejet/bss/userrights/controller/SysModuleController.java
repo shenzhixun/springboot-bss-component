@@ -1,6 +1,9 @@
 package com.ejet.bss.userrights.controller;
 
+import com.ejet.bss.userrights.vo.SysModuleVO;
 import com.ejet.comm.exception.CoBusinessException;
+import com.ejet.comm.utils.tree.CoZtreeVO;
+import com.ejet.comm.utils.tree.TreeVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +103,48 @@ public class SysModuleController extends CoBaseController {
 		}
 		return rs;
 	}
+
+
+    /**
+     * 获取菜单(树状)
+     */
+    @RequestMapping(value="/get_module_ztree")
+    @ResponseBody
+    public Result getModuleZtree(@RequestBody(required=false)Param<SysModuleVO> param, BindingResult bindResult) {
+        Result rs = new Result();
+        try {
+            checkBindResult(bindResult);
+            SysModuleModel model = param.getData();
+            List<CoZtreeVO> result = mService.getModuleZtree(model, false);
+            rs = new Result(result);
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }
+        return rs;
+    }
+
+    /**
+     * 获得模块树（采用树状接口）
+     */
+    @RequestMapping(value="/get_module_tree")
+    @ResponseBody
+    public Result getModuleTree(@RequestBody(required=false)Param<SysModuleVO> param, BindingResult bindResult) {
+        Result rs = new Result();
+        try {
+            checkBindResult(bindResult);
+            SysModuleVO model = toBean(param==null? new Param<SysModuleVO>() : param, new TypeReference<SysModuleVO>(){});
+            List<TreeVO<SysModuleModel>> result = mService.getModuleTree(model);
+            rs = new Result(result);
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }catch (Exception e) {
+            log.error("", e);
+            rs = new Result(SYS_ERROR, e);
+        }
+        return rs;
+    }
 
 
 }

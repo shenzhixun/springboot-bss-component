@@ -1,5 +1,6 @@
 package com.ejet.bss.userrights.mapper;
 
+import com.ejet.bss.userrights.vo.SysRoleVO;
 import org.apache.ibatis.annotations.Mapper;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,7 +26,11 @@ public interface SysRoleDao {
 
 	public abstract List<SysRoleModel>  queryTree(SysRoleModel obj) throws CoBusinessException; 
 
-	public abstract Integer  findMaxId(SysRoleModel obj) throws CoBusinessException; 
+	public abstract Integer  findMaxId(SysRoleModel obj) throws CoBusinessException;
+
+
+	//查询所有角色
+    public List<SysRoleVO> listRoles(SysRoleModel model) throws CoBusinessException;
 
 
 }

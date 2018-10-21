@@ -1,5 +1,6 @@
 package com.ejet.bss.userrights.mapper;
 
+import com.ejet.bss.userrights.vo.SysAccountRoleRVO;
 import org.apache.ibatis.annotations.Mapper;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,7 +26,11 @@ public interface SysAccountRoleRDao {
 
 	public abstract List<SysAccountRoleRModel>  queryTree(SysAccountRoleRModel obj) throws CoBusinessException; 
 
-	public abstract Integer  findMaxId(SysAccountRoleRModel obj) throws CoBusinessException; 
+	public abstract Integer  findMaxId(SysAccountRoleRModel obj) throws CoBusinessException;
+
+
+	/** 用户对应角色关联 */
+    public abstract List<SysAccountRoleRVO> listAccountRoles(SysAccountRoleRVO obj) throws CoBusinessException;
 
 
 }

@@ -1,5 +1,6 @@
 package com.ejet.bss.userrights.controller;
 
+import com.ejet.bss.userrights.vo.SysAccountRoleRVO;
 import com.ejet.comm.exception.CoBusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,6 +101,41 @@ public class SysAccountRoleRController extends CoBaseController {
 		}
 		return rs;
 	}
+
+    /**
+     * 设置账号角色组
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/set_account_roles")
+    public Result setAccountRoles(@RequestBody(required = true) Param<List<SysAccountRoleRVO>> param) {
+        Result rs = new Result();
+        try {
+            mService.save(param.getData());
+        } catch (CoBusinessException e) {
+            rs = new Result(e);
+            log.error("", e);
+        }
+        return rs;
+    }
+
+    /**
+     * 查询账号角色关联
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/get_account_roles")
+    public Result getAccountRoles(@RequestBody(required = true)SysAccountRoleRVO model) {
+        Result rs = new Result();
+        try {
+            List<SysAccountRoleRVO> list = mService.listAccountRoles(model);
+            rs = new Result(list);
+        } catch (CoBusinessException e) {
+            rs = new Result(e);
+            log.error("", e);
+        }
+        return rs;
+    }
 
 
 }

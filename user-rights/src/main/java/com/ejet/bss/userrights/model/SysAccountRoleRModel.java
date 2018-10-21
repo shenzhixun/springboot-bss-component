@@ -5,12 +5,12 @@ public class SysAccountRoleRModel extends CoBaseVO {
 
 	/**    */ 
  	private Integer id;
-	/**  用户id  */ 
- 	private Long userId;
-	/**  角色ID  */ 
- 	private Integer roleId;
+	/**  帐号uuid  */ 
+ 	private String accountUuid;
 	/**  角色类型ID  */ 
  	private Integer roleTypeId;
+	/**  角色ID  */ 
+ 	private Integer roleId;
 	/**  状态, 1: 正常，0：不正常  */ 
  	private Integer status;
 	/**  备注  */ 
@@ -26,20 +26,12 @@ public class SysAccountRoleRModel extends CoBaseVO {
 		return id;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId=userId;
+	public void setAccountUuid(String accountUuid) {
+		this.accountUuid=accountUuid;
 	} 
 
-	public Long getUserId(){
-		return userId;
-	}
-
-	public void setRoleId(Integer roleId) {
-		this.roleId=roleId;
-	} 
-
-	public Integer getRoleId(){
-		return roleId;
+	public String getAccountUuid(){
+		return accountUuid;
 	}
 
 	public void setRoleTypeId(Integer roleTypeId) {
@@ -48,6 +40,14 @@ public class SysAccountRoleRModel extends CoBaseVO {
 
 	public Integer getRoleTypeId(){
 		return roleTypeId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId=roleId;
+	} 
+
+	public Integer getRoleId(){
+		return roleId;
 	}
 
 	public void setStatus(Integer status) {

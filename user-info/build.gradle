@@ -55,13 +55,14 @@ dependencies {
     compile fileTree(dir: '../libs', include: ['comm-web_main.jar'])
     compile fileTree(dir: '../libs', include: ['comm-web-redis_main.jar'])
 
-
     //user-info必须包含jwt包，进行token认证
-    compile 'io.jsonwebtoken:jjwt-api:0.10.5'
-    runtime 'io.jsonwebtoken:jjwt-impl:0.10.5',
+    compile group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.10.5'
+    runtime group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.10.5'
+    //compile 'io.jsonwebtoken:jjwt-api:0.10.5'
+    //runtime 'io.jsonwebtoken:jjwt-impl:0.10.5',
     // Uncomment the next line if you want to use RSASSA-PSS (PS256, PS384, PS512) algorithms:
     //'org.bouncycastle:bcprov-jdk15on:1.60',
-    'io.jsonwebtoken:jjwt-jackson:0.10.5'
+    runtime group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.10.5'
 
     //====== redis 采用gson序列化对象 ===========
     compile('org.springframework.boot:spring-boot-starter-data-redis')

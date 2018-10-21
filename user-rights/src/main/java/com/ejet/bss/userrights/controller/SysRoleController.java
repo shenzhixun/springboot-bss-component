@@ -1,5 +1,6 @@
 package com.ejet.bss.userrights.controller;
 
+import com.ejet.bss.userrights.vo.SysRoleVO;
 import com.ejet.comm.exception.CoBusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,20 @@ public class SysRoleController extends CoBaseController {
 		}
 		return rs;
 	}
+
+    @ResponseBody
+    @RequestMapping(value="/find-by-pk")
+    public Result findByPK(@RequestBody(required=false)SysRoleModel model) {
+        Result rs = new Result();
+        try {
+            SysRoleModel result = mService.findByPK(model);
+            rs = new Result(result);
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }
+        return rs;
+    }
 
 
 	@ResponseBody
@@ -84,11 +99,12 @@ public class SysRoleController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/query-by-page")
-	public Result queryByPage(@RequestBody(required=true)Param param, BindingResult bindResult) {
+	public Result queryByPage(@RequestBody(required=true)Param<SysRoleModel> param, BindingResult bindResult) {
 		Result rs = new Result();
 		try{
 			checkBindResult(bindResult);
-			SysRoleModel model = toBean(param, new TypeReference<SysRoleModel>(){});
+			checkParam(param);
+			SysRoleModel model = param.getData();
 			PageBean<SysRoleModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
 			rs = new Result(pageBean.getPage(), pageBean.getResult());
 		}catch (CoBusinessException e) {
@@ -100,6 +116,27 @@ public class SysRoleController extends CoBaseController {
 		}
 		return rs;
 	}
+
+
+    /**
+     * 获取所有的角色
+     */
+    @ResponseBody
+    @RequestMapping(value="/get-roles")
+    public Result getRoles(@RequestBody(required=false)SysRoleVO model) {
+        Result rs = new Result();
+        try {
+            List<SysRoleVO> list = mService.listRoles(model);
+            PageBean<SysRoleVO> page = new PageBean<SysRoleVO>(list);
+            rs = new Result(page);
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }
+        return rs;
+    }
+
+
 
 
 }

@@ -1,5 +1,6 @@
-package com.ejet.bss.userinfo.comm;
+package com.ejet.bss.userinfo.service.comm;
 
+import com.ejet.bss.userinfo.comm.TokenHelper;
 import com.ejet.bss.userinfo.global.GlobalUserInfo;
 import com.ejet.bss.userinfo.service.impl.SysAccountServiceImpl;
 import com.ejet.bss.userinfo.vo.SysAccountVO;
@@ -80,7 +81,7 @@ public class LoginServiceImpl {
      * @throws CoBusinessException
      */
     public void logout(HttpServletRequest request, SysAccountVO user) throws CoBusinessException {
-        if ( user == null ) {
+        if ( user==null ) {
             throw new CoBusinessException(ExceptionCode.PARAM_MISSING); // "用户名为空!"
         }
         String authToken = TokenHelper.getToken(request, globalUserInfo.getAuthTokenKey());

@@ -1,6 +1,13 @@
 package com.ejet.bss.userrights.service.impl;
 
 import java.sql.SQLException;
+
+import com.ejet.bss.userrights.comm.ModuleBase;
+import com.ejet.bss.userrights.service.comm.SysCoreCacheServiceImpl;
+import com.ejet.comm.utils.time.TimeUtils;
+import com.ejet.comm.utils.tree.CoZtreeVO;
+import com.ejet.comm.utils.tree.TreeVO;
+import com.ejet.global.CoConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -15,13 +22,12 @@ import com.ejet.bss.userrights.model.SysModuleModel;
 import com.ejet.bss.userrights.mapper.SysModuleDao;
 import com.ejet.bss.userrights.service.ISysModuleService;
 @Service("sysModuleService")
-public class SysModuleServiceImpl implements ISysModuleService { 
-
-
+public class SysModuleServiceImpl extends ModuleBase implements ISysModuleService {
 	private final Logger log = LoggerFactory.getLogger(SysModuleServiceImpl.class);
-
 	@Autowired
 	private SysModuleDao mDao;
+    @Autowired
+    private SysCoreCacheServiceImpl coreCacheService;
 
 	@Override
 	public void insertAutoKey(SysModuleModel model) throws CoBusinessException { 
@@ -30,23 +36,29 @@ public class SysModuleServiceImpl implements ISysModuleService {
 
 	@Override
 	public void update(SysModuleModel model) throws CoBusinessException { 
- 		if(model.getId()==null) { 
+ 		if(model.getId()==null && model.getModuleId()==null) {
  			throw new CoBusinessException(ExceptionCode.PARAM_MISSING_ID);
  		}
  		mDao.update(model);
  	}  
 
 	@Override
-	public void delete(SysModuleModel model) throws CoBusinessException { 
+	public void delete(SysModuleModel model) throws CoBusinessException {
+        if(model.getId()==null && model.getModuleId()==null) {
+            throw new CoBusinessException(ExceptionCode.PARAM_MISSING);
+        }
  		mDao.delete(model);
  	}  
 
-	public SysModuleModel  findByPK(SysModuleModel model) throws CoBusinessException { 
+	public SysModuleModel findByPK(SysModuleModel model) throws CoBusinessException {
+        if(model.getId()==null && model.getModuleId()==null) {
+            throw new CoBusinessException(ExceptionCode.PARAM_MISSING);
+        }
  		return mDao.findByPK(model);
  	}
 
 	@Override
-	public List<SysModuleModel>  queryByCond(SysModuleModel model) throws CoBusinessException { 
+	public List<SysModuleModel> queryByCond(SysModuleModel model) throws CoBusinessException {
  		return mDao.queryByCond(model);
  	}
 
@@ -62,9 +74,39 @@ public class SysModuleServiceImpl implements ISysModuleService {
  		Integer maxId = mDao.findMaxId(null);
  		maxId = maxId==null? 1 : maxId+1;
  		model.setId(maxId);
+
+ 		model.setModifyTime(TimeUtils.getCurrentTimeInString());
+        model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
  		mDao.insertSingle(model);
  		return maxId;
  	}
+
+
+    /**
+     * 返回ztree菜单,数组结构（ztree中不能包含url，所以需要过滤掉，同时转换与ztree组件中字段对应）
+     * @param model
+     * @param hasURL
+     * @return
+     * @throws CoBusinessException
+     */
+    public List<CoZtreeVO> getModuleZtree(SysModuleModel model, boolean hasURL) throws CoBusinessException {
+        log.info("getModuleZTree 数组方式......" + hasURL);
+        List<SysModuleModel> lists = coreCacheService.getModuleAll(model);
+        List<CoZtreeVO> allNode = transModuleZtree(lists, hasURL);
+        return allNode;
+    }
+
+
+    /**
+     * 返回带层级结构菜单
+     */
+    public List<TreeVO<SysModuleModel>> getModuleTree(SysModuleModel model) throws CoBusinessException {
+        log.info("getModuleTrees 树状结构......");
+        List<SysModuleModel> lists = coreCacheService.getModuleAll(model);
+        List<TreeVO<SysModuleModel>> allNode = toModuleTreeVO(lists);
+        return allNode;
+    }
+
 
 
 }

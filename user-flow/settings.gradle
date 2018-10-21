@@ -1,1 +1,3 @@
 rootProject.name = 'user-flow'
+include 'user-info'
+include 'user-rights'

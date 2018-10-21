@@ -26,6 +26,7 @@
 		<where>
 			1=1
 			<if test="id!=null ">and id=#{id} </if>
+			<if test="orgzId!=null ">and orgz_id=#{orgzId} </if>
 		</where>
 	</sql>
 	<sql id="SqlSet">
@@ -71,7 +72,7 @@
 
 	<delete  id="delete" parameterType="com.ejet.bss.userrights.model.SysOrgzModel" >
 		 DELETE FROM sys_orgz
-		 <include refid="SqlWhere"></include> 
+        <include refid="SqlWherePK"></include>
 	</delete>
 
 	<update  id="update" parameterType="com.ejet.bss.userrights.model.SysOrgzModel" >
@@ -82,7 +83,7 @@
 
 	<select  id="findByPK" parameterType="com.ejet.bss.userrights.model.SysOrgzModel" resultType="com.ejet.bss.userrights.model.SysOrgzModel" >
 		 SELECT * FROM sys_orgz
-		 <include refid="SqlWhere"></include> 
+		 <include refid="SqlWherePK"></include>
 		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
 	</select>
 

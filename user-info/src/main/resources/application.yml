@@ -95,8 +95,8 @@ comm-web:
 # 用户登录模块
 ### ===========================   user-info   ===============================
 bss-user-info:
-  authTokenKey: AuthToken
+  authTokenKey: Authorization
   # token 超时时间
   authTokenTimeout: 30
   # token 忽略地址
-  authTokenIgnoreURL: /sys_account/login,/sys_account/logout
+  authTokenIgnoreURL: /sys-account/login,/sys-account/logout

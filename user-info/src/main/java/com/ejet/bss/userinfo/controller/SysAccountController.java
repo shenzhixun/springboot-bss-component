@@ -1,17 +1,11 @@
 package com.ejet.bss.userinfo.controller;
 
-import com.ejet.bss.userinfo.comm.LoginServiceImpl;
-import com.ejet.bss.userinfo.global.GlobalUserInfo;
-import com.ejet.bss.userinfo.model.SysUserModel;
+import com.ejet.bss.userinfo.service.comm.LoginServiceImpl;
 import com.ejet.bss.userinfo.vo.SysAccountVO;
-import com.ejet.bss.userinfo.vo.SysUserVO;
 import com.ejet.comm.exception.CoBusinessException;
-import com.ejet.filter.CoSessionManager;
-import com.ejet.global.CoGlobal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.alibaba.fastjson.TypeReference;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.ejet.comm.Result;
@@ -25,7 +19,6 @@ import com.ejet.bss.userinfo.model.SysAccountModel;
 import com.ejet.bss.userinfo.service.impl.SysAccountServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping(value="/sys-account")
@@ -97,12 +90,13 @@ public class SysAccountController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/query-by-page")
-	public Result queryByPage(@RequestBody(required=true)Param param, BindingResult bindResult) {
+	public Result queryByPage(@RequestBody(required=true)Param<SysAccountModel> param, BindingResult bindResult) {
 		Result rs = new Result();
 		try{
-			checkBindResult(bindResult);
-			SysAccountModel model = toBean(param, new TypeReference<SysAccountModel>(){});
-			PageBean<SysAccountModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
+            checkBindResult(bindResult);
+            checkParam(param);
+            SysAccountModel model = param.getData();
+            PageBean<SysAccountModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
 			rs = new Result(pageBean.getPage(), pageBean.getResult());
 		}catch (CoBusinessException e) {
 			log.error("", e);

@@ -21,6 +21,7 @@
 		<where>
 			1=1
 			<if test="id!=null ">and id=#{id} </if>
+			<if test="roleId!=null ">and role_id=#{roleId} </if>
 		</where>
 	</sql>
 	<sql id="SqlSet">
@@ -57,7 +58,7 @@
 
 	<delete  id="delete" parameterType="com.ejet.bss.userrights.model.SysRoleModel" >
 		 DELETE FROM sys_role
-		 <include refid="SqlWhere"></include> 
+		 <include refid="SqlWherePK"></include>
 	</delete>
 
 	<update  id="update" parameterType="com.ejet.bss.userrights.model.SysRoleModel" >
@@ -68,7 +69,7 @@
 
 	<select  id="findByPK" parameterType="com.ejet.bss.userrights.model.SysRoleModel" resultType="com.ejet.bss.userrights.model.SysRoleModel" >
 		 SELECT * FROM sys_role
-		 <include refid="SqlWhere"></include> 
+		 <include refid="SqlWherePK"></include>
 		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
 	</select>
 
@@ -95,5 +96,20 @@
 		 SELECT max(id) FROM sys_role
 		 <include refid="SqlWhere"></include> 
 	</select>
+
+
+    <select  id="listRoles" parameterType="com.ejet.bss.userrights.model.SysRoleModel" resultType="com.ejet.bss.userrights.vo.SysRoleVO" >
+        SELECT R.*, T.role_type_name
+        FROM sys_role R, sys_role_type T
+        WHERE T.role_type_id=R.role_type_id
+        <if test="roleId!=null ">and R.role_id=#{roleId} </if>
+        <if test="roleTypeId!=null ">and R.role_type_id=#{roleTypeId} </if>
+        <if test="roleTypeCode!=null and roleTypeCode!='' ">and R.role_type_code=#{roleTypeCode} </if>
+        <if test="roleName!=null and roleName!='' ">and R.role_name=#{roleName} </if>
+        <if test="fullname!=null and fullname!='' ">and R.fullname=#{fullname} </if>
+        <if test="status!=null ">and status=#{status} </if>
+        <if test=" orderCond !=null ">  order by ${orderCond} </if>
+    </select>
+
 
 </mapper>

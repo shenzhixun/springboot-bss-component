@@ -83,3 +83,6 @@ CREATE TABLE `sys_user_eav` (
  DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
 
 
+
+-- 初始化账号 -----------------------------------------------
+INSERT INTO `sys_account` VALUES ('1', '1', 'root', '超级管理员', '21232f297a57a5a743894a0e4a801fc3', '1', '1', null, null, null, '1', '1', null, null, null, null, null, null, null);

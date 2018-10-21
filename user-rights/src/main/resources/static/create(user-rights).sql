@@ -73,14 +73,14 @@ DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
 DROP TABLE IF EXISTS `sys_account_role_r`;
 CREATE TABLE `sys_account_role_r` (
   `id`          			int(11) 			  NOT NULL 					AUTO_INCREMENT ,
-	`user_id`  			    bigint(18)			NOT NULL  				COMMENT '用户id' ,
-	`role_id`  				  int(11)				  NOT NULL  				COMMENT '角色ID' ,
+	`account_uuid`  	  varchar(64)     NOT NULL          COMMENT '帐号uuid',
 	`role_type_id`  		int(11)				  NOT NULL  				COMMENT '角色类型ID',
+	`role_id`  				  int(11)				  NOT NULL  				COMMENT '角色ID' ,
 	`status`  				  tinyint(1) 			NOT NULL  DEFAULT '1' COMMENT '状态, 1: 正常，0：不正常',
 	`remark`  				  varchar(100) 		NULL DEFAULT NULL  		COMMENT '备注' ,
 	`ext`  					    varchar(100)		NULL DEFAULT NULL     COMMENT '预留字段',
 	PRIMARY KEY (`id`),
-	UNIQUE INDEX `user_id_role_id` (`user_id`, `role_id`, `role_type_id`) USING BTREE
+	UNIQUE INDEX `account_uuid_role_id` (`account_uuid`, `role_id`, `role_type_id`) USING BTREE
 )comment='用户角色关联表'
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
@@ -220,3 +220,34 @@ CREATE TABLE `sys_account_syslevel_r` (
 )comment='用户数据权限关联表'
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
+
+
+
+
+
+/** 角色类型 */
+INSERT INTO `sys_role_type` (`id`, `role_type_id`, `role_type_code`, `role_type_name`, `fullname`, `status`, `remark`, `ext`)
+VALUES ('1', '1', 'admin', '管理员', '管理员', '1', '管理员类型', NULL);
+INSERT INTO `sys_role_type` (`id`, `role_type_id`, `role_type_code`, `role_type_name`, `fullname`, `status`, `remark`, `ext`)
+VALUES ('2', '2', 'dept_manager', '主管类型', '主管类型', '1', '主管类型', NULL);
+INSERT INTO `sys_role_type` (`id`, `role_type_id`, `role_type_code`, `role_type_name`, `fullname`, `status`, `remark`, `ext`)
+VALUES ('3', '3', 'default', '员工类型', '员工类型', '1', '普通员工类型', NULL);
+
+/** 角色 */
+INSERT INTO `sys_role` (`id`, `role_id`, `role_type_id`, `role_type_code`, `role_name`, `fullname`, `status`, `remark`, `ext`)
+VALUES ('1', '1', '1', 'admin', '超级管理员', '超级管理员', '1', '超级管理员角色', NULL);
+INSERT INTO `sys_role` (`id`, `role_id`, `role_type_id`, `role_type_code`, `role_name`, `fullname`, `status`, `remark`, `ext`)
+VALUES ('2', '2', '2', 'dept_manager', '主管', '主管', '1', '主管角色', NULL);
+INSERT INTO `sys_role` (`id`, `role_id`, `role_type_id`, `role_type_code`, `role_name`, `fullname`, `status`, `remark`, `ext`)
+VALUES ('3', '3', '3', 'default', '员工', '员工', '1', '员工角色', NULL);
+
+/** 超级管理员与角色对应表 */
+INSERT INTO `sys_account_role_r` VALUES ('1', '1', '1', '1', '1', null, null);
+
+/** 添加基础菜单 */
+INSERT INTO `sys_module` VALUES ('100', '100', '0', '1', '系统管理', 'xtgl', '1', '1', null, null, null, null, null, '1', null, null, null, null, '', null);
+INSERT INTO `sys_module` VALUES ('10010', '10010', '0', '2', '角色类型管理', 'jsxlgl', '0', '1', null, null, null, null, null, '1', null, null, null, null, null, null);
+INSERT INTO `sys_module` VALUES ('10020', '10020', '0', '2', '角色管理', 'jsgl', '0', '2', null, null, null, null, null, '1', null, null, null, null, null, null);
+
+
+/** 添加管理员对应菜单 */
