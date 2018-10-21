@@ -1,5 +1,6 @@
 package com.ejet.bss.userrights.mapper;
 
+import com.ejet.bss.userrights.model.SysSyslevelModel;
 import org.apache.ibatis.annotations.Mapper;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,7 +26,8 @@ public interface SysAccountSyslevelRDao {
 
 	public abstract List<SysAccountSyslevelRModel>  queryTree(SysAccountSyslevelRModel obj) throws CoBusinessException; 
 
-	public abstract Integer  findMaxId(SysAccountSyslevelRModel obj) throws CoBusinessException; 
+	public abstract Integer  findMaxId(SysAccountSyslevelRModel obj) throws CoBusinessException;
 
 
+    public abstract List<SysSyslevelModel> listAccountSyslevels(SysAccountSyslevelRModel model)throws CoBusinessException;
 }

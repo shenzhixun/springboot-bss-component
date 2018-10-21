@@ -7,7 +7,7 @@
 		<where>
 			1=1
 			<if test="id!=null ">and id=#{id} </if>
-			<if test="userId!=null and userId!='' ">and user_id=#{userId} </if>
+			<if test="accountUuid!=null and accountUuid!='' ">and account_uuid=#{accountUuid} </if>
 			<if test="moduleId!=null ">and module_id=#{moduleId} </if>
 			<if test="moduleType!=null and moduleType!='' ">and module_type=#{moduleType} </if>
 			<if test="actRights!=null and actRights!='' ">and act_rights=#{actRights} </if>
@@ -25,7 +25,7 @@
 	<sql id="SqlSet">
 		<set>
 			<if test="id!=null "> id=#{id}, </if>
-			<if test="userId!=null and userId!='' "> user_id=#{userId}, </if>
+			<if test="accountUuid!=null and accountUuid!='' "> account_uuid=#{accountUuid}, </if>
 			<if test="moduleId!=null "> module_id=#{moduleId}, </if>
 			<if test="moduleType!=null and moduleType!='' "> module_type=#{moduleType}, </if>
 			<if test="actRights!=null and actRights!='' "> act_rights=#{actRights}, </if>
@@ -38,60 +38,68 @@
 
 	<insert  id="insertAutoKey" parameterType="com.ejet.bss.userrights.model.SysAccountModuleRModel" useGeneratedKeys="true" keyProperty="id" >
 		 INSERT INTO sys_account_module_r (
- 			user_id, module_id, module_type, act_rights, 
- 			status, remark, ext ) 	 VALUES ( 
- 			#{userId}, #{moduleId}, #{moduleType}, #{actRights}, 
- 			#{status}, #{remark}, #{ext} ) 
+ 			account_uuid, module_id, module_type, act_rights,
+ 			status, remark, ext ) 	 VALUES (
+ 			#{accountUuid}, #{moduleId}, #{moduleType}, #{actRights},
+ 			#{status}, #{remark}, #{ext} )
 	</insert>
 
 	<insert  id="insertSingle" parameterType="com.ejet.bss.userrights.model.SysAccountModuleRModel" useGeneratedKeys="true" keyProperty="id" >
 		 INSERT INTO sys_account_module_r (
- 			user_id, module_id, module_type, act_rights, 
- 			status, remark, ext,  id ) 
-		 VALUES( 
- 			#{userId}, #{moduleId}, #{moduleType}, #{actRights}, 
- 			#{status}, #{remark}, #{ext},  #{id} ) 
+ 			account_uuid, module_id, module_type, act_rights,
+ 			status, remark, ext,  id )
+		 VALUES(
+ 			#{accountUuid}, #{moduleId}, #{moduleType}, #{actRights},
+ 			#{status}, #{remark}, #{ext},  #{id} )
 	</insert>
 
 	<delete  id="delete" parameterType="com.ejet.bss.userrights.model.SysAccountModuleRModel" >
 		 DELETE FROM sys_account_module_r
-		 <include refid="SqlWhere"></include> 
+		 <include refid="SqlWhere"></include>
 	</delete>
 
 	<update  id="update" parameterType="com.ejet.bss.userrights.model.SysAccountModuleRModel" >
 		 UPDATE sys_account_module_r
-		 <include refid="SqlSet"></include> 
-		 <include refid="SqlWherePK"></include> 
+		 <include refid="SqlSet"></include>
+		 <include refid="SqlWherePK"></include>
 	</update>
 
 	<select  id="findByPK" parameterType="com.ejet.bss.userrights.model.SysAccountModuleRModel" resultType="com.ejet.bss.userrights.model.SysAccountModuleRModel" >
 		 SELECT * FROM sys_account_module_r
-		 <include refid="SqlWhere"></include> 
-		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+		 <include refid="SqlWhere"></include>
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if>
 	</select>
 
 	<select  id="queryByCond" parameterType="com.ejet.bss.userrights.model.SysAccountModuleRModel" resultType="com.ejet.bss.userrights.model.SysAccountModuleRModel" >
 		 SELECT * FROM sys_account_module_r
-		 <include refid="SqlWhere"></include> 
-		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+		 <include refid="SqlWhere"></include>
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if>
 	</select>
 
 	<select  id="queryTree" parameterType="com.ejet.bss.userrights.model.SysAccountModuleRModel" resultType="com.ejet.bss.userrights.model.SysAccountModuleRModel" >
 		 SELECT * FROM sys_account_module_r
-		 <include refid="SqlWhere"></include> 
-		 <if test=" extSQL !=null "> ${extSQL} </if> 
-		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+		 <include refid="SqlWhere"></include>
+		 <if test=" extSQL !=null "> ${extSQL} </if>
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if>
 	</select>
 
 	<select  id="queryByPage" parameterType="com.ejet.bss.userrights.model.SysAccountModuleRModel" resultType="com.ejet.bss.userrights.model.SysAccountModuleRModel" >
 		 SELECT * FROM sys_account_module_r
-		 <include refid="SqlWhere"></include> 
-		 <if test="extSQL!=null "> ${extSQL} </if> 
+		 <include refid="SqlWhere"></include>
+		 <if test="extSQL!=null "> ${extSQL} </if>
 	</select>
 
 	<select  id="findMaxId" parameterType="com.ejet.bss.userrights.model.SysAccountModuleRModel" resultType="int" >
 		 SELECT max(id) FROM sys_account_module_r
-		 <include refid="SqlWhere"></include> 
+		 <include refid="SqlWhere"></include>
+	</select>
+
+    <select  id="listAccountModules" resultType="com.ejet.bss.userrights.model.SysModuleModel" parameterType="com.ejet.bss.userrights.model.SysAccountModuleRModel" >
+		SELECT M.*
+		FROM sys_module M, sys_account_module_r T
+		WHERE M.module_id=T.module_id
+		 AND T.account_uuid = #{accountUuid}
+		ORDER BY M.module_level, M.sort_order
 	</select>
 
 </mapper>

@@ -32,6 +32,7 @@
 		<where>
 			1=1
 			<if test="id!=null ">and id=#{id} </if>
+            <if test="moduleId!=null ">and module_id=#{moduleId} </if>
 		</where>
 	</sql>
 	<sql id="SqlSet">
@@ -91,18 +92,18 @@
 
 	<delete  id="delete" parameterType="com.ejet.bss.userrights.model.SysModuleModel" >
 		 DELETE FROM sys_module
-		 <include refid="SqlWhere"></include> 
+		 <include refid="SqlWherePK"></include>
 	</delete>
 
 	<update  id="update" parameterType="com.ejet.bss.userrights.model.SysModuleModel" >
 		 UPDATE sys_module
 		 <include refid="SqlSet"></include> 
-		 <include refid="SqlWherePK"></include> 
+		 <include refid="SqlWherePK"></include>
 	</update>
 
 	<select  id="findByPK" parameterType="com.ejet.bss.userrights.model.SysModuleModel" resultType="com.ejet.bss.userrights.model.SysModuleModel" >
 		 SELECT * FROM sys_module
-		 <include refid="SqlWhere"></include> 
+		 <include refid="SqlWherePK"></include>
 		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
 	</select>
 
@@ -129,5 +130,13 @@
 		 SELECT max(id) FROM sys_module
 		 <include refid="SqlWhere"></include> 
 	</select>
+
+    <select  id="checkPK" parameterType="com.ejet.bss.userrights.model.SysModuleModel" resultType="com.ejet.bss.userrights.model.SysModuleModel" >
+        SELECT * FROM sys_module
+        <include refid="SqlWherePK"></include>
+        <if test=" orderCond !=null ">  order by ${orderCond} </if>
+    </select>
+
+
 
 </mapper>

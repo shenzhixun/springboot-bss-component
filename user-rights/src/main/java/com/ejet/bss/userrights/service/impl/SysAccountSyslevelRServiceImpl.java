@@ -1,6 +1,7 @@
 package com.ejet.bss.userrights.service.impl;
 
-import java.sql.SQLException;
+import com.ejet.bss.userrights.model.SysSyslevelModel;
+import com.ejet.global.CoConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -17,14 +18,14 @@ import com.ejet.bss.userrights.service.ISysAccountSyslevelRService;
 @Service("sysAccountSyslevelRService")
 public class SysAccountSyslevelRServiceImpl implements ISysAccountSyslevelRService { 
 
-
 	private final Logger log = LoggerFactory.getLogger(SysAccountSyslevelRServiceImpl.class);
 
 	@Autowired
 	private SysAccountSyslevelRDao mDao;
 
 	@Override
-	public void insertAutoKey(SysAccountSyslevelRModel model) throws CoBusinessException { 
+	public void insertAutoKey(SysAccountSyslevelRModel model) throws CoBusinessException {
+        model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
  		mDao.insertAutoKey(model);
  	}  
 
@@ -37,11 +38,14 @@ public class SysAccountSyslevelRServiceImpl implements ISysAccountSyslevelRServi
  	}  
 
 	@Override
-	public void delete(SysAccountSyslevelRModel model) throws CoBusinessException { 
+	public void delete(SysAccountSyslevelRModel model) throws CoBusinessException {
  		mDao.delete(model);
  	}  
 
-	public SysAccountSyslevelRModel  findByPK(SysAccountSyslevelRModel model) throws CoBusinessException { 
+	public SysAccountSyslevelRModel  findByPK(SysAccountSyslevelRModel model) throws CoBusinessException {
+        if(model.getId()==null) {
+            throw new CoBusinessException(ExceptionCode.PARAM_MISSING_ID);
+        }
  		return mDao.findByPK(model);
  	}
 
@@ -62,9 +66,17 @@ public class SysAccountSyslevelRServiceImpl implements ISysAccountSyslevelRServi
  		Integer maxId = mDao.findMaxId(null);
  		maxId = maxId==null? 1 : maxId+1;
  		model.setId(maxId);
+
+        model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
  		mDao.insertSingle(model);
  		return maxId;
  	}
 
+    /**
+     * 查询用户 数据权限
+     */
+    public List<SysSyslevelModel> listAccountSyslevels(SysAccountSyslevelRModel model) throws CoBusinessException {
+        return mDao.listAccountSyslevels(model);
+    }
 
 }

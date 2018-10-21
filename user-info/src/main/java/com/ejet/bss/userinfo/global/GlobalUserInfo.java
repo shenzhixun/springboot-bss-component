@@ -29,7 +29,7 @@ public class GlobalUserInfo {
     /**
      * toekn过期时间
      */
-    private Integer authTokenTimeout;
+    private Integer authTokenTimeout = 1800;
 
     private List<String> authTokenIgnoreURL;
 

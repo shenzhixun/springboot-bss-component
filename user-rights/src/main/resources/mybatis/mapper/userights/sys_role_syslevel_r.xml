@@ -94,4 +94,52 @@
 		 <include refid="SqlWhere"></include> 
 	</select>
 
+
+    <!-- 查询角色组对应数据权限 -->
+    <select  id="listRolesSyslevels" resultType="com.ejet.bss.userrights.model.SysSyslevelModel" parameterType="com.ejet.bss.userrights.vo.SysSyslevelVO">
+        SELECT DISTINCT M.*
+        FROM sys_syslevel M, sys_role_syslevel_r T
+        WHERE M.syslevel_id = T.syslevel_id AND M.syslevel_type = T.syslevel_type AND M.levels = T.levels
+        <if test="null != userRoles and userRoles.size > 0">
+            AND T.role_id IN
+            <foreach collection="userRoles" item="obj" index="index"
+                     open="(" close=")" separator=",">
+                #{obj.roleId}
+            </foreach>
+        </if>
+
+        <if test="null != syslevels and syslevels.size > 0">
+            AND T.syslevel_type IN
+            <foreach collection="syslevels" item="obj" index="index"
+                     open="(" close=")" separator=",">
+                #{obj.syslevelType}
+            </foreach>
+        </if>
+        ORDER BY M.levels, M.syslevel_type
+        <!--    <if test="extSQL!=null "> ${extSQL} </if>
+           <if test=" orderCond !=null ">  order by ${orderCond} </if>  -->
+
+    </select>
+
+    <select  id="listRoleSyslevelsSpecial" resultType="com.ejet.bss.userrights.model.SysSyslevelModel" parameterType="com.ejet.bss.userrights.vo.SysAccountSpecialVO">
+        SELECT
+        S.*
+        FROM sys_syslevel S,
+        sys_account U,
+        sys_account_role_r R,
+        sys_role_type K,
+        sys_role M
+        WHERE U.amputate=1 and
+        M.role_type_id = K.role_type_id
+        AND M.role_type_code = K.role_type_code
+        AND M.role_id = R.role_id
+        AND U.dept_id = S.syslevel_id
+        AND R.account_uuid = U.uuid
+        AND U.uuid = #{accountUuid}
+        <if test="roleTypeCode!=null and roleTypeCode!='' "> AND M.role_type_code=#{roleTypeCode} </if>
+        <if test="syslevelType!=null "> AND S.syslevel_type=#{syslevelType} </if>
+        <if test="extSQL!=null "> ${extSQL} </if>
+    </select>
+
+
 </mapper>

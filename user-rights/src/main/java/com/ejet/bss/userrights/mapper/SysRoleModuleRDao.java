@@ -1,5 +1,7 @@
 package com.ejet.bss.userrights.mapper;
 
+import com.ejet.bss.userrights.model.SysModuleModel;
+import com.ejet.bss.userrights.model.SysRoleModel;
 import org.apache.ibatis.annotations.Mapper;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,7 +27,8 @@ public interface SysRoleModuleRDao {
 
 	public abstract List<SysRoleModuleRModel>  queryTree(SysRoleModuleRModel obj) throws CoBusinessException; 
 
-	public abstract Integer  findMaxId(SysRoleModuleRModel obj) throws CoBusinessException; 
+	public abstract Integer  findMaxId(SysRoleModuleRModel obj) throws CoBusinessException;
 
 
+    public abstract List<SysModuleModel> listRolesModules(List<SysRoleModel> list) throws CoBusinessException;
 }

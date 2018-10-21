@@ -1,5 +1,8 @@
 package com.ejet.bss.userrights.controller;
 
+import com.ejet.bss.userrights.model.SysModuleModel;
+import com.ejet.bss.userrights.model.SysRoleModel;
+import com.ejet.bss.userrights.vo.SysRoleModuleRVO;
 import com.ejet.comm.exception.CoBusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,6 +103,47 @@ public class SysRoleModuleRController extends CoBaseController {
 		}
 		return rs;
 	}
+
+    /**
+     * 查询角色对应模块功能权限(多个角色)
+     */
+    @ResponseBody
+    @RequestMapping(value="/get_role_modules")
+    public Result getRoleModules(@RequestBody(required=true)Param<List<SysRoleModel>> param, BindingResult bindResult) {
+        Result rs = new Result();
+        try{
+            checkBindResult(bindResult);
+            List<SysRoleModel> model = param.getData();
+            List<SysModuleModel> page = mService.listRolesModules(model);
+            rs = new Result(page);
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }catch (Exception e) {
+            log.error("", e);
+            rs = new Result(SYS_ERROR, e);
+        }
+        return rs;
+    }
+
+
+    /**
+     * 设置 角色对应功能模块权限
+     */
+    @ResponseBody
+    @RequestMapping(value="/set_role_modules")
+    public Result setRoleModules(@RequestBody(required=true)Param<List<SysRoleModuleRVO>> param, BindingResult bindResult) {
+        Result rs = new Result();
+        try{
+            checkBindResult(bindResult);
+            mService.saveRoleModules(param.getData());
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }
+        return rs;
+    }
+
 
 
 }

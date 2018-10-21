@@ -143,7 +143,7 @@ DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
 DROP TABLE IF EXISTS `sys_account_module_r`;
 CREATE TABLE `sys_account_module_r` (
   `id`          		int(11) 			  NOT NULL 					AUTO_INCREMENT ,
-	`user_id`  				bigint(18)			NOT NULL  					COMMENT '用户ID',
+	`account_uuid`    varchar(64)     NOT NULL          COMMENT '帐号uuid',
 	`module_id`  			int(11)				  NOT NULL  					COMMENT '模块ID',
 	`module_type`  		tinyint(1)			NOT NULL  					COMMENT '模块类型',
 	`act_rights`  		varchar(10)			NOT NULL  					COMMENT '模块对应权限：共五位：增，删，改，查，审批  1表示有，0表示无',
@@ -151,7 +151,7 @@ CREATE TABLE `sys_account_module_r` (
 	`remark`  				varchar(100) 		NULL DEFAULT NULL  			COMMENT '备注' ,
 	`ext`  					varchar(100)		  NULL DEFAULT NULL     	COMMENT '预留字段',
 	PRIMARY KEY (`id`),
-	UNIQUE INDEX `user_id_role_id` (`user_id`, `module_id`, `module_type`) USING BTREE
+	UNIQUE INDEX `account_uuid_role_id` (`account_uuid`, `module_id`, `module_type`) USING BTREE
 )comment='用户功能权限关联表'
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
@@ -202,12 +202,12 @@ ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
 
 -- ----------------------------
--- 用户数据权限关联表 `sys_account_syslevel_r`
+-- 账号数据权限关联表 `sys_account_syslevel_r`
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_account_syslevel_r`;
 CREATE TABLE `sys_account_syslevel_r` (
     `id`          		int(11) 			NOT NULL 					AUTO_INCREMENT ,
-	`user_id`  				  bigint(18)				NOT NULL  					COMMENT '用户ID',
+	`account_uuid`    varchar(64)     NOT NULL          COMMENT '帐号uuid',
 	`syslevel_id`  			int(11)				NOT NULL  					COMMENT '体系ID',
 	`syslevel_type`  		int(2)				NOT NULL  					COMMENT '体系类型',
 	`levels`  				  int(11) 			NOT NULL  DEFAULT '1'   	COMMENT '体系层级',
@@ -216,8 +216,8 @@ CREATE TABLE `sys_account_syslevel_r` (
 	`remark`  				  varchar(100) 		NULL DEFAULT NULL  			COMMENT '备注' ,
 	`ext`  					    varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
 	PRIMARY KEY (`id`),
-	UNIQUE INDEX `user_id_level_id_type` (`user_id`, `syslevel_id`, `syslevel_type`, `levels`) USING BTREE
-)comment='用户数据权限关联表'
+	UNIQUE INDEX `account_uuid_level_id_type` (`account_uuid`, `syslevel_id`, `syslevel_type`, `levels`) USING BTREE
+)comment='账号数据权限关联表'
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
 

@@ -2,6 +2,9 @@ package com.ejet.bss.userrights.vo;
 
 import com.ejet.bss.userrights.model.SysAccountRoleRModel;
 public class SysAccountRoleRVO extends SysAccountRoleRModel {
+
+    /**  角色类型code  */
+    private String roleTypeCode;
     /**  角色类型名称  */
     private java.lang.String roleTypeName;
     /**  角色名称  */
@@ -23,6 +26,11 @@ public class SysAccountRoleRVO extends SysAccountRoleRModel {
         this.roleName = roleName;
     }
 
+    public String getRoleTypeCode() {
+        return roleTypeCode;
+    }
 
-
+    public void setRoleTypeCode(String roleTypeCode) {
+        this.roleTypeCode = roleTypeCode;
+    }
 }

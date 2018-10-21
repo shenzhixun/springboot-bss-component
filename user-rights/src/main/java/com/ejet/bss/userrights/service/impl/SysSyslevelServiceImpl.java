@@ -1,6 +1,10 @@
 package com.ejet.bss.userrights.service.impl;
 
 import java.sql.SQLException;
+
+import com.ejet.bss.userrights.service.comm.SysCoreCacheServiceImpl;
+import com.ejet.comm.utils.time.TimeUtils;
+import com.ejet.global.CoConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -17,14 +21,17 @@ import com.ejet.bss.userrights.service.ISysSyslevelService;
 @Service("sysSyslevelService")
 public class SysSyslevelServiceImpl implements ISysSyslevelService { 
 
-
 	private final Logger log = LoggerFactory.getLogger(SysSyslevelServiceImpl.class);
+    @Autowired
+    private SysCoreCacheServiceImpl coreCacheService;
 
 	@Autowired
 	private SysSyslevelDao mDao;
 
 	@Override
-	public void insertAutoKey(SysSyslevelModel model) throws CoBusinessException { 
+	public void insertAutoKey(SysSyslevelModel model) throws CoBusinessException {
+        model.setModifyTime(TimeUtils.getCurrentTimeInString());
+        model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
  		mDao.insertAutoKey(model);
  	}  
 
@@ -62,9 +69,21 @@ public class SysSyslevelServiceImpl implements ISysSyslevelService {
  		Integer maxId = mDao.findMaxId(null);
  		maxId = maxId==null? 1 : maxId+1;
  		model.setId(maxId);
+
+        model.setModifyTime(TimeUtils.getCurrentTimeInString());
+        model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
  		mDao.insertSingle(model);
  		return maxId;
  	}
+
+    /**
+     * 获取所有数据权限体系
+     */
+    public List<SysSyslevelModel> getSyslevelAll(SysSyslevelModel model) throws CoBusinessException {
+        log.info("getSyslevelAll......");
+        List<SysSyslevelModel> list = coreCacheService.getSyslevelAll(model);
+        return list;
+    }
 
 
 }

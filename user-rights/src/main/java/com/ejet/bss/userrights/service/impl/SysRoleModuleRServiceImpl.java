@@ -1,6 +1,12 @@
 package com.ejet.bss.userrights.service.impl;
 
 import java.sql.SQLException;
+
+import com.ejet.bss.userrights.model.SysModuleModel;
+import com.ejet.bss.userrights.model.SysRoleModel;
+import com.ejet.bss.userrights.vo.SysRoleModuleRVO;
+import com.ejet.comm.utils.time.TimeUtils;
+import com.ejet.global.CoConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -14,6 +20,10 @@ import com.ejet.comm.exception.CoBusinessException;
 import com.ejet.bss.userrights.model.SysRoleModuleRModel;
 import com.ejet.bss.userrights.mapper.SysRoleModuleRDao;
 import com.ejet.bss.userrights.service.ISysRoleModuleRService;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service("sysRoleModuleRService")
 public class SysRoleModuleRServiceImpl implements ISysRoleModuleRService { 
 
@@ -62,9 +72,40 @@ public class SysRoleModuleRServiceImpl implements ISysRoleModuleRService {
  		Integer maxId = mDao.findMaxId(null);
  		maxId = maxId==null? 1 : maxId+1;
  		model.setId(maxId);
+
+        model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
  		mDao.insertSingle(model);
  		return maxId;
  	}
 
+
+    /**
+     * 查询角色组(多个角色) 对应模块权限
+     */
+    public List<SysModuleModel> listRolesModules(List<SysRoleModel> list) throws CoBusinessException {
+        //剔除掉重复记录
+        return mDao.listRolesModules(list);
+    }
+
+    /**
+     * 设置角色对应模块权限(单角色，多模块权限)
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT,
+            timeout=36000, rollbackFor={Exception.class,CoBusinessException.class})
+    public Integer saveRoleModules(List<SysRoleModuleRVO> list) throws CoBusinessException {
+        Integer num = 0;
+        SysRoleModuleRModel del = new SysRoleModuleRModel();
+        if(list==null || list.size()==0) {
+            throw new CoBusinessException(ExceptionCode.RIGHTS_ROLE_NO_SELECTED);
+        }
+        //先删除角色所有权限，然后再插入权限
+        del.setRoleId(list.get(0).getRoleId());
+        mDao.delete(del);
+        // @ TODO 后续可以改进为批量插入，
+        for(SysRoleModuleRModel model : list) {
+            insertSingle(model);
+        }
+        return num;
+    }
 
 }

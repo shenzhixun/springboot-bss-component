@@ -4,7 +4,6 @@ import com.ejet.bss.userinfo.comm.TokenHelper;
 import com.ejet.bss.userinfo.global.GlobalUserInfo;
 import com.ejet.bss.userinfo.service.impl.SysAccountServiceImpl;
 import com.ejet.bss.userinfo.vo.SysAccountVO;
-import com.ejet.bss.userinfo.vo.SysUserVO;
 import com.ejet.comm.exception.CoBusinessException;
 import com.ejet.comm.exception.ExceptionCode;
 import com.ejet.comm.utils.StringUtils;

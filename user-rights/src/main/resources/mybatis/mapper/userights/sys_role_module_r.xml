@@ -64,7 +64,7 @@
 
 	<select  id="findByPK" parameterType="com.ejet.bss.userrights.model.SysRoleModuleRModel" resultType="com.ejet.bss.userrights.model.SysRoleModuleRModel" >
 		 SELECT * FROM sys_role_module_r
-		 <include refid="SqlWhere"></include> 
+		 <include refid="SqlWherePK"></include>
 		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
 	</select>
 
@@ -91,5 +91,21 @@
 		 SELECT max(id) FROM sys_role_module_r
 		 <include refid="SqlWhere"></include> 
 	</select>
+
+
+
+    <select  id="listRolesModules" resultType="com.ejet.bss.userrights.model.SysModuleModel" >
+        SELECT DISTINCT M.*
+        FROM sys_module M, sys_role_module_r R
+        WHERE M.module_id = R.module_id
+        AND R.role_id IN
+        <foreach collection="list" item="obj" index="index"
+                 open="(" close=")" separator=",">
+            #{obj.roleId}
+        </foreach>
+        ORDER BY M.module_level, M.sort_order
+        <!--    <if test="extSQL!=null "> ${extSQL} </if>
+           <if test=" orderCond !=null ">  order by ${orderCond} </if>  -->
+    </select>
 
 </mapper>

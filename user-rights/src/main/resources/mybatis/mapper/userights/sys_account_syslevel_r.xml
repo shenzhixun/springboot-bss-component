@@ -7,7 +7,7 @@
 		<where>
 			1=1
 			<if test="id!=null ">and id=#{id} </if>
-			<if test="userId!=null and userId!='' ">and user_id=#{userId} </if>
+			<if test="accountUuid!=null and accountUuid!='' ">and account_uuid=#{accountUuid} </if>
 			<if test="syslevelId!=null ">and syslevel_id=#{syslevelId} </if>
 			<if test="syslevelType!=null ">and syslevel_type=#{syslevelType} </if>
 			<if test="levels!=null ">and levels=#{levels} </if>
@@ -26,7 +26,7 @@
 	<sql id="SqlSet">
 		<set>
 			<if test="id!=null "> id=#{id}, </if>
-			<if test="userId!=null and userId!='' "> user_id=#{userId}, </if>
+			<if test="accountUuid!=null and accountUuid!='' "> account_uuid=#{accountUuid}, </if>
 			<if test="syslevelId!=null "> syslevel_id=#{syslevelId}, </if>
 			<if test="syslevelType!=null "> syslevel_type=#{syslevelType}, </if>
 			<if test="levels!=null "> levels=#{levels}, </if>
@@ -40,18 +40,18 @@
 
 	<insert  id="insertAutoKey" parameterType="com.ejet.bss.userrights.model.SysAccountSyslevelRModel" useGeneratedKeys="true" keyProperty="id" >
 		 INSERT INTO sys_account_syslevel_r (
- 			user_id, syslevel_id, syslevel_type, levels, 
+ 			account_uuid, syslevel_id, syslevel_type, levels, 
  			act_rights, status, remark, ext ) 	 VALUES ( 
- 			#{userId}, #{syslevelId}, #{syslevelType}, #{levels}, 
+ 			#{accountUuid}, #{syslevelId}, #{syslevelType}, #{levels}, 
  			#{actRights}, #{status}, #{remark}, #{ext} ) 
 	</insert>
 
 	<insert  id="insertSingle" parameterType="com.ejet.bss.userrights.model.SysAccountSyslevelRModel" useGeneratedKeys="true" keyProperty="id" >
 		 INSERT INTO sys_account_syslevel_r (
- 			user_id, syslevel_id, syslevel_type, levels, 
+ 			account_uuid, syslevel_id, syslevel_type, levels, 
  			act_rights, status, remark, ext,  id ) 
 		 VALUES( 
- 			#{userId}, #{syslevelId}, #{syslevelType}, #{levels}, 
+ 			#{accountUuid}, #{syslevelId}, #{syslevelType}, #{levels}, 
  			#{actRights}, #{status}, #{remark}, #{ext},  #{id} ) 
 	</insert>
 

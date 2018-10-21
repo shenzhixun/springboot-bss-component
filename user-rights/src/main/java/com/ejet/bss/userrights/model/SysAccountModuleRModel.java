@@ -5,8 +5,8 @@ public class SysAccountModuleRModel extends CoBaseVO {
 
 	/**    */ 
  	private Integer id;
-	/**  用户ID  */ 
- 	private Long userId;
+	/**  帐号uuid  */ 
+ 	private String accountUuid;
 	/**  模块ID  */ 
  	private Integer moduleId;
 	/**  模块类型  */ 
@@ -28,12 +28,12 @@ public class SysAccountModuleRModel extends CoBaseVO {
 		return id;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId=userId;
+	public void setAccountUuid(String accountUuid) {
+		this.accountUuid=accountUuid;
 	} 
 
-	public Long getUserId(){
-		return userId;
+	public String getAccountUuid(){
+		return accountUuid;
 	}
 
 	public void setModuleId(Integer moduleId) {

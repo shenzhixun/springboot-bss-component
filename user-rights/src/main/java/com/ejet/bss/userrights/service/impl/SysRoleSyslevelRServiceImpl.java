@@ -1,6 +1,11 @@
 package com.ejet.bss.userrights.service.impl;
 
-import java.sql.SQLException;
+import com.ejet.bss.userrights.model.SysAccountRoleRModel;
+import com.ejet.bss.userrights.model.SysRoleModel;
+import com.ejet.bss.userrights.model.SysSyslevelModel;
+import com.ejet.bss.userrights.vo.SysAccountSpecialVO;
+import com.ejet.bss.userrights.vo.SysSyslevelVO;
+import com.ejet.comm.utils.collect.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -65,6 +70,42 @@ public class SysRoleSyslevelRServiceImpl implements ISysRoleSyslevelRService {
  		mDao.insertSingle(model);
  		return maxId;
  	}
+
+
+    private List<SysSyslevelModel> listRolesSyslevels(SysSyslevelVO query) throws CoBusinessException {
+        return mDao.listRolesSyslevels(query);
+    }
+
+
+    /**
+     * 查询角色组所有体系数据权限
+     */
+    public List<SysSyslevelModel> listRolesSyslevelsAll(List<SysRoleModel> list) throws CoBusinessException {
+        SysSyslevelVO query = new SysSyslevelVO();
+        query.setSyslevels(null); //不作为查询条件，获取所有体系
+        if(ListUtils.isEmpty(list)){
+            return null;
+        }else{
+            for(SysRoleModel item : list) {
+                SysAccountRoleRModel role = new SysAccountRoleRModel();
+                role.setRoleId(item.getRoleId());
+                query.getUserRoles().add(role); //设置角色ID
+            }
+            return listRolesSyslevels(query);
+        }
+    }
+
+    /**
+     * 查询特殊角色类型对应数据
+     *
+     * @param vo
+     * @return
+     * @throws CoBusinessException
+     */
+    public List<SysSyslevelModel> listRoleSyslevelsSpecial(SysAccountSpecialVO vo) throws CoBusinessException {
+        return mDao.listRoleSyslevelsSpecial(vo);
+    }
+
 
 
 }

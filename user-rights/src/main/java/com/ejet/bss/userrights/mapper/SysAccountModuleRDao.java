@@ -1,5 +1,6 @@
 package com.ejet.bss.userrights.mapper;
 
+import com.ejet.bss.userrights.model.SysModuleModel;
 import org.apache.ibatis.annotations.Mapper;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,7 +26,8 @@ public interface SysAccountModuleRDao {
 
 	public abstract List<SysAccountModuleRModel>  queryTree(SysAccountModuleRModel obj) throws CoBusinessException; 
 
-	public abstract Integer  findMaxId(SysAccountModuleRModel obj) throws CoBusinessException; 
+	public abstract Integer  findMaxId(SysAccountModuleRModel obj) throws CoBusinessException;
 
 
+    public abstract List<SysModuleModel> listAccountModules(SysAccountModuleRModel model) throws CoBusinessException;
 }

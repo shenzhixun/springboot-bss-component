@@ -97,6 +97,6 @@ comm-web:
 bss-user-info:
   authTokenKey: Authorization
   # token 超时时间
-  authTokenTimeout: 30
+  authTokenTimeout: 1800
   # token 忽略地址
   authTokenIgnoreURL: /sys-account/login,/sys-account/logout

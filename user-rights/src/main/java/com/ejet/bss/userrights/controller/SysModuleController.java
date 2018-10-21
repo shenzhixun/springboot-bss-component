@@ -62,14 +62,13 @@ public class SysModuleController extends CoBaseController {
 	public Result add(@RequestBody(required=true)SysModuleModel model) {
 		Result rs = new Result();
 		try{
-			mService.insertSingle(model);
+			mService.save(model);
 		}catch (CoBusinessException e) {
 			log.error("", e);
 			rs = new Result(e.getCode(), e);
 		}
 		return rs;
 	}
-
 
 	@ResponseBody
 	@RequestMapping(value="/update")

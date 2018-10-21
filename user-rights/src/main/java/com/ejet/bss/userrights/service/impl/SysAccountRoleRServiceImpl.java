@@ -35,7 +35,8 @@ public class SysAccountRoleRServiceImpl implements ISysAccountRoleRService {
     private SysRoleDao roleDao;
 
 	@Override
-	public void insertAutoKey(SysAccountRoleRModel model) throws CoBusinessException { 
+	public void insertAutoKey(SysAccountRoleRModel model) throws CoBusinessException {
+        model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
  		mDao.insertAutoKey(model);
  	}  
 
@@ -79,10 +80,11 @@ public class SysAccountRoleRServiceImpl implements ISysAccountRoleRService {
  		Integer maxId = mDao.findMaxId(null);
  		maxId = maxId==null? 1 : maxId+1;
  		model.setId(maxId);
+
+        model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
  		mDao.insertSingle(model);
  		return maxId;
  	}
-
 
 
     /**
@@ -112,8 +114,7 @@ public class SysAccountRoleRServiceImpl implements ISysAccountRoleRService {
                 mDao.delete(del);
                 delmap.put(model.getAccountUuid(), "hasDelete");
             }
-            model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
-            mDao.insertSingle(model);
+            mDao.insertAutoKey(model);
         }
         return num;
     }
