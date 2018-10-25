@@ -85,4 +85,4 @@ CREATE TABLE `sys_user_eav` (
 
 
 -- 初始化账号 -----------------------------------------------
-INSERT INTO `sys_account` VALUES ('1', '1', 'root', '超级管理员', '21232f297a57a5a743894a0e4a801fc3', '1', '1', null, null, null, '1', '1', null, null, null, null, null, null, null);
+INSERT INTO `sys_account` VALUES ('1', '18b669cbf6d74c2a87e8b8e9045906fc987652', 'root', '超级管理员', '21232f297a57a5a743894a0e4a801fc3', '1', '1', null, null, null, '1', '1', null, null, null, null, null, null, null);

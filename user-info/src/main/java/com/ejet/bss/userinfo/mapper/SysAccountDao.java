@@ -18,7 +18,9 @@ public interface SysAccountDao {
 
 	public void delete(SysAccountModel obj) throws CoBusinessException; 
 
-	public abstract SysAccountModel  findByPK(SysAccountModel obj) throws CoBusinessException; 
+	public abstract SysAccountModel  findByPK(SysAccountModel obj) throws CoBusinessException;
+
+	public abstract SysAccountModel findAllByPK(SysAccountModel obj) throws CoBusinessException;
 
 	public abstract List<SysAccountModel>  queryByCond(SysAccountModel obj) throws CoBusinessException; 
 
@@ -30,4 +32,8 @@ public interface SysAccountDao {
 
 
     public abstract SysAccountVO login(SysAccountModel model) throws CoBusinessException;
+
+    public abstract void resetPasswordBatch(List<String> list) throws CoBusinessException;
+
+
 }

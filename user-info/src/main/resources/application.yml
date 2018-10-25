@@ -1,7 +1,7 @@
 server:
   port: 8099
   servlet:
-    context-path: /bss
+    context-path: /etl
     session:
       cookie:
         max-age: 60000s
@@ -67,7 +67,7 @@ spring:
     cluster:
       # （普通集群，不使用则不用开启）在群集中执行命令时要遵循的最大重定向数目。
       #max-redirects:
-      #nodes: 192.168.0.127:7000,192.168.0.127:7001,192.168.0.127:7002
+      #nodes: 192.168.0.244:7000,192.168.0.244:7001,192.168.0.244:7002
       nodes: 127.0.0.1:7000,127.0.0.1:7001,127.0.0.1:7002
 
     password:
@@ -97,6 +97,8 @@ comm-web:
 bss-user-info:
   authTokenKey: Authorization
   # token 超时时间
-  authTokenTimeout: 30
+  authTokenTimeout: 1800
+  # 单账号多用户可登录
+  authTokenSingle: false
   # token 忽略地址
   authTokenIgnoreURL: /sys-account/login,/sys-account/logout

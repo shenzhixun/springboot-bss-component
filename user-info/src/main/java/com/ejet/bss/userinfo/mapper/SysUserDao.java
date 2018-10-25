@@ -23,7 +23,7 @@ public interface SysUserDao {
 
 	public abstract List<SysUserModel>  queryByPage(SysUserModel obj) throws CoBusinessException; 
 
-	public abstract List<SysUserModel>  queryTree(SysUserModel obj) throws CoBusinessException; 
+	public abstract List<SysUserModel>  queryTree(SysUserModel obj) throws CoBusinessException;
 
 	public abstract Integer  findMaxId(SysUserModel obj) throws CoBusinessException; 
 

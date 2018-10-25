@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.ejet.bss.userinfo.model.SysAccountModel;
+import com.ejet.bss.userinfo.model.SysUserModel;
 import com.ejet.bss.userinfo.service.impl.SysUserServiceImpl;
 import com.ejet.bss.userrights.comm.ModuleBase;
 import com.ejet.bss.userrights.comm.ConstantUserRights;
@@ -13,6 +14,9 @@ import com.ejet.bss.userrights.service.impl.*;
 import com.ejet.bss.userrights.vo.SysAccountSpecialVO;
 import com.ejet.comm.exception.ExceptionCode;
 import com.ejet.comm.utils.collect.ListUtils;
+import com.ejet.comm.utils.tree.CoTreeUtil;
+import com.ejet.comm.utils.tree.TreeVO;
+import com.ejet.global.CoConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,90 +70,72 @@ public class SysAccountRightsServiceImpl  extends ModuleBase {
 		}
 		return rsList;
 	}
-	
-	// /**
-	//  *  获取用户菜单
-	//  *
-	//  * @param model
-	//  * @return
-	//  * @throws Exception
-	//  */
-	// public List<CoZtreeVO> getUserModuleRightsZtree(SysUserModel model) throws CoBusinessException {
-	// 	List<SysModuleModel> list = getUserModuleRights(model);
-	// 	if(list!=null && list.size()>0) {
-	// 		return transModuleZtree(list, true);
-	// 	}
-	// 	return null;
-	// }
-	
-	// /**
-	//  *  获取用户菜单
-	//  *
-	//  * @param model
-	//  * @return
-	//  * @throws Exception
-	//  */
-	// public List<SysModuleModel> getUserModuleRights(SysUserModel model) throws CoBusinessException {
-	// 	//首先查询表sys_usermodule中是否存在个人单独设置的模块功能权限，如果有则直接返回，
-	// 	SysUserModuleModel query = new SysUserModuleModel();
-	// 	query.setUserId(model.getUserId());
-	// 	List<SysModuleModel> usermoduleList = userModuleService.listUserModules(query);
-	// 	if(!ListUtils.isEmpty(usermoduleList)) {
-	// 		return usermoduleList;
-	// 	}
-	// 	//如果表sys_usermodule中不存在，否则直接取用户对应角色权限。
-	// 	List<SysRoleModel> list = getUserRoles(model);  //获取角色组
-	// 	if(!ListUtils.isEmpty(list)) {
-	// 		List<SysModuleModel> roleModules = roleModuleRService.listRolesModules(list);
-	// 		return roleModules;
-	// 	} else { //给默认员工角色类型对应角色
-	// 		SysRoleModel roleType = new SysRoleModel();
-	// 		roleType.setRoleTypeCode(CoConstant.ROLE_TYPE_CODE_EMPLOYEE);
-	// 		List<SysRoleModel> roles = roleService.queryByCond(roleType);
-	// 		List<SysModuleModel> roleModules = roleModuleRService.listRolesModules(roles);
-	// 		return roleModules;
-	// 	}
-	// 	//return null;
-	// }
-	// /**
-	//  * 获取用户功能菜单信息（树结构）
-	//  * @param model
-	//  * @return
-	//  * @throws CoBusinessException
-	//  */
-	// public List<TreeVO<SysModuleModel>> getUserTree(SysUserModel model) throws CoBusinessException {
-	// 	// 首先查询表sys_usermodule中是否存在个人单独设置的模块功能权限，如果有则直接返回，
-	// 	SysUserModuleModel query = new SysUserModuleModel();
-	// 	query.setUserId(model.getUserId());
-	// 	List<SysModuleModel> usermoduleList = userModuleService.listUserModules(query);
-	// 	if (!ListUtils.isEmpty(usermoduleList)) {
-	// 		SysModuleModel moduleModel = new SysModuleModel();
-	// 		moduleModel.setModuleId(0);
-	// 		return toUserModuleRights(usermoduleList, moduleModel);
-	// 	}
-	// 	// 如果表sys_usermodule中不存在，否则直接取用户对应角色权限。
-	// 	List<SysRoleModel> list = getUserRoles(model); // 获取角色组
-	// 	if (!ListUtils.isEmpty(list)) {
-	// 		List<SysModuleModel> roleModules = roleModuleRService.listRolesModules(list);
-	// 		SysModuleModel moduleModel = new SysModuleModel();
-	// 		moduleModel.setModuleId(0);
-	// 		return toUserModuleRights(roleModules, moduleModel);
-	// 	}  else { //给默认员工角色类型对应角色
-	// 		SysRoleModel roleType = new SysRoleModel();
-	// 		roleType.setRoleTypeCode(CoConstant.ROLE_TYPE_CODE_EMPLOYEE);
-	// 		List<SysRoleModel> roles = roleService.queryByCond(roleType);
-	// 		List<SysModuleModel> roleModules = roleModuleRService.listRolesModules(roles);
-	// 		SysModuleModel moduleModel = new SysModuleModel();
-	// 		moduleModel.setModuleId(0);
-	// 		return toUserModuleRights(roleModules, moduleModel);
-	// 	}
-	// }
-	//
-	// public List<TreeVO<SysModuleModel>> toUserModuleRights(List<SysModuleModel> page , SysModuleModel model) throws CoBusinessException{
-    //     TreeVO<SysModuleModel> moduleTree = CoTreeUtil.getTree(page, model, "moduleId", "modulePid");
-    //     return moduleTree.getChild();
-    // }
-	//
+	/**
+	 *  获取账号功能权限（数组格式）
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	public List<SysModuleModel> getAccountModuleRights(SysAccountModel model) throws CoBusinessException {
+		//首先查询表sys_usermodule中是否存在个人单独设置的模块功能权限，如果有则直接返回，
+		SysAccountModuleRModel query = new SysAccountModuleRModel();
+		query.setAccountUuid(model.getUuid());
+		List<SysModuleModel> usermoduleList = accountModuleRService.listAccountModules(query);
+		if(!ListUtils.isEmpty(usermoduleList)) {
+			return usermoduleList;
+		}
+		//如果表sys_usermodule中不存在，否则直接取用户对应角色权限。
+		List<SysRoleModel> list = getAccountRoles(model);  //获取角色组
+		if(!ListUtils.isEmpty(list)) {
+			List<SysModuleModel> roleModules = roleModuleRService.listRolesModules(list);
+			return roleModules;
+		} else { //给默认员工角色类型对应角色
+			SysRoleModel roleType = new SysRoleModel();
+			roleType.setRoleTypeCode(ConstantUserRights.ROLE_TYPE_CODE_EMPLOYEE);
+			List<SysRoleModel> roles = roleService.queryByCond(roleType);
+			List<SysModuleModel> roleModules = roleModuleRService.listRolesModules(roles);
+			return roleModules;
+		}
+	}
+	/**
+	 * 获取用户功能菜单信息（树结构）
+	 * @param model
+	 * @return
+	 * @throws CoBusinessException
+	 */
+	public List<TreeVO<SysModuleModel>> getAccountModulesTree(SysAccountModel model) throws CoBusinessException {
+		// 首先查询表sys_account_module_r中是否存在个人单独设置的模块功能权限，如果有则直接返回，
+        SysAccountModuleRModel query = new SysAccountModuleRModel();
+		query.setAccountUuid(model.getUuid());
+		List<SysModuleModel> usermoduleList = accountModuleRService.listAccountModules(query);
+		if (!ListUtils.isEmpty(usermoduleList)) {
+			SysModuleModel moduleModel = new SysModuleModel();
+			moduleModel.setModuleId(ConstantUserRights.MODULE_ROOT_ID);
+			return toUserModuleRights(usermoduleList, moduleModel);
+		}
+		// 如果表sys_usermodule中不存在，否则直接取用户对应角色权限。
+		List<SysRoleModel> list = getAccountRoles(model); // 获取角色组
+		if (!ListUtils.isEmpty(list)) {
+			List<SysModuleModel> roleModules = roleModuleRService.listRolesModules(list);
+			SysModuleModel moduleModel = new SysModuleModel();
+			moduleModel.setModuleId(ConstantUserRights.MODULE_ROOT_ID);
+			return toUserModuleRights(roleModules, moduleModel);
+		}  else { //给默认员工角色类型对应角色
+			SysRoleModel roleType = new SysRoleModel();
+			roleType.setRoleTypeCode(ConstantUserRights.ROLE_TYPE_CODE_EMPLOYEE);
+			List<SysRoleModel> roles = roleService.queryByCond(roleType);
+			List<SysModuleModel> roleModules = roleModuleRService.listRolesModules(roles);
+			SysModuleModel moduleModel = new SysModuleModel();
+			moduleModel.setModuleId(ConstantUserRights.MODULE_ROOT_ID);
+			return toUserModuleRights(roleModules, moduleModel);
+		}
+	}
+
+	public List<TreeVO<SysModuleModel>> toUserModuleRights(List<SysModuleModel> page , SysModuleModel model) throws CoBusinessException{
+        TreeVO<SysModuleModel> moduleTree = CoTreeUtil.getTree(page, model, "moduleId", "modulePid");
+        return moduleTree.getChild();
+    }
+
 	/**
 	 * 获取用户数据权限
 	 * 
@@ -226,19 +212,19 @@ public class SysAccountRightsServiceImpl  extends ModuleBase {
 	
 	/**
 	 * 获取用户所有数据权限(包含父级别，递归查找到最上一级)
-	 * @param userId
+	 * @param accountUuid
 	 * @return
 	 * @throws CoBusinessException
 	 */
-    public java.util.Set<Integer> getAccountSyslevelRightsAll(Long userId) throws CoBusinessException {
+    public java.util.Set<Integer> getAccountSyslevelRightsAll(String accountUuid) throws CoBusinessException {
         SysAccountSyslevelRModel model = new SysAccountSyslevelRModel();
-        model.setUserId(userId);
+        model.setAccountUuid(accountUuid);
         model.setSyslevelType(ConstantUserRights.SYSLEVEL_TYPE_DEPT);
         List<SysSyslevelModel> userSyslevelRights = getAccountSyslevelsRights(model);
         
         SysSyslevelModel sysModel = new SysSyslevelModel();
         sysModel.setSyslevelType(ConstantUserRights.SYSLEVEL_TYPE_DEPT);
-        List<SysSyslevelModel> allSys = syslevelService.getSyslevel(sysModel);
+        List<SysSyslevelModel> allSys = syslevelService.getSyslevelAll(sysModel);
         
         java.util.Set<Integer> deptIds = new HashSet<>();
         java.util.Set<SysSyslevelModel> deptSets = new HashSet<>();
@@ -322,4 +308,6 @@ public class SysAccountRightsServiceImpl  extends ModuleBase {
 		}
 		return num;
 	}
+
+
 }

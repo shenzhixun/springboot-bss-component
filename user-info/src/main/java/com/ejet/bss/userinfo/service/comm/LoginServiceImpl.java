@@ -83,7 +83,7 @@ public class LoginServiceImpl {
         if ( user==null ) {
             throw new CoBusinessException(ExceptionCode.PARAM_MISSING); // "用户名为空!"
         }
-        String authToken = TokenHelper.getToken(request, globalUserInfo.getAuthTokenKey());
+        String authToken = TokenHelper.getToken(request);
         if(!global.isSessionIgnore()) { //session认证
             HttpSession session = request.getSession();
             session.removeAttribute(CoSessionManager.USER_SESSION_KEY);

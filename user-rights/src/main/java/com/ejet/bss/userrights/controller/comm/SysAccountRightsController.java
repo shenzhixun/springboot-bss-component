@@ -4,12 +4,14 @@ package com.ejet.bss.userrights.controller.comm;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ejet.bss.userinfo.model.SysAccountModel;
 import com.ejet.bss.userinfo.model.SysUserModel;
 import com.ejet.bss.userrights.model.SysAccountModuleRModel;
 import com.ejet.bss.userrights.model.SysAccountSyslevelRModel;
 import com.ejet.bss.userrights.model.SysModuleModel;
 import com.ejet.bss.userrights.model.SysSyslevelModel;
 import com.ejet.bss.userrights.service.comm.SysAccountRightsServiceImpl;
+import com.ejet.comm.exception.ExceptionCode;
 import com.ejet.comm.utils.tree.CoZtreeVO;
 import com.ejet.comm.utils.tree.TreeVO;
 import static com.ejet.comm.exception.ExceptionCode.SYS_ERROR;
@@ -32,8 +34,6 @@ import com.ejet.comm.exception.CoBusinessException;
  * 设置用户菜单： /sys_account_rights/set_user_modules
  * 获取用户菜单： /sys_account_rights/get_user_modules
  * 
- * 获取用户菜单（ztree格式）： /sys_account_rights/get_user_modules_ztree
-
  * 设置用户数据权限： /sys_account_rights/set_user_syslevels
  * 获取用户数据权限： /sys_account_rights/get_user_syslevels
  * 
@@ -41,7 +41,7 @@ import com.ejet.comm.exception.CoBusinessException;
  *
  */
 @Controller
-@RequestMapping(value = "/sys_account_rights")
+@RequestMapping(value = "/sys-account-rights")
 public class SysAccountRightsController extends CoBaseController {
 
     private final Logger log = LoggerFactory.getLogger(SysAccountRightsController.class);
@@ -53,7 +53,7 @@ public class SysAccountRightsController extends CoBaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/set_account_modules")
+    @RequestMapping(value = "/set-account-modules")
     public Result setAccountModuleRigths(@RequestBody(required = true) Param<List<SysAccountModuleRModel>> param, BindingResult bindResult) {
         Result rs = new Result();
         try {
@@ -72,7 +72,7 @@ public class SysAccountRightsController extends CoBaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/set_account_syslevels")
+    @RequestMapping(value = "/set-account-syslevels")
     public Result setUserSyslevelRigths(@RequestBody(required = true) Param<List<SysAccountSyslevelRModel>> param, BindingResult bindResult) {
         Result rs = new Result();
         try {
@@ -90,7 +90,7 @@ public class SysAccountRightsController extends CoBaseController {
      * 获取用户数据权限
      */
     @ResponseBody
-    @RequestMapping(value = "/get_account_syslevels")
+    @RequestMapping(value = "/get-account-syslevels")
     public Result getAccountSyslevels(@RequestBody(required = true) SysAccountSyslevelRModel model) {
         Result rs = new Result();
         log.info("get_account_syslevels......");
@@ -106,47 +106,20 @@ public class SysAccountRightsController extends CoBaseController {
         }
         return rs;
     }
-    
-    
-    /**
-     * 获取用户功能菜单信息（ztree格式）
-     */
-    @ResponseBody
-    @RequestMapping(value = "/get_user_modules_ztree")
-    public Result getUserModulesZtree(@RequestBody SysUserModel model) {
-        Result rs = new Result();
-        log.info("get_user_modules......");
-        try {
-        	if (model == null || model.getUserId() == null) {
-                throw new CoBusinessException(CoReturnFormat.PARAM_MISSING);// "用户名为空!"
-            }
-            List<CoZtreeVO> extList = mService.getUserModuleRightsZtree(model);
-            extList = extList==null ? new ArrayList<CoZtreeVO>() : extList ;
-            rs = new Result(extList);
-        } catch (CoBusinessException e) {
-            rs = new Result(e);
-            return rs;
-        } catch (Exception e) {
-            log.error("", e);
-            rs = new Result(SYS_ERROR, e);
-            return rs;
-        }
-        return rs;
-    }
-    
+
     /**
      * 获取用户功能菜单信息(数组)
      */
     @ResponseBody
-    @RequestMapping(value = "/get_user_modules")
-    public Result getUserModules(@RequestBody SysUserModel model) {
+    @RequestMapping(value = "/get-account-modules")
+    public Result getAccountModules(@RequestBody SysAccountModel model) {
         Result rs = new Result();
-        log.info("get_user_modules......");
+        log.info("get_user_modules 数组格式......");
         try {
-        	if (model == null || model.getUserId() == null) {
-                throw new CoBusinessException(CoReturnFormat.PARAM_MISSING);// "用户名为空!"
+        	if (model == null || model.getUuid() == null) {
+                throw new CoBusinessException(ExceptionCode.PARAM_MISSING);// "用户名为空!"
             }
-        	List<SysModuleModel> extList = mService.getUserModuleRights(model);
+        	List<SysModuleModel> extList = mService.getAccountModuleRights(model);
         	extList = extList==null ? new ArrayList<SysModuleModel>() : extList ;
             rs = new Result(extList);
         } catch (CoBusinessException e) {
@@ -162,16 +135,16 @@ public class SysAccountRightsController extends CoBaseController {
      * 获取用户功能菜单信息（树结构）
      */
     @ResponseBody
-    @RequestMapping(value = "/get_user_tree")
-    public Result getUserTree(@RequestBody SysUserModel model){
+    @RequestMapping(value = "/get-account-modules-tree")
+    public Result getAccountModulesTree(@RequestBody SysAccountModel model){
     	 Result rs = new Result();
-         log.info("get_user_tree......");
+         log.info(".... get-account-modules-tree......");
          try {
-         	if (model == null || model.getUserId() == null) {
-                 throw new CoBusinessException(CoReturnFormat.PARAM_MISSING);// "用户名为空!"
+             if (model == null || model.getUuid() == null) {
+                 throw new CoBusinessException(ExceptionCode.PARAM_MISSING);// "用户名为空!"
              }
-         	List<TreeVO<SysModuleModel>> userTree = mService.getUserTree(model);
-         	userTree = userTree==null ? new ArrayList<TreeVO<SysModuleModel>>() : userTree ;
+         	 List<TreeVO<SysModuleModel>> userTree = mService.getAccountModulesTree(model);
+         	 userTree = userTree==null ? new ArrayList<TreeVO<SysModuleModel>>() : userTree ;
              rs = new Result(userTree);
          } catch (CoBusinessException e) {
              rs = new Result(e);

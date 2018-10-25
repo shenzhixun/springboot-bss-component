@@ -22,4 +22,14 @@ public class ConstantUserRights {
     /** 角色类型编码为普通员工 */
     public static final String ROLE_TYPE_CODE_EMPLOYEE = "employee";
 
+
+
+    /** 模块菜单根节点id */
+    public static final int MODULE_ROOT_ID = 0;
+
+
+
+
+
+
 }

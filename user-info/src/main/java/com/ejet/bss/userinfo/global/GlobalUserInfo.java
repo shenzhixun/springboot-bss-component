@@ -30,8 +30,10 @@ public class GlobalUserInfo {
      * toekn过期时间
      */
     private Integer authTokenTimeout = 1800;
-
+    /**  单账号多用户可登录 */
     private List<String> authTokenIgnoreURL;
+
+    private boolean authTokenSingle;
 
     public String getAuthTokenKey() {
         return authTokenKey;
@@ -63,5 +65,13 @@ public class GlobalUserInfo {
 
     public void setTokenAuth(boolean tokenAuth) {
         this.tokenAuth = tokenAuth;
+    }
+
+    public boolean isAuthTokenSingle() {
+        return authTokenSingle;
+    }
+
+    public void setAuthTokenSingle(boolean authTokenSingle) {
+        this.authTokenSingle = authTokenSingle;
     }
 }

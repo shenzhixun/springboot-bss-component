@@ -59,7 +59,7 @@ public class TokenAuthInterceptor extends InterceptorBase {
 			if (globalUserInfo == null) {
                 globalUserInfo = CoApplicationContext.getBean(GlobalUserInfo.class);
 			}
-            String authToken = TokenHelper.getToken(request, globalUserInfo.getAuthTokenKey());
+            String authToken = TokenHelper.getToken(request);
 			if(null == authToken || "".equals(authToken)){
 				HttpServletResponseUtils.responseJson(response, new CoBusinessException(ExceptionCode.SYS_TOKEN_TIMEOUT));
 				return false;

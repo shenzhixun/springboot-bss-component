@@ -7,7 +7,7 @@ import com.ejet.bss.userinfo.model.SysAccountModel;
 public interface ISysAccountService { 
 
 
-	public void insertAutoKey(SysAccountModel model) throws CoBusinessException; 
+	public int insertAutoKey(SysAccountModel model) throws CoBusinessException;
 
 	public void update(SysAccountModel model) throws CoBusinessException;
 

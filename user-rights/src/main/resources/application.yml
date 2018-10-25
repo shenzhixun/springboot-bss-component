@@ -90,7 +90,7 @@ comm-web:
   tokenAuth: true
   sessionIgnore: true
   # 忽略的拦截url地址信息(session过滤器),用‘,’分割
-  ignoreURL: /login,/logout,.*/comm-web/version
+  sessionIgnoreURL: /login,/logout,.*/comm-web/version
 
 # 用户登录模块
 ### ===========================   user-info   ===============================

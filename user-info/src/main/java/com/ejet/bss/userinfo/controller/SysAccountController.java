@@ -1,6 +1,7 @@
 package com.ejet.bss.userinfo.controller;
 
 import com.ejet.bss.userinfo.service.comm.LoginServiceImpl;
+import com.ejet.bss.userinfo.vo.SysAccountUpdateVO;
 import com.ejet.bss.userinfo.vo.SysAccountVO;
 import com.ejet.comm.exception.CoBusinessException;
 import org.slf4j.Logger;
@@ -45,6 +46,19 @@ public class SysAccountController extends CoBaseController {
 		return rs;
 	}
 
+	@ResponseBody
+	@RequestMapping(value="/find-by-pk")
+	public Result findByPK(@RequestBody(required=true)SysAccountModel model) {
+		Result rs = new Result();
+		try {
+            SysAccountModel page = mService.findByPK(model);
+			rs = new Result(page);
+		}catch (CoBusinessException e) {
+			log.error("", e);
+			rs = new Result(e.getCode(), e);
+		}
+		return rs;
+	}
 
 	@ResponseBody
 	@RequestMapping(value="/delete")
@@ -131,6 +145,44 @@ public class SysAccountController extends CoBaseController {
         Result rs = new Result();
         try {
             loginService.logout(request, model);
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }
+        return rs;
+    }
+
+
+    /**
+     * 修改密码
+     * @param model
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/update-password")
+    public Result updatePassword(@RequestBody(required=true) SysAccountUpdateVO model) {
+        Result rs = new Result();
+        try{
+            mService.updatePassword(model);
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }
+        return rs;
+    }
+
+
+    /**
+     * 重置密码
+     * @param model
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/reset-password")
+    public Result resetPassword(@RequestBody(required=true)Param<List<String>> model) {
+        Result rs = new Result();
+        try {
+            mService.resetPassword(model.getData());
         }catch (CoBusinessException e) {
             log.error("", e);
             rs = new Result(e.getCode(), e);
