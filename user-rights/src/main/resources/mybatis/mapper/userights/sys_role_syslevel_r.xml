@@ -100,9 +100,9 @@
         SELECT DISTINCT M.*
         FROM sys_syslevel M, sys_role_syslevel_r T
         WHERE M.syslevel_id = T.syslevel_id AND M.syslevel_type = T.syslevel_type AND M.levels = T.levels
-        <if test="null != userRoles and userRoles.size > 0">
+        <if test="null != accountRoles and accountRoles.size > 0">
             AND T.role_id IN
-            <foreach collection="userRoles" item="obj" index="index"
+            <foreach collection="accountRoles" item="obj" index="index"
                      open="(" close=")" separator=",">
                 #{obj.roleId}
             </foreach>

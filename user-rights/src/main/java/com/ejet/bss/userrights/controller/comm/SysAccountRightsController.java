@@ -5,14 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ejet.bss.userinfo.model.SysAccountModel;
-import com.ejet.bss.userinfo.model.SysUserModel;
 import com.ejet.bss.userrights.model.SysAccountModuleRModel;
 import com.ejet.bss.userrights.model.SysAccountSyslevelRModel;
 import com.ejet.bss.userrights.model.SysModuleModel;
 import com.ejet.bss.userrights.model.SysSyslevelModel;
 import com.ejet.bss.userrights.service.comm.SysAccountRightsServiceImpl;
 import com.ejet.comm.exception.ExceptionCode;
-import com.ejet.comm.utils.tree.CoZtreeVO;
 import com.ejet.comm.utils.tree.TreeVO;
 import static com.ejet.comm.exception.ExceptionCode.SYS_ERROR;
 import org.slf4j.Logger;
@@ -31,11 +29,12 @@ import com.ejet.comm.exception.CoBusinessException;
 /**
  * 用户权限接口
  *
- * 设置用户菜单： /sys_account_rights/set_user_modules
- * 获取用户菜单： /sys_account_rights/get_user_modules
- * 
- * 设置用户数据权限： /sys_account_rights/set_user_syslevels
- * 获取用户数据权限： /sys_account_rights/get_user_syslevels
+ * 设置用户菜单：  {@link #setAccountModuleRigths(Param, BindingResult)}
+ * 获取用户菜单（数组）： {@link #getAccountModules(SysAccountModel)}
+ * 获取用户菜单（树）： {@link #getAccountModulesTree(SysAccountModel)}
+ *
+ * 设置用户数据权限： {@link #setAccountSyslevelRigths(Param, BindingResult) }
+ * 获取用户功能权限： {@link #setAccountModuleRigths(Param, BindingResult)}
  * 
  * @author ShenYijie
  *
@@ -73,7 +72,7 @@ public class SysAccountRightsController extends CoBaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/set-account-syslevels")
-    public Result setUserSyslevelRigths(@RequestBody(required = true) Param<List<SysAccountSyslevelRModel>> param, BindingResult bindResult) {
+    public Result setAccountSyslevelRigths(@RequestBody(required = true) Param<List<SysAccountSyslevelRModel>> param, BindingResult bindResult) {
         Result rs = new Result();
         try {
             checkBindResult(bindResult);

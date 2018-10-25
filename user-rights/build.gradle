@@ -52,6 +52,7 @@ dependencies {
 
     //====== 依赖模块  ===========
     compile project(':user-info')
+
     compile fileTree(dir: '../libs', include: ['comm-utils_main.jar'])
     compile fileTree(dir: '../libs', include: ['comm-result_main.jar'])
     compile fileTree(dir: '../libs', include: ['comm-web_main.jar'])

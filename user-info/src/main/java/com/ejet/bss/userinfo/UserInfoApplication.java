@@ -2,10 +2,9 @@ package com.ejet.bss.userinfo;
 
 import com.ejet.CommWebApplication;
 import com.ejet.bss.userinfo.comm.LoadResourceUtils;
-import com.ejet.bss.userinfo.comm.TokenHelper;
 import com.ejet.bss.userinfo.global.GlobalUserInfo;
 import com.ejet.bss.userinfo.interceptor.TokenAuthInterceptor;
-import com.ejet.comm.CommWebRedisApplication;
+import com.ejet.comm.redis.CommWebRedisApplication;
 import com.ejet.context.CoApplicationContext;
 import com.ejet.global.CoGlobal;
 import org.slf4j.Logger;

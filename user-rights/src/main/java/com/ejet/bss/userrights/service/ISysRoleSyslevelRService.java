@@ -7,7 +7,7 @@ import com.ejet.bss.userrights.model.SysRoleSyslevelRModel;
 public interface ISysRoleSyslevelRService { 
 
 
-	public void insertAutoKey(SysRoleSyslevelRModel model) throws CoBusinessException; 
+	public int insertAutoKey(SysRoleSyslevelRModel model) throws CoBusinessException;
 
 	public void update(SysRoleSyslevelRModel model) throws CoBusinessException;
 

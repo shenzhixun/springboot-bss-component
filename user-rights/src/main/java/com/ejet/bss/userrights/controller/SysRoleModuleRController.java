@@ -19,6 +19,18 @@ import java.util.List;
 import static com.ejet.comm.exception.ExceptionCode.SYS_ERROR;
 import com.ejet.bss.userrights.model.SysRoleModuleRModel;
 import com.ejet.bss.userrights.service.impl.SysRoleModuleRServiceImpl;
+
+
+/**
+ *
+ *  角色模块接口
+ *
+ * 查询角色对应模块功能权限(多个角色)：  {@link #getRoleModules(Param, BindingResult)}
+ *
+ *
+ * @author ShenYijie
+ *
+ */
 @RestController
 @RequestMapping(value="/sys-role-module-r")
 public class SysRoleModuleRController extends CoBaseController { 
@@ -108,7 +120,7 @@ public class SysRoleModuleRController extends CoBaseController {
      * 查询角色对应模块功能权限(多个角色)
      */
     @ResponseBody
-    @RequestMapping(value="/get_role_modules")
+    @RequestMapping(value="/get-role-modules")
     public Result getRoleModules(@RequestBody(required=true)Param<List<SysRoleModel>> param, BindingResult bindResult) {
         Result rs = new Result();
         try{
@@ -131,7 +143,7 @@ public class SysRoleModuleRController extends CoBaseController {
      * 设置 角色对应功能模块权限
      */
     @ResponseBody
-    @RequestMapping(value="/set_role_modules")
+    @RequestMapping(value="/set-role-modules")
     public Result setRoleModules(@RequestBody(required=true)Param<List<SysRoleModuleRVO>> param, BindingResult bindResult) {
         Result rs = new Result();
         try{

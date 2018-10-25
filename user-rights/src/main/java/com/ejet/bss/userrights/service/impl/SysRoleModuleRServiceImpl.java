@@ -34,7 +34,8 @@ public class SysRoleModuleRServiceImpl implements ISysRoleModuleRService {
 	private SysRoleModuleRDao mDao;
 
 	@Override
-	public void insertAutoKey(SysRoleModuleRModel model) throws CoBusinessException { 
+	public void insertAutoKey(SysRoleModuleRModel model) throws CoBusinessException {
+        model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
  		mDao.insertAutoKey(model);
  	}  
 
@@ -72,7 +73,6 @@ public class SysRoleModuleRServiceImpl implements ISysRoleModuleRService {
  		Integer maxId = mDao.findMaxId(null);
  		maxId = maxId==null? 1 : maxId+1;
  		model.setId(maxId);
-
         model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
  		mDao.insertSingle(model);
  		return maxId;

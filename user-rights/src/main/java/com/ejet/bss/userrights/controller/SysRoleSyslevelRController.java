@@ -1,5 +1,6 @@
 package com.ejet.bss.userrights.controller;
 
+import com.ejet.bss.userrights.model.SysSyslevelModel;
 import com.ejet.comm.exception.CoBusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,5 +102,42 @@ public class SysRoleSyslevelRController extends CoBaseController {
 		return rs;
 	}
 
+    /**
+     * 查询角色对应数据权限
+     */
+    @ResponseBody
+    @RequestMapping(value="/get-role-syslevels")
+    public Result getRoleSyslevels(@RequestBody(required=true)Param<List<SysRoleSyslevelRModel>> param, BindingResult bindResult) {
+        Result rs = new Result();
+        try{
+            checkBindResult(bindResult);
+            List<SysRoleSyslevelRModel> model = param.getData();
+            List<SysSyslevelModel> page = mService.listRolesSyslevels(model);
+            rs = new Result(page);
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }
+        return rs;
+    }
+
+
+    /**
+     * 设置 角色对应数据权限
+     */
+    @ResponseBody
+    @RequestMapping(value="/set-role-syslevels")
+    public Result setRoleSyslevels(@RequestBody(required=true)Param<List<SysRoleSyslevelRModel>> param, BindingResult bindResult) {
+        Result rs = new Result();
+        try{
+            checkBindResult(bindResult);
+            List<SysRoleSyslevelRModel> list = param.getData();
+            mService.saveRoleSyslevels(list);
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }
+        return rs;
+    }
 
 }

@@ -14,7 +14,7 @@ public class SysSyslevelVO extends SysSyslevelModel {
     /**
      * 账户对应角色信息
      */
-    List<SysAccountRoleRModel> userRoles = new ArrayList<SysAccountRoleRModel>();
+    List<SysAccountRoleRModel> accountRoles = new ArrayList<SysAccountRoleRModel>();
 
     public List<SysSyslevelModel> getSyslevels() {
         return syslevels;
@@ -24,11 +24,11 @@ public class SysSyslevelVO extends SysSyslevelModel {
         this.syslevels = syslevels;
     }
 
-    public List<SysAccountRoleRModel> getUserRoles() {
-        return userRoles;
+    public List<SysAccountRoleRModel> getAccountRoles() {
+        return accountRoles;
     }
 
-    public void setUserRoles(List<SysAccountRoleRModel> userRoles) {
-        this.userRoles = userRoles;
+    public void setAccountRoles(List<SysAccountRoleRModel> accountRoles) {
+        this.accountRoles = accountRoles;
     }
 }

@@ -242,7 +242,7 @@ INSERT INTO `sys_role` (`id`, `role_id`, `role_type_id`, `role_type_code`, `role
 VALUES ('3', '3', '3', 'default', '员工', '员工', '1', '员工角色', NULL);
 
 /** 超级管理员与角色对应表 */
-INSERT INTO `sys_account_role_r` VALUES ('1', '1', '1', '1', '1', null, null);
+INSERT INTO `sys_account_role_r` VALUES ('1', '98765432101234567890123456789', '1', '1', '1', null, null);
 
 /** 添加基础菜单 */
 INSERT INTO `sys_module` VALUES ('100', '100', '0', '1', '系统管理', 'xtgl', '1', '1', null, null, null, null, null, '1', null, null, null, null, '', null);

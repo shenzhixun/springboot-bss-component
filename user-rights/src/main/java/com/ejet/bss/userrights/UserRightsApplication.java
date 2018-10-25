@@ -2,7 +2,7 @@ package com.ejet.bss.userrights;
 
 import com.ejet.CommWebApplication;
 import com.ejet.bss.userinfo.UserInfoApplication;
-import com.ejet.comm.CommWebRedisApplication;
+import com.ejet.comm.redis.CommWebRedisApplication;
 import com.ejet.global.CoGlobal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +28,7 @@ public class UserRightsApplication extends SpringBootServletInitializer {
 
     //每一个模块，都可以有自己的启动回调实现接口，只需要将实现类添加进去即可
     static {
-        logger.info("======== [comm-bss-userrights] add config  ======");
-
+        logger.info("======== [comm-bss-userrights] init ======");
     }
 
     @Override
@@ -47,7 +46,7 @@ public class UserRightsApplication extends SpringBootServletInitializer {
 
         SpringApplication.run(list.toArray(new Class[list.size()]), args);
 
-        logger.info("======== start  ======");
+        logger.info("======== [comm-bss-userrights] start  ======");
     }
 
 

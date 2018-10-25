@@ -17,6 +17,17 @@ import java.util.List;
 import static com.ejet.comm.exception.ExceptionCode.SYS_ERROR;
 import com.ejet.bss.userrights.model.SysRoleModel;
 import com.ejet.bss.userrights.service.impl.SysRoleServiceImpl;
+
+
+/**
+ *
+ *  角色接口
+ *
+ * 获取所有角色：  {@link #getRoles(SysRoleVO)}
+ *
+ * @author ShenYijie
+ *
+ */
 @RestController
 @RequestMapping(value="/sys-role")
 public class SysRoleController extends CoBaseController { 

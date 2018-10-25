@@ -22,7 +22,7 @@ public class BssUserInfoAppCallback implements IApplicationBootCallback {
 
     @Override
     public void callApplicationReadyEvent() {
-        log.info("======★★★★★[bss-userinfo]BssUserInfoAppCallback★★★★★======");
+        log.info("======★ [bss-userinfo] callback ... callApplicationReadyEvent ★======");
 
     }
 
@@ -38,7 +38,6 @@ public class BssUserInfoAppCallback implements IApplicationBootCallback {
 
     @Override
     public void callContextRefreshedEvent() {
-        log.info("====== ★$$$$$$$ [bss-userinfo]callContextRefreshedEvent ★$$$$$$$ ======");
 
     }
 
