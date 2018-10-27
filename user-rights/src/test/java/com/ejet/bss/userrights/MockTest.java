@@ -16,11 +16,11 @@ import java.lang.reflect.InvocationTargetException;
 public class MockTest {
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        String result = MockUtils.getMockJson(SysUserModel.class);
+        //String result = MockUtils.getMockJson(SysUserModel.class);
         //result = MockUtils.getMockJson(EtlDatabaseBuildModel.class);
 
         System.out.println("================ model ================");
-        System.out.println(result);
+        //System.out.println(result);
     }
 
 

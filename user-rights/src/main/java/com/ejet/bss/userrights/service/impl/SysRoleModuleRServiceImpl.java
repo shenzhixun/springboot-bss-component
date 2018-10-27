@@ -84,6 +84,9 @@ public class SysRoleModuleRServiceImpl implements ISysRoleModuleRService {
      */
     public List<SysModuleModel> listRolesModules(List<SysRoleModel> list) throws CoBusinessException {
         //剔除掉重复记录
+        if(list==null || list.size()==0) {
+            throw new CoBusinessException(ExceptionCode.PARAM_MISSING);
+        }
         return mDao.listRolesModules(list);
     }
 

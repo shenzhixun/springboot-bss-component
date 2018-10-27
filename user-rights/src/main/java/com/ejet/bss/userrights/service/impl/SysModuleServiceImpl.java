@@ -150,6 +150,15 @@ public class SysModuleServiceImpl extends ModuleBase implements ISysModuleServic
         return allNode;
     }
 
+    /**
+     * 返回菜单（数组方式）
+     */
+    public List<SysModuleModel> getModuleAll(SysModuleModel model) throws CoBusinessException {
+        log.info(" getModuleAll 数组结构......");
+        List<SysModuleModel> list = coreCacheService.getModuleAll(model);
+        return list;
+    }
+
 
 
 }

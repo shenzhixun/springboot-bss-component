@@ -121,12 +121,11 @@ public class SysRoleModuleRController extends CoBaseController {
      */
     @ResponseBody
     @RequestMapping(value="/get-role-modules")
-    public Result getRoleModules(@RequestBody(required=true)Param<List<SysRoleModel>> param, BindingResult bindResult) {
+    public Result getRoleModules(@RequestBody(required=true)List<SysRoleModel> param, BindingResult bindResult) {
         Result rs = new Result();
         try{
             checkBindResult(bindResult);
-            List<SysRoleModel> model = param.getData();
-            List<SysModuleModel> page = mService.listRolesModules(model);
+            List<SysModuleModel> page = mService.listRolesModules(param);
             rs = new Result(page);
         }catch (CoBusinessException e) {
             log.error("", e);

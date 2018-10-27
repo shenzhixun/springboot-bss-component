@@ -40,9 +40,9 @@ public class UserRightsApplication extends SpringBootServletInitializer {
 
         List<Class> list  = new ArrayList<>();
         list.add(UserRightsApplication.class);        //本项目
-        list.add(CommWebApplication.class);         //基础项目
-        list.add(CommWebRedisApplication.class);    //redis项目
-        list.add(UserInfoApplication.class);    //userinfo项目
+        list.add(CommWebApplication.class);          //基础项目
+        list.add(CommWebRedisApplication.class);     //redis项目
+        list.add(UserInfoApplication.class);        //userinfo项目
 
         SpringApplication.run(list.toArray(new Class[list.size()]), args);
 

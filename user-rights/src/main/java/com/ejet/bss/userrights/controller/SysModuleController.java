@@ -107,13 +107,14 @@ public class SysModuleController extends CoBaseController {
     /**
      * 获取菜单(树状)
      */
-    @RequestMapping(value="/get_module_ztree")
+    @RequestMapping(value="/get-module-ztree")
     @ResponseBody
     public Result getModuleZtree(@RequestBody(required=false)Param<SysModuleVO> param, BindingResult bindResult) {
         Result rs = new Result();
         try {
             checkBindResult(bindResult);
-            SysModuleModel model = param.getData();
+            SysModuleModel model = param==null? new SysModuleModel() : param.getData();
+            model = model==null ? new SysModuleModel() : model;
             List<CoZtreeVO> result = mService.getModuleZtree(model, false);
             rs = new Result(result);
         }catch (CoBusinessException e) {
@@ -126,7 +127,7 @@ public class SysModuleController extends CoBaseController {
     /**
      * 获得模块树（采用树状接口）
      */
-    @RequestMapping(value="/get_module_tree")
+    @RequestMapping(value="/get-module-tree")
     @ResponseBody
     public Result getModuleTree(@RequestBody(required=false)Param<SysModuleVO> param, BindingResult bindResult) {
         Result rs = new Result();
@@ -145,5 +146,26 @@ public class SysModuleController extends CoBaseController {
         return rs;
     }
 
+    /**
+     * 获得模块（采用数组）
+     */
+    @RequestMapping(value="/get-module-all")
+    @ResponseBody
+    public Result getModuleAll(@RequestBody(required=false)Param<SysModuleVO> param, BindingResult bindResult) {
+        Result rs = new Result();
+        try {
+            checkBindResult(bindResult);
+            SysModuleVO model = toBean(param==null? new Param<SysModuleVO>() : param, new TypeReference<SysModuleVO>(){});
+            List<SysModuleModel> result = mService.getModuleAll(model);
+            rs = new Result(result);
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }catch (Exception e) {
+            log.error("", e);
+            rs = new Result(SYS_ERROR, e);
+        }
+        return rs;
+    }
 
 }
