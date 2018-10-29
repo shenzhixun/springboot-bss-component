@@ -31,6 +31,7 @@
 		<where>
 			1=1
 			<if test="id!=null ">and id=#{id} </if>
+            <if test="uuid!=null and uuid!='' ">and uuid=#{uuid} </if>
 		</where>
 	</sql>
 	<sql id="SqlSet">

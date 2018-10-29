@@ -33,7 +33,7 @@ public interface SysAccountDao {
 
     public abstract SysAccountVO login(SysAccountModel model) throws CoBusinessException;
 
-    public abstract void resetPasswordBatch(List<String> list) throws CoBusinessException;
+    public abstract void resetPasswordBatch(List<SysAccountModel> list) throws CoBusinessException;
 
 
 }

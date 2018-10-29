@@ -174,15 +174,15 @@ public class SysAccountController extends CoBaseController {
 
     /**
      * 重置密码
-     * @param model
+     * @param list
      * @return
      */
     @ResponseBody
     @RequestMapping(value="/reset-password")
-    public Result resetPassword(@RequestBody(required=true)Param<List<String>> model) {
+    public Result resetPassword(@RequestBody(required=true)List<SysAccountModel> list) {
         Result rs = new Result();
         try {
-            mService.resetPassword(model.getData());
+            mService.resetPassword(list);
         }catch (CoBusinessException e) {
             log.error("", e);
             rs = new Result(e.getCode(), e);

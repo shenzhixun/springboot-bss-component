@@ -39,8 +39,7 @@ public class Test {
         // parent_job.setVariable("endTime", formatter.parse(endTimeStr));
         // parent_job.setVariable("startTime", formatter.parse(startTimeStr));
         //
-        // true;
-
+        // true
 
         System.out.println(currentTime);
         System.out.println(formatter.parse(currentTime));

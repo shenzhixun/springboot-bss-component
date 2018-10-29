@@ -60,7 +60,10 @@ public class SysAccountServiceImpl implements ISysAccountService {
  	}  
 
 	@Override
-	public void delete(SysAccountModel model) throws CoBusinessException { 
+	public void delete(SysAccountModel model) throws CoBusinessException {
+        if(model.getId()==null && model.getUuid()==null) {
+            throw new CoBusinessException(ExceptionCode.PARAM_MISSING_ID);
+        }
  		mDao.delete(model);
  	}  
 
@@ -124,7 +127,7 @@ public class SysAccountServiceImpl implements ISysAccountService {
      * 重置密码(可批量，根据账号uuid更新)
      * @throws CoBusinessException
      */
-    public void resetPassword(List<String> list)  throws CoBusinessException {
+    public void resetPassword(List<SysAccountModel> list)  throws CoBusinessException {
         if(list==null || list.size()==0) {
             throw new CoBusinessException(ExceptionCode.PARAM_MISSING);
         }
