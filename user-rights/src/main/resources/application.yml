@@ -100,7 +100,7 @@ bss-user-info:
   # 前端传递的token对应key信息
   authTokenKey: Authorization
   # token 超时时间
-  authTokenTimeout: 1800
+  authTokenTimeout: 18000
   # 是否允许单账号，多个终端同时在线登录
   authTokenSingle: false
   # token认证 忽略地址用‘,’分割

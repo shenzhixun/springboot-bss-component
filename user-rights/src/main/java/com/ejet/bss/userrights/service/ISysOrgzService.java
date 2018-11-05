@@ -7,7 +7,7 @@ import com.ejet.bss.userrights.model.SysOrgzModel;
 public interface ISysOrgzService { 
 
 
-	public void insertAutoKey(SysOrgzModel model) throws CoBusinessException; 
+	public int insertAutoKey(SysOrgzModel model) throws CoBusinessException;
 
 	public void update(SysOrgzModel model) throws CoBusinessException;
 

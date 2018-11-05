@@ -31,6 +31,7 @@
 		<where>
 			1=1
 			<if test="id!=null ">and id=#{id} </if>
+            <if test="uuid!=null and uuid!='' ">and uuid=#{uuid} </if>
 		</where>
 	</sql>
 	<sql id="SqlSet">
@@ -95,26 +96,47 @@
 	</update>
 
 	<select  id="findByPK" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" resultType="com.ejet.bss.userinfo.model.SysAccountModel" >
-		 SELECT * FROM sys_account
-		 <include refid="SqlWhere"></include> 
+		 SELECT uuid, name, nickname,
+        account_type, account_state, effect_start, effect_end, last_login,
+        login_state, status, remark, create_time, modify_time,
+        modify_user, ext, ext1, ext2, id FROM sys_account
+		 <include refid="SqlWherePK"></include>
 		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
 	</select>
 
+    <select  id="findAllByPK" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" resultType="com.ejet.bss.userinfo.model.SysAccountModel" >
+        SELECT uuid, name, password, nickname,
+        account_type, account_state, effect_start, effect_end, last_login,
+        login_state, status, remark, create_time, modify_time,
+        modify_user, ext, ext1, ext2, id FROM sys_account
+        <include refid="SqlWherePK"></include>
+        <if test=" orderCond !=null ">  order by ${orderCond} </if>
+    </select>
+
 	<select  id="queryByCond" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" resultType="com.ejet.bss.userinfo.model.SysAccountModel" >
-		 SELECT * FROM sys_account
+		 SELECT uuid, name, nickname,
+        account_type, account_state, effect_start, effect_end, last_login,
+        login_state, status, remark, create_time, modify_time,
+        modify_user, ext, ext1, ext2, id FROM sys_account
 		 <include refid="SqlWhere"></include> 
 		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
 	</select>
 
 	<select  id="queryTree" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" resultType="com.ejet.bss.userinfo.model.SysAccountModel" >
-		 SELECT * FROM sys_account
+		 SELECT uuid, name, nickname,
+        account_type, account_state, effect_start, effect_end, last_login,
+        login_state, status, remark, create_time, modify_time,
+        modify_user, ext, ext1, ext2, id FROM sys_account
 		 <include refid="SqlWhere"></include> 
 		 <if test=" extSQL !=null "> ${extSQL} </if> 
 		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
 	</select>
 
 	<select  id="queryByPage" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" resultType="com.ejet.bss.userinfo.model.SysAccountModel" >
-		 SELECT * FROM sys_account
+		 SELECT uuid, name, nickname,
+        account_type, account_state, effect_start, effect_end, last_login,
+        login_state, status, remark, create_time, modify_time,
+        modify_user, ext, ext1, ext2, id FROM sys_account
 		 <include refid="SqlWhere"></include> 
 		 <if test="extSQL!=null "> ${extSQL} </if> 
 	</select>
@@ -126,7 +148,7 @@
 
     <!--登录-->
     <select  id="login" parameterType="com.ejet.bss.userinfo.vo.SysAccountVO" resultType="com.ejet.bss.userinfo.vo.SysAccountVO" >
-        SELECT A.name, A.nickname, A.account_type, A.account_state, U.*
+        SELECT A.name, A.nickname, A.account_type, A.uuid, A.id, A.status, A.account_state, U.*
         FROM sys_account A
         LEFT JOIN sys_user U
         ON U.account_uuid=A.uuid
@@ -143,5 +165,15 @@
           AND U.status=1
         )
     </select>
+
+    <!-- 批量重置密码 -->
+    <update  id="resetPasswordBatch" parameterType="java.util.List" >
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update sys_account
+            <set> password = '21232f297a57a5a743894a0e4a801fc3' </set>
+            where uuid = #{item.uuid}
+        </foreach>
+    </update>
+
 
 </mapper>

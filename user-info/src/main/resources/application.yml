@@ -1,7 +1,7 @@
 server:
   port: 8099
   servlet:
-    context-path: /etl
+    context-path: /bss
     session:
       cookie:
         max-age: 60000s

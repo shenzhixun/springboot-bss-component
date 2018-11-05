@@ -9,14 +9,14 @@ import com.google.gson.Gson;
 
 /**
  * Copyright (C), 2016-2018, 武汉康华数海有限公司
- * FileName: BaseTest
+ * FileName: ApiBaseTest
  * Author:   ShenYijie
  * CreateDate:     2018-10-27 23:32
  * Description:
  * History:
  * Version: 1.0
  */
-public class BaseTest {
+public class ApiBaseTest {
 
     public static final Integer ROLE_TYPE_ADMIN = 1;
     public static final Integer ROLE_TYPE_DEPT_MANAGER = 2;

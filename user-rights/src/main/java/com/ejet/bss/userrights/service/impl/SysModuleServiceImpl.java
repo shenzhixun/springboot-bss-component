@@ -50,6 +50,10 @@ public class SysModuleServiceImpl extends ModuleBase implements ISysModuleServic
         if(model.getId()==null && model.getModuleId()==null) {
             throw new CoBusinessException(ExceptionCode.PARAM_MISSING);
         }
+        List<SysModuleModel> resultList = queryChilds(model);
+        if(resultList!=null && resultList.size()>0) {
+            throw new CoBusinessException("模块下存在子模块，不允许删除,请删除子模块后再重试!");
+        }
  		mDao.delete(model);
  	}  
 
@@ -65,7 +69,7 @@ public class SysModuleServiceImpl extends ModuleBase implements ISysModuleServic
  		return mDao.queryByCond(model);
  	}
 
-	public PageBean<SysModuleModel>  queryByPage(SysModuleModel model, Integer pageNum, Integer pageSize) throws CoBusinessException { 
+	public PageBean<SysModuleModel> queryByPage(SysModuleModel model, Integer pageNum, Integer pageSize) throws CoBusinessException {
 		PageHelper.startPage(pageNum, pageSize);
 		List<SysModuleModel> list = mDao.queryByPage(model);
 		PageBean<SysModuleModel> page = new PageBean<SysModuleModel>(list);
@@ -85,6 +89,48 @@ public class SysModuleServiceImpl extends ModuleBase implements ISysModuleServic
  	}
 
     /**
+     * 查询模块下面子模块（非递归查询）
+     *
+     * @param model
+     * @throws CoBusinessException
+     */
+ 	public List<SysModuleModel> queryChilds(SysModuleModel model) throws CoBusinessException {
+        //查询模块下是否有子模块
+        SysModuleModel queryChildsModule=new SysModuleModel();
+        queryChildsModule.setModulePid(model.getModuleId());
+        List<SysModuleModel> resultList = queryByCond(queryChildsModule);
+        return resultList;
+    }
+
+    /**
+     * 所有模块英文名不允许重复
+     * @param model
+     * @throws CoBusinessException
+     */
+    public void checkNameEn(SysModuleModel model) throws CoBusinessException {
+        //查询模块名字是否重复
+        SysModuleModel queryChildsModule=new SysModuleModel();
+        //queryChildsModule.setModulePid(model.getModulePid());
+        queryChildsModule.setModuleNameEn(model.getModuleNameEn());
+        List<SysModuleModel> resultList = mDao.queryByCond(queryChildsModule);
+        if(resultList!=null && resultList.size()>0) {
+            throw new CoBusinessException("模块英文名已存在,请修改后重试!");
+        }
+    }
+
+    /**
+     * 查询模块id是否重复
+     */
+    public void checkMoudleId(SysModuleModel model) throws CoBusinessException {
+        SysModuleModel queryModule=new SysModuleModel();
+        queryModule.setModuleId(model.getModuleId());
+        SysModuleModel result = mDao.findByPK(queryModule);
+        if(result!=null) {
+            throw new CoBusinessException("模块Id已存在,请修改后重试!");
+        }
+    }
+
+    /**
      * 新增模块
      * @param model
      * @throws CoBusinessException
@@ -94,28 +140,20 @@ public class SysModuleServiceImpl extends ModuleBase implements ISysModuleServic
             throw new CoBusinessException(ExceptionCode.PARAM_MISSING);
         }
 	    // id 和 模块英文名字不允许重复
-        SysModuleModel queryModule=new SysModuleModel();
-        queryModule.setModuleId(model.getModuleId());
-        queryModule.setModuleNameEn(model.getModuleNameEn());
-        SysModuleModel PKResult = mDao.findByPK(queryModule);
-        if(PKResult!=null) {
-            throw new CoBusinessException("模块Id已存在,请修改后重试!");
-        }
+        checkMoudleId(model);
 
-        queryModule.setModuleId(null);
-        queryModule.setModuleNameEn(model.getModuleNameEn());
-        PKResult = mDao.findByPK(queryModule);
-        if(PKResult!=null) {
-            throw new CoBusinessException("模块英文名已存在,请修改后重试!");
-        }
+        //检查英文名
+        checkNameEn(model);
+
         if(!StringUtils.isNull(model.getModulePid())) {
             //根据父模块id查询层级
-            queryModule.setModuleNameEn(null);
-            queryModule.setModuleId(model.getModulePid());
-            SysModuleModel sysModuleModel = mDao.findByPK(queryModule);
-            if(sysModuleModel!=null) {
-                model.setModuleLevel(sysModuleModel.getModuleLevel()+1);
+            SysModuleModel parentQuery=new SysModuleModel();
+            parentQuery.setModuleId(model.getModulePid());
+            SysModuleModel parentModel = mDao.findByPK(parentQuery);
+            if(parentModel==null) {
+                throw new CoBusinessException("上级模块不存在,请修改后重试!");
             }
+            model.setModuleLevel(parentModel.getModuleLevel()+1);
             insertAutoKey(model);
         } else {
             //新增根节点

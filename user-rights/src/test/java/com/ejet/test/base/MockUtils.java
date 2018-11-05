@@ -1,4 +1,4 @@
-package com.ejet.bss.userrights;
+package com.ejet.test.base;
 
 import com.ejet.comm.utils.random.RandomUtils;
 import com.ejet.comm.utils.reflect.ReflectUtils;
@@ -13,9 +13,9 @@ import java.util.List;
 
 /**
  * Copyright (C), 2016-2018, 武汉康华数海有限公司
- * FileName: MockUtils
- * Author:   Ejet
- * CreateDate:     2018-10-08 14:30
+ * FileName: com.ejet.test.base.MockUtils
+ * Author:   ShenYijie
+ * CreateDate:     2018-11-05 15:59
  * Description:
  * History:
  * Version: 1.0
@@ -87,6 +87,5 @@ public class MockUtils {
         }
         return gson.toJson(model);
     }
-
 
 }

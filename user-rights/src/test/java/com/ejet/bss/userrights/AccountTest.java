@@ -2,6 +2,7 @@ package com.ejet.bss.userrights;
 
 import com.ejet.bss.userrights.model.SysRoleModel;
 import com.ejet.comm.Param;
+import com.ejet.test.base.BaseTest;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -16,9 +17,7 @@ import java.util.List;
  * History:
  * Version: 1.0
  */
-public class AccountTest {
-
-    static Gson gson = new Gson();
+public class AccountTest extends BaseTest {
 
 
 

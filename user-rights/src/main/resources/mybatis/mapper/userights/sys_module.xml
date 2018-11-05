@@ -19,7 +19,7 @@
 			<if test="flag!=null and flag!='' ">and flag=#{flag} </if>
 			<if test="icon!=null and icon!='' ">and icon=#{icon} </if>
 			<if test="css!=null and css!='' ">and css=#{css} </if>
-			<if test="status!=null and status!='' ">and status=#{status} </if>
+			<if test="status!=null ">and status=#{status} </if>
 			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
 			<if test="modifyTime!=null and modifyTime!='' ">and modify_time=#{modifyTime} </if>
 			<if test="modifyUser!=null and modifyUser!='' ">and modify_user=#{modifyUser} </if>

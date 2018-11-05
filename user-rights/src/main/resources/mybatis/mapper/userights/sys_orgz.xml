@@ -16,6 +16,7 @@
 			<if test="orgzLevel!=null ">and orgz_level=#{orgzLevel} </if>
 			<if test="sortOrder!=null ">and sort_order=#{sortOrder} </if>
 			<if test="searchTag!=null and searchTag!='' ">and search_tag=#{searchTag} </if>
+            <if test="status!=null">and status=#{status} </if>
 			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
 			<if test="modifyTime!=null and modifyTime!='' ">and modify_time=#{modifyTime} </if>
 			<if test="modifyUser!=null and modifyUser!='' ">and modify_user=#{modifyUser} </if>
@@ -41,6 +42,7 @@
 			<if test="orgzLevel!=null "> orgz_level=#{orgzLevel}, </if>
 			<if test="sortOrder!=null "> sort_order=#{sortOrder}, </if>
 			<if test="searchTag!=null and searchTag!='' "> search_tag=#{searchTag}, </if>
+            <if test="status!=null and status!='' "> status=#{status}, </if>
 			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
 			<if test="modifyTime!=null and modifyTime!='' "> modify_time=#{modifyTime}, </if>
 			<if test="modifyUser!=null and modifyUser!='' "> modify_user=#{modifyUser}, </if>
@@ -62,11 +64,11 @@
 	<insert  id="insertSingle" parameterType="com.ejet.bss.userrights.model.SysOrgzModel" useGeneratedKeys="true" keyProperty="id" >
 		 INSERT INTO sys_orgz (
  			uuid, orgz_id, orgz_pid, orgz_code, 
- 			orgz_name, fullname, orgz_level, sort_order, search_tag, 
+ 			orgz_name, fullname, orgz_level, sort_order, search_tag, status,
  			remark, modify_time, modify_user, ext,  id ) 
 		 VALUES( 
  			#{uuid}, #{orgzId}, #{orgzPid}, #{orgzCode}, 
- 			#{orgzName}, #{fullname}, #{orgzLevel}, #{sortOrder}, #{searchTag}, 
+ 			#{orgzName}, #{fullname}, #{orgzLevel}, #{sortOrder}, #{searchTag}, #{status},
  			#{remark}, #{modifyTime}, #{modifyUser}, #{ext},  #{id} ) 
 	</insert>
 
@@ -107,7 +109,7 @@
 	</select>
 
 	<select  id="findMaxId" parameterType="com.ejet.bss.userrights.model.SysOrgzModel" resultType="int" >
-		 SELECT max(id) FROM sys_orgz
+		 SELECT max(orgz_id) FROM sys_orgz
 		 <include refid="SqlWhere"></include> 
 	</select>
 

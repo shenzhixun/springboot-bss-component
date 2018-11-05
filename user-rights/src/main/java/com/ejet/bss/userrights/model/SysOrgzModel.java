@@ -23,6 +23,8 @@ public class SysOrgzModel extends CoBaseVO {
  	private Integer sortOrder;
 	/**  搜索tag  */ 
  	private String searchTag;
+    /**  模块状态, 1: 正常显示，0：不显示  */
+    private Integer status;
 	/**  备注,描述  */ 
  	private String remark;
 	/**  修改时间  */ 
@@ -144,5 +146,11 @@ public class SysOrgzModel extends CoBaseVO {
 		return ext;
 	}
 
+    public Integer getStatus() {
+        return status;
+    }
 
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 }

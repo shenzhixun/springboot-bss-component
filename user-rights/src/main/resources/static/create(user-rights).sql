@@ -13,6 +13,7 @@ CREATE TABLE `sys_orgz` (
        `orgz_level`  		    int(11)         DEFAULT NULL      COMMENT '层级',
        `sort_order`  		    int(2)          NOT NULL DEFAULT '0' COMMENT '层级',
        `search_tag`         varchar(200)    DEFAULT NULL      COMMENT '搜索tag',
+       `status`  				    tinyint(1) 			NOT NULL  DEFAULT '1'   	COMMENT '状态, 1: 正常，0：不正常',
        `remark`  				    varchar(100) 	  NULL DEFAULT NULL  	COMMENT '备注,描述' ,
        `modify_time`  		  varchar(32) 		NULL DEFAULT NULL  	COMMENT '修改时间',
        `modify_user`  		  varchar(32) 		NULL DEFAULT NULL  	COMMENT '修改人' ,
@@ -250,4 +251,9 @@ INSERT INTO `sys_module` VALUES ('10010', '10010', '0', '2', '角色类型管理
 INSERT INTO `sys_module` VALUES ('10020', '10020', '0', '2', '角色管理', 'jsgl', '0', '2', null, null, null, null, null, '1', null, null, null, null, null, null);
 
 
-/** 添加管理员对应菜单 */
+/** 添加超级管理员角色对应菜单 */
+
+
+/** 添加第一级组织架构 */
+INSERT INTO `sys_orgz` VALUES ('1', '1', '1', '0', 'root', '集团医院', '集团医院', '1', '0', null, '1', null, '201811051740005', 'root', null);
+INSERT INTO `sys_syslevel` VALUES ('1', '1', '集团医院', '0', '1', '2', '1', null, '201811051740005', 'root', null, null, null);
