@@ -87,18 +87,21 @@ mybatis:
 # 基础的comm-web包配置信息
 ### ===========================   comm-web   ===============================
 comm-web:
+  # 是否采用token认证
   tokenAuth: false
+  # session过滤器是否忽略
   sessionIgnore: true
-  # 忽略的拦截url地址信息(session过滤器),用‘,’分割
+  # session过滤器忽略的拦截url地址,用‘,’分割
   sessionIgnoreURL: /login,/logout,.*/comm-web/version
 
-# 用户登录模块
+# 用户登录模块,如果前后端分离，采用token认证
 ### ===========================   user-info   ===============================
 bss-user-info:
+  # 前端传递的token对应key信息
   authTokenKey: Authorization
   # token 超时时间
   authTokenTimeout: 1800
-  # 单账号多用户可登录
+  # 是否允许单账号，多个终端同时在线登录
   authTokenSingle: false
-  # token 忽略地址
+  # token认证 忽略地址用‘,’分割
   authTokenIgnoreURL: /sys-account/login,/sys-account/logout

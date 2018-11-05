@@ -6,5 +6,9 @@
 
 
 依赖条件：
-1、依赖jar包：comm-web.jar、user包  
-2、
+1、依赖jar包：comm-utils_main.jar、comm-result_main.jar、comm-web_main.jar、comm-web-redis_main.jar   
+
+
+配置文件：    
+
+application.yml配置描述：  
