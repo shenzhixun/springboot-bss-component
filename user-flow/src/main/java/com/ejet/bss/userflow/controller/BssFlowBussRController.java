@@ -6,7 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.TypeReference;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import com.ejet.comm.Result;
 import com.ejet.comm.Param;
 import com.ejet.comm.PageBean;
@@ -83,15 +86,15 @@ public class BssFlowBussRController extends CoBaseController {
 
 
 	@ResponseBody
-	@RequestMapping(value="/query-by-page")
+	@RequestMapping(value="/query_by_page")
 	public Result queryByPage(@RequestBody(required=true)Param<BssFlowBussRModel> param, BindingResult bindResult) {
 		Result rs = new Result();
 		try{
 			checkBindResult(bindResult);
 			checkParam(param);
 			BssFlowBussRModel model = param.getData();
-			PageBean<BssFlowBussRModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
-			rs = new Result(pageBean.getPage(), pageBean.getResult());
+			PageBean<BssFlowBussRModel> page = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
+			rs = new Result(page);
 		}catch (CoBusinessException e) {
 			log.error("", e);
 			rs = new Result(e.getCode(), e);
@@ -101,12 +104,6 @@ public class BssFlowBussRController extends CoBaseController {
 		}
 		return rs;
 	}
-
-
-
-
-
-
 
 
 }

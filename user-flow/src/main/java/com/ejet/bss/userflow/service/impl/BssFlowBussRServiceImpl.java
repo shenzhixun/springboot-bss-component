@@ -1,6 +1,5 @@
 package com.ejet.bss.userflow.service.impl;
 
-import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -12,7 +11,6 @@ import com.ejet.comm.PageBean;
 import com.github.pagehelper.PageHelper;
 import com.ejet.comm.exception.CoBusinessException;
 import com.ejet.bss.userflow.model.BssFlowBussRModel;
-import com.ejet.bss.userflow.mapper.BssFlowBussRDao;
 import com.ejet.bss.userflow.service.IBssFlowBussRService;
 @Service("bssFlowBussRService")
 public class BssFlowBussRServiceImpl implements IBssFlowBussRService { 
@@ -24,8 +22,8 @@ public class BssFlowBussRServiceImpl implements IBssFlowBussRService {
 	private BssFlowBussRDao mDao;
 
 	@Override
-	public void insertAutoKey(BssFlowBussRModel model) throws CoBusinessException { 
- 		mDao.insertAutoKey(model);
+	public int insertAutoKey(BssFlowBussRModel model) throws CoBusinessException { 
+ 		return mDao.insertAutoKey(model);
  	}  
 
 	@Override

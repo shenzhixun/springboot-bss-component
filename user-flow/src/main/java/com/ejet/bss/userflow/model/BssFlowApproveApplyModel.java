@@ -1,22 +1,30 @@
 package com.ejet.bss.userflow.model;
 
 import com.ejet.comm.base.CoBaseVO;
-public class BssFlowBussRecordModel extends CoBaseVO { 
+public class BssFlowApproveApplyModel extends CoBaseVO { 
 
 	/**    */ 
  	private Integer id;
+	/**  UUID  */ 
+ 	private String uuid;
 	/**  业务类型  */ 
  	private String bussType;
 	/**  业务类型UUID  */ 
  	private String bussUuid;
 	/**  业务表单UUID  */ 
  	private String bussRecordUuid;
-	/**  提交时间  */ 
- 	private String bussApplyTime;
+	/**  业务表单通知标题  */ 
+ 	private String bussTitle;
 	/**  流程ID  */ 
  	private Integer flowId;
 	/**  流程名称  */ 
  	private String flowName;
+	/**  提交时间  */ 
+ 	private String bussApplyTime;
+	/**  申请人  */ 
+ 	private String fromUser;
+	/**  申请账号  */ 
+ 	private String fromAccountUuid;
 	/**  审批状态, 1: 等待审批，2: 正在审批，3：审批完成  */ 
  	private Integer flowStatus;
 	/**  审批结果, 0: 审核中， 1: 同意，2：拒绝  */ 
@@ -38,6 +46,14 @@ public class BssFlowBussRecordModel extends CoBaseVO {
 
 	public Integer getId(){
 		return id;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid=uuid;
+	} 
+
+	public String getUuid(){
+		return uuid;
 	}
 
 	public void setBussType(String bussType) {
@@ -64,12 +80,12 @@ public class BssFlowBussRecordModel extends CoBaseVO {
 		return bussRecordUuid;
 	}
 
-	public void setBussApplyTime(String bussApplyTime) {
-		this.bussApplyTime=bussApplyTime;
+	public void setBussTitle(String bussTitle) {
+		this.bussTitle=bussTitle;
 	} 
 
-	public String getBussApplyTime(){
-		return bussApplyTime;
+	public String getBussTitle(){
+		return bussTitle;
 	}
 
 	public void setFlowId(Integer flowId) {
@@ -86,6 +102,30 @@ public class BssFlowBussRecordModel extends CoBaseVO {
 
 	public String getFlowName(){
 		return flowName;
+	}
+
+	public void setBussApplyTime(String bussApplyTime) {
+		this.bussApplyTime=bussApplyTime;
+	} 
+
+	public String getBussApplyTime(){
+		return bussApplyTime;
+	}
+
+	public void setFromUser(String fromUser) {
+		this.fromUser=fromUser;
+	} 
+
+	public String getFromUser(){
+		return fromUser;
+	}
+
+	public void setFromAccountUuid(String fromAccountUuid) {
+		this.fromAccountUuid=fromAccountUuid;
+	} 
+
+	public String getFromAccountUuid(){
+		return fromAccountUuid;
 	}
 
 	public void setFlowStatus(Integer flowStatus) {

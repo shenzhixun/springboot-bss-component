@@ -52,62 +52,6 @@ CREATE TABLE `bss_flow_node` (
 ENGINE=InnoDB
 DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
 
--- ----------------------------
--- 流程审批详情表 `bss_flow_approve`
--- ----------------------------
-DROP TABLE IF EXISTS `bss_flow_approve`;
-CREATE TABLE `bss_flow_approve` (
-    `id`          		int(11) 			    NOT NULL 					AUTO_INCREMENT ,
-    `buss_type`  			varchar(100)		  NOT NULL 					COMMENT '业务类型',
-    `buss_uuid`  			varchar(64)		    NOT NULL 					COMMENT '业务UUID',
-	  `flow_id`  				int(11)				    NOT NULL  				COMMENT '流程ID' ,
-    `node_id`  				int(11)				    NOT NULL  				COMMENT '节点ID' ,
-	  `node_name`  			varchar(100)		  NOT NULL    			COMMENT '节点名称',
-	  `node_des`  			varchar(100)		  NULL    					COMMENT '节点描述',
-	  `approver_user`  		int(11)				  NOT NULL    			COMMENT '审批人',
-	  `approver_uuid`  		varchar(50)			NOT NULL    		COMMENT '审批人UUID',
-	  `approver_comment`  	varchar(200)		NOT NULL    	COMMENT '审批语',
-	  `approver_result`  		tinyint(1) 			NOT NULL			COMMENT '审批结果, 1: 同意，0：拒绝',
-	  `approve_time`  		varchar(32)			NULL DEFAULT NULL     		COMMENT '审批时间',
-
-	`flow_status`  			tinyint(1) 			NOT NULL  DEFAULT '1'   	COMMENT '审批状态, 1: 等待审批，2: 正在审批，3：审批完成',
-	`status`  				tinyint(1) 			NOT NULL  DEFAULT '1'   	COMMENT '状态, 1: 正常，0：禁用',
-	`remark`  				varchar(100) 		NULL DEFAULT NULL  			COMMENT '备注' ,
-	`ext`  					varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
-	PRIMARY KEY (`id`),
-
-	UNIQUE INDEX `buss_uuid_node_id_approver_user` (`buss_uuid`, `node_id`) USING BTREE
-)comment='流程审批详情表'
-ENGINE=InnoDB
-DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
-
-
--- ----------------------------
--- 业务流程审核记录表 `bss_flow_buss_record`
--- ----------------------------
-DROP TABLE IF EXISTS `bss_flow_buss_record`;
-CREATE TABLE `bss_flow_buss_record` (
-    `id`          			  int(11) 			  NOT NULL 					AUTO_INCREMENT ,
-    `buss_type`  			    varchar(100)		NULL    					COMMENT '业务类型',
-    `buss_uuid`  			    varchar(64)		  NOT NULL 					COMMENT '业务类型UUID',
-    `buss_record_uuid`  	varchar(64)		  NOT NULL 					COMMENT '业务表单UUID',
-	  `buss_apply_time`  		varchar(32)			NOT NULL 					COMMENT '提交时间',
-	  `flow_id`  				    int(11)				  NOT NULL  				COMMENT '流程ID' ,
-	  `flow_name`  			    varchar(11)			NULL  						COMMENT '流程名称' ,
-	  `flow_status`  			  tinyint(1) 			NOT NULL  DEFAULT '1'   	COMMENT '审批状态, 1: 等待审批，2: 正在审批，3：审批完成',
-	  `approver_result`  		tinyint(1) 			NOT NULL  DEFAULT '0'   	COMMENT '审批结果, 0: 审核中， 1: 同意，2：拒绝',
-	  `approve_start_time`  varchar(32)			NULL DEFAULT NULL     		COMMENT '审批开始时间',
-	  `approve_end_time`  	varchar(32)			NULL DEFAULT NULL     		COMMENT '审批结束时间',
-	  `status`  				    tinyint(1) 			NOT NULL  DEFAULT '1'   	COMMENT '状态, 1: 正常，0：禁用',
-	  `remark`  				    varchar(100) 		NULL DEFAULT NULL  			COMMENT '备注' ,
-	  `ext`  					      varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
-	PRIMARY KEY (`id`),
-	UNIQUE INDEX `buss_uuid` (`buss_uuid`) USING BTREE
-)comment='业务流程审核记录表'
-ENGINE=InnoDB
-DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
-
-
 -- ------------------------------------
 -- 流程与业务对应关系表 `bss_flow_buss_r`
 -- ------------------------------------
@@ -130,4 +74,98 @@ CREATE TABLE `bss_flow_buss_r` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='流程与业务对应关系表';
 
 
+-- ----------------------------
+-- 业务流程申请记录表 `bss_flow_approve_apply`
+-- ----------------------------
+DROP TABLE IF EXISTS `bss_flow_approve_apply`;
+CREATE TABLE `bss_flow_approve_apply` (
+    `id`          			  int(11) 			  NOT NULL 					AUTO_INCREMENT ,
+    `uuid`  			        varchar(64)		  NOT NULL 					COMMENT 'UUID',
+    `buss_type`  			    varchar(100)		NULL    					COMMENT '业务类型',
+    `buss_uuid`  			    varchar(64)		  NOT NULL 					COMMENT '业务类型UUID',
+    `buss_record_uuid`  	varchar(64)		  NOT NULL 					COMMENT '业务表单UUID',
+    `buss_title`  	      varchar(2000)		NOT NULL 					COMMENT '业务表单通知标题',
+    `flow_id`  				    int(11)				  NOT NULL  				COMMENT '流程ID' ,
+	  `flow_name`  			    varchar(11)			NULL  						COMMENT '流程名称' ,
 
+	  `buss_apply_time`  		varchar(32)			NOT NULL 					COMMENT '提交时间',
+	   `from_user`  		    varchar(64)		  NOT NULL    			COMMENT '申请人',
+    `from_account_uuid`   varchar(64)		  NOT NULL    			COMMENT '申请账号',
+
+	  `flow_status`  			  tinyint(1) 			NOT NULL  DEFAULT '1'   	COMMENT '审批状态, 1: 等待审批，2: 正在审批，3：审批完成',
+	  `approver_result`  		tinyint(1) 			NOT NULL  DEFAULT '0'   	COMMENT '审批结果, 0: 审核中， 1: 同意，2：拒绝',
+	  `approve_start_time`  varchar(32)			NULL DEFAULT NULL     		COMMENT '审批开始时间',
+	  `approve_end_time`  	varchar(32)			NULL DEFAULT NULL     		COMMENT '审批结束时间',
+	  `status`  				    tinyint(1) 			NOT NULL  DEFAULT '1'   	COMMENT '状态, 1: 正常，0：禁用',
+	  `remark`  				    varchar(100) 		NULL DEFAULT NULL  			  COMMENT '备注' ,
+	  `ext`  					      varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `uuid` (`uuid`) USING BTREE,
+	UNIQUE INDEX `buss_uuid` (`buss_uuid`) USING BTREE
+)comment='业务流程申请记录表'
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
+
+
+-- ----------------------------
+-- 流程审批通知表 `bss_flow_approve_notice`
+-- ----------------------------
+DROP TABLE IF EXISTS `bss_flow_approve_notice`;
+CREATE TABLE `bss_flow_approve_notice` (
+    `id`          		  int(11) 			    NOT NULL 					AUTO_INCREMENT ,
+    `buss_type`  			  varchar(100)		  NOT NULL 					COMMENT '业务类型',
+    `buss_uuid`  			  varchar(64)		    NOT NULL 					COMMENT '业务UUID',
+    `buss_record_uuid`  varchar(64)		    NOT NULL 					COMMENT '业务数据记录UUID',
+    `approve_apply_uuid`varchar(64)		    NOT NULL 					COMMENT '申请单UUID',
+	  `flow_id`  				  int(11)				    NOT NULL  				COMMENT '流程ID' ,
+    `node_id`  				  int(11)				    NOT NULL  				COMMENT '节点ID' ,
+
+
+	  `to_user`  		      varchar(64)		    NOT NULL    			COMMENT '审批人',
+	  `to_account_uuid`  	varchar(64)		    NOT NULL    		  COMMENT '审批人账号UUID',
+	  `approve_time`  		varchar(32)			  NULL DEFAULT NULL COMMENT '审批时间',
+
+	  `flow_status`  			tinyint(1) 			  NOT NULL  DEFAULT '1'   COMMENT '审批状态, 1: 等待审批，2: 正在审批，3：审批完成',
+	  `status`  				  tinyint(1) 			  NOT NULL  DEFAULT '1'   COMMENT '状态, 1: 正常，0：禁用',
+	  `remark`  				  varchar(100) 		  NULL DEFAULT NULL  			COMMENT '备注' ,
+	  `ext`  					    varchar(100)		  NULL DEFAULT NULL     	COMMENT '预留字段',
+	  PRIMARY KEY (`id`),
+
+	  UNIQUE INDEX `buss_uuid_node_id_approver_user` (`buss_uuid`, `node_id`) USING BTREE
+)comment='流程审批通知表'
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;
+
+
+
+-- ----------------------------
+-- 流程审批详情表 `bss_flow_approve_detail`
+-- ----------------------------
+DROP TABLE IF EXISTS `bss_flow_approve_detail`;
+CREATE TABLE `bss_flow_approve_detail` (
+    `id`          		  int(11) 			    NOT NULL 					AUTO_INCREMENT ,
+    `buss_type`  			  varchar(100)		  NOT NULL 					COMMENT '业务类型',
+    `buss_uuid`  			  varchar(64)		    NOT NULL 					COMMENT '业务UUID',
+    `buss_record_uuid`  varchar(64)		    NOT NULL 					COMMENT '业务数据记录UUID',
+	  `flow_id`  				  int(11)				    NOT NULL  				COMMENT '流程ID' ,
+    `node_id`  				  int(11)				    NOT NULL  				COMMENT '节点ID',
+
+    `from_user`  		     varchar(64)		  NOT NULL    			COMMENT '申请人',
+    `from_account_uuid`  varchar(64)		  NOT NULL    			COMMENT '申请账号',
+
+	  `to_user`  		      varchar(64)		    NOT NULL    			COMMENT '审批人',
+	  `to_account_uuid`  	varchar(64)		    NOT NULL    		  COMMENT '审批人账号UUID',
+	  `approver_comment`  varchar(200)		  NOT NULL    	    COMMENT '审批语',
+	  `approver_result`  	tinyint(1) 			  NOT NULL			    COMMENT '审批结果, 1: 同意，0：拒绝',
+	  `approve_time`  		varchar(32)			  NULL DEFAULT NULL COMMENT '审批时间',
+
+	  `flow_status`  			tinyint(1) 			  NOT NULL  DEFAULT '1'   COMMENT '审批状态, 1: 等待审批，2: 正在审批，3：审批完成',
+	  `status`  				  tinyint(1) 			  NOT NULL  DEFAULT '1'   COMMENT '状态, 1: 正常，0：禁用',
+	  `remark`  				  varchar(100) 		  NULL DEFAULT NULL  			COMMENT '备注' ,
+	  `ext`  					    varchar(100)		  NULL DEFAULT NULL     	COMMENT '预留字段',
+	  PRIMARY KEY (`id`),
+
+	  UNIQUE INDEX `buss_record_uuid_node_id` (`buss_record_uuid`, `node_id`) USING BTREE
+)comment='流程审批详情表'
+ENGINE=InnoDB
+DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci;

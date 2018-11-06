@@ -1,7 +1,7 @@
 package com.ejet.bss.userflow.model;
 
 import com.ejet.comm.base.CoBaseVO;
-public class BssFlowApproveModel extends CoBaseVO { 
+public class BssFlowApproveDetailModel extends CoBaseVO { 
 
 	/**    */ 
  	private Integer id;
@@ -9,18 +9,20 @@ public class BssFlowApproveModel extends CoBaseVO {
  	private String bussType;
 	/**  业务UUID  */ 
  	private String bussUuid;
+	/**  业务数据记录UUID  */ 
+ 	private String bussRecordUuid;
 	/**  流程ID  */ 
  	private Integer flowId;
 	/**  节点ID  */ 
  	private Integer nodeId;
-	/**  节点名称  */ 
- 	private String nodeName;
-	/**  节点描述  */ 
- 	private String nodeDes;
+	/**  申请人  */ 
+ 	private String fromUser;
+	/**  申请账号  */ 
+ 	private String fromAccountUuid;
 	/**  审批人  */ 
- 	private Integer approverUser;
-	/**  审批人UUID  */ 
- 	private String approverUuid;
+ 	private String toUser;
+	/**  审批人账号UUID  */ 
+ 	private String toAccountUuid;
 	/**  审批语  */ 
  	private String approverComment;
 	/**  审批结果, 1: 同意，0：拒绝  */ 
@@ -60,6 +62,14 @@ public class BssFlowApproveModel extends CoBaseVO {
 		return bussUuid;
 	}
 
+	public void setBussRecordUuid(String bussRecordUuid) {
+		this.bussRecordUuid=bussRecordUuid;
+	} 
+
+	public String getBussRecordUuid(){
+		return bussRecordUuid;
+	}
+
 	public void setFlowId(Integer flowId) {
 		this.flowId=flowId;
 	} 
@@ -76,36 +86,36 @@ public class BssFlowApproveModel extends CoBaseVO {
 		return nodeId;
 	}
 
-	public void setNodeName(String nodeName) {
-		this.nodeName=nodeName;
+	public void setFromUser(String fromUser) {
+		this.fromUser=fromUser;
 	} 
 
-	public String getNodeName(){
-		return nodeName;
+	public String getFromUser(){
+		return fromUser;
 	}
 
-	public void setNodeDes(String nodeDes) {
-		this.nodeDes=nodeDes;
+	public void setFromAccountUuid(String fromAccountUuid) {
+		this.fromAccountUuid=fromAccountUuid;
 	} 
 
-	public String getNodeDes(){
-		return nodeDes;
+	public String getFromAccountUuid(){
+		return fromAccountUuid;
 	}
 
-	public void setApproverUser(Integer approverUser) {
-		this.approverUser=approverUser;
+	public void setToUser(String toUser) {
+		this.toUser=toUser;
 	} 
 
-	public Integer getApproverUser(){
-		return approverUser;
+	public String getToUser(){
+		return toUser;
 	}
 
-	public void setApproverUuid(String approverUuid) {
-		this.approverUuid=approverUuid;
+	public void setToAccountUuid(String toAccountUuid) {
+		this.toAccountUuid=toAccountUuid;
 	} 
 
-	public String getApproverUuid(){
-		return approverUuid;
+	public String getToAccountUuid(){
+		return toAccountUuid;
 	}
 
 	public void setApproverComment(String approverComment) {

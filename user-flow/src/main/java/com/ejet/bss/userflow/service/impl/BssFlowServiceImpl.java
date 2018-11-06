@@ -1,14 +1,15 @@
 package com.ejet.bss.userflow.service.impl;
 
 
-import com.ejet.bss.userflow.bo.SysFlowNodeVo;
+import com.ejet.bss.userflow.bo.BssFlowBO;
+import com.ejet.bss.userflow.bo.BssFlowNodeBO;
+import com.ejet.bss.userflow.bo.BssFlowRequestBO;
 import com.ejet.bss.userflow.comm.ExceptionCode;
+import com.ejet.bss.userflow.mapper.BssFlowDao;
 import com.ejet.bss.userflow.model.BssFlowBussRModel;
-import com.ejet.bss.userflow.vo.BssFlowVO;
-import com.ejet.comm.base.CoBaseVO;
-import com.ejet.comm.utils.CheckUtils;
+import com.ejet.bss.userflow.model.BssFlowModel;
+import com.ejet.bss.userflow.service.IBssFlowService;
 import com.ejet.comm.utils.StringUtils;
-import com.ejet.comm.utils.reflect.ReflectUtils;
 import com.ejet.global.CoConstant;
 import com.github.pagehelper.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +17,17 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.ejet.comm.PageBean;
 import com.github.pagehelper.PageHelper;
 import com.ejet.comm.exception.CoBusinessException;
-import com.ejet.bss.userflow.model.BssFlowModel;
-import com.ejet.bss.userflow.mapper.BssFlowDao;
-import com.ejet.bss.userflow.service.IBssFlowService;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service("bssFlowService")
-public class BssFlowServiceImpl implements IBssFlowService { 
+public class BssFlowServiceImpl implements IBssFlowService {
 
 	private final Logger log = LoggerFactory.getLogger(BssFlowServiceImpl.class);
 
@@ -38,8 +39,8 @@ public class BssFlowServiceImpl implements IBssFlowService {
     private BssFlowNodeServiceImpl flowNodeService;
 
 	@Override
-	public void insertAutoKey(BssFlowModel model) throws CoBusinessException { 
- 		mDao.insertAutoKey(model);
+	public int insertAutoKey(BssFlowModel model) throws CoBusinessException {
+ 		return mDao.insertAutoKey(model);
  	}  
 
 	@Override
@@ -76,68 +77,78 @@ public class BssFlowServiceImpl implements IBssFlowService {
  		Integer maxId = mDao.findMaxId(null);
  		maxId = maxId==null? 1 : maxId+1;
  		model.setId(maxId);
+ 		model.setFlowId(maxId);
  		mDao.insertSingle(model);
  		return maxId;
  	}
 
-    public void checkFlow(BssFlowVO flow) throws CoBusinessException {
-        //首先入库流程信息
-        if(flow==null || StringUtil.isEmpty(flow.getBussUuid())
-                || StringUtil.isEmpty(flow.getBussType())) {
-            throw new CoBusinessException(ExceptionCode.FLOW_ADD_FORM_EMPTY); //表单ID、类型为空
-        }
-        if(StringUtils.isEmpty(flow.getFlowName())) {
+    public void checkFlow(BssFlowBO flowBO) throws CoBusinessException {
+
+        if(flowBO==null || flowBO.getFlow()==null) {
             throw new CoBusinessException(ExceptionCode.FLOW_ADD_FLOW_NAME_EMPTY);
         }
-        if(flow.getPriority()==null) {
-            throw new CoBusinessException(ExceptionCode.FLOW_ADD_FLOW_PRIORITY_EMPTY);
-        }
-        if(flow.getFlowNodes()==null || flow.getFlowNodes().size()==0) {
+
+        if(flowBO.getFlowNodes()==null || flowBO.getFlowNodes().size()==0) {
             throw new CoBusinessException(ExceptionCode.FLOW_ADD_FLOW_NODES_EMPTY);
         }
-        //如果默认流程
-        if(flow.getPriority().intValue()==0) {
 
+        BssFlowModel flowModel = flowBO.getFlow();
+        if(StringUtils.isEmpty(flowModel.getFlowName())) {
+            throw new CoBusinessException(ExceptionCode.FLOW_ADD_FLOW_NAME_EMPTY);
         }
-        //忽略监测的字段
-        List<String> ignoreFileds =  ReflectUtils.getDeclaredFieldsName(CoBaseVO.class);
-        ignoreFileds.add("ccType");
-        ignoreFileds.add("ccUsers");
-        ignoreFileds.add("conditions");
-        CheckUtils.checkObject(flow, ignoreFileds);
+        if(flowModel.getPriority()==null) {
+            throw new CoBusinessException(ExceptionCode.FLOW_ADD_FLOW_PRIORITY_EMPTY);
+        }
 
-        List<String> ignoreFlowFileds = new ArrayList<>();
-        ignoreFlowFileds.addAll(ignoreFileds);
-        ignoreFlowFileds.add("id");
-        ignoreFlowFileds.add("flowId");
-        ignoreFlowFileds.add("flowCode");
-        ignoreFlowFileds.add("flowVersion");
-        ignoreFlowFileds.add("fullname");
-        ignoreFlowFileds.add("ccType");
-        ignoreFlowFileds.add("ccUsers");
-        ignoreFlowFileds.add("runtime");
-        ignoreFlowFileds.add("remark");
-        ignoreFlowFileds.add("ext");
-        CheckUtils.checkObject(flow, ignoreFlowFileds);
+        //忽略监测的字段
+        // List<String> ignoreFileds =  ReflectUtils.getDeclaredFieldsName(CoBaseVO.class);
+        // ignoreFileds.add("ccType");
+        // ignoreFileds.add("ccUsers");
+        // ignoreFileds.add("conditions");
+        // CheckUtils.checkObject(flowModel, ignoreFileds);
+        //
+        // List<String> ignoreFlowFileds = new ArrayList<>();
+        // ignoreFlowFileds.addAll(ignoreFileds);
+        // ignoreFlowFileds.add("id");
+        // ignoreFlowFileds.add("flowId");
+        // ignoreFlowFileds.add("flowCode");
+        // ignoreFlowFileds.add("flowVersion");
+        // ignoreFlowFileds.add("fullname");
+        // ignoreFlowFileds.add("ccType");
+        // ignoreFlowFileds.add("ccUsers");
+        // ignoreFlowFileds.add("runtime");
+        // ignoreFlowFileds.add("remark");
+        // ignoreFlowFileds.add("ext");
+        // CheckUtils.checkObject(flowModel, ignoreFlowFileds);
 
     }
 
     /**
      * 新增流程
-     * @param flowVO
      * @throws CoBusinessException
      */
-    public void addFlow(BssFlowVO flowVO) throws CoBusinessException {
-        checkFlow(flowVO);
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT,
+            timeout=36000, rollbackFor={Exception.class,CoBusinessException.class})
+    public void addFlow(BssFlowRequestBO flowReqBO) throws CoBusinessException {
+
+        if(flowReqBO==null || StringUtil.isEmpty(flowReqBO.getBussUuid())
+                || StringUtil.isEmpty(flowReqBO.getBussType())) {
+            throw new CoBusinessException(ExceptionCode.FLOW_ADD_FORM_EMPTY); //表单ID、类型为空
+        }
+
+        BssFlowBO flowBO = flowReqBO.getFlowBO();
+        checkFlow(flowBO);
 
         //入库流程
-        insertSingle(flowVO);
+        BssFlowModel flowModel = flowBO.getFlow();
+        insertSingle(flowModel);
 
         //得到流程id，入库表单流程表单关联
         BssFlowBussRModel flowBussR = new BssFlowBussRModel();
-        flowBussR.setFlowId(flowVO.getFlowId());
-        flowBussR.setBussUuid(flowVO.getBussUuid());
-        flowBussR.setBussType(flowVO.getBussType());
+        flowBussR.setBussUuid(flowReqBO.getBussUuid());
+        flowBussR.setBussType(flowReqBO.getBussType());
+        flowBussR.setFlowId(flowModel.getFlowId());
+        flowBussR.setFlowCode(flowModel.getFlowCode());
         flowBussR.setStatus(CoConstant.STATUS_NORMAL);
         flowBussRService.insertSingle(flowBussR);
 
@@ -146,13 +157,11 @@ public class BssFlowServiceImpl implements IBssFlowService {
         // formConnditionService.savePrecondition(flowVo, vo.getBussUuid());
 
         //流程节点表
-        List<SysFlowNodeVo> nodes = flowVO.getFlowNodes();
-        for(SysFlowNodeVo nodeVo: nodes) {
+        List<BssFlowNodeBO> nodes = flowBO.getFlowNodes();
+        for(BssFlowNodeBO nodeVo: nodes) {
+            nodeVo.setFlowId(flowModel.getFlowId());
             flowNodeService.insertSingle(nodeVo);
         }
-
-
-
 
 
     }

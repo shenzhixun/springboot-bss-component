@@ -26,7 +26,11 @@ public class ExceptionCode extends com.ejet.comm.exception.ExceptionCode {
     /** 流程节点找不到对应审批人 */
     public static final String FLOW_ADD_NODE_APPROVER_EMPTY = "5000007";
 
+    /** 流程为空 */
+    public static final String FLOW_ADD_FLOW_NULL = "500008";
+
     static {
+        put(FLOW_ADD_FLOW_NULL, "流程为空");
         put(FLOW_ADD_FORM_EMPTY, "表单ID、类型为空");
         put(FLOW_ADD_FLOW_NAME_EMPTY, "流程名称为空");
         put(FLOW_ADD_FLOW_PRIORITY_EMPTY, "流程优先级为空");

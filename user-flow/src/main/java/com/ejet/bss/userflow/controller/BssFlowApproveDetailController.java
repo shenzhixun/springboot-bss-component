@@ -14,23 +14,23 @@ import com.ejet.comm.base.CoBaseController;
 import java.util.List;
 
 import static com.ejet.comm.exception.ExceptionCode.SYS_ERROR;
-import com.ejet.bss.userflow.model.BssFlowApproveModel;
-import com.ejet.bss.userflow.service.impl.BssFlowApproveServiceImpl;
+import com.ejet.bss.userflow.model.BssFlowApproveDetailModel;
+import com.ejet.bss.userflow.service.impl.BssFlowApproveDetailServiceImpl;
 @RestController
-@RequestMapping(value="/bss-flow-approve")
-public class BssFlowApproveController extends CoBaseController { 
+@RequestMapping(value="/bss-flow-approve-detail")
+public class BssFlowApproveDetailController extends CoBaseController { 
 
-	private final Logger log = LoggerFactory.getLogger(BssFlowApproveController.class);
+	private final Logger log = LoggerFactory.getLogger(BssFlowApproveDetailController.class);
 	@Autowired
-	private BssFlowApproveServiceImpl mService;
+	private BssFlowApproveDetailServiceImpl mService;
 
 
 	@ResponseBody
 	@RequestMapping(value="/query")
-	public Result query(@RequestBody(required=false)BssFlowApproveModel model) {
+	public Result query(@RequestBody(required=false)BssFlowApproveDetailModel model) {
 		Result rs = new Result();
 		try {
-			List<BssFlowApproveModel> page = mService.queryByCond(model);
+			List<BssFlowApproveDetailModel> page = mService.queryByCond(model);
 			rs = new Result(page);
 		}catch (CoBusinessException e) {
 			log.error("", e);
@@ -42,7 +42,7 @@ public class BssFlowApproveController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/delete")
-	public Result delete(@RequestBody(required=true)BssFlowApproveModel model) {
+	public Result delete(@RequestBody(required=true)BssFlowApproveDetailModel model) {
 		Result rs = new Result();
 		try{
 			mService.delete(model);
@@ -56,7 +56,7 @@ public class BssFlowApproveController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/add")
-	public Result add(@RequestBody(required=true)BssFlowApproveModel model) {
+	public Result add(@RequestBody(required=true)BssFlowApproveDetailModel model) {
 		Result rs = new Result();
 		try{
 			mService.insertSingle(model);
@@ -70,7 +70,7 @@ public class BssFlowApproveController extends CoBaseController {
 
 	@ResponseBody
 	@RequestMapping(value="/update")
-	public Result update(@RequestBody(required=true)BssFlowApproveModel model) {
+	public Result update(@RequestBody(required=true)BssFlowApproveDetailModel model) {
 		Result rs = new Result();
 		try{
 			mService.update(model);
@@ -83,15 +83,15 @@ public class BssFlowApproveController extends CoBaseController {
 
 
 	@ResponseBody
-	@RequestMapping(value="/query-by-page")
-	public Result queryByPage(@RequestBody(required=true)Param<BssFlowApproveModel> param, BindingResult bindResult) {
+	@RequestMapping(value="/query_by_page")
+	public Result queryByPage(@RequestBody(required=true)Param<BssFlowApproveDetailModel> param, BindingResult bindResult) {
 		Result rs = new Result();
 		try{
 			checkBindResult(bindResult);
 			checkParam(param);
-			BssFlowApproveModel model = param.getData();
-			PageBean<BssFlowApproveModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
-			rs = new Result(pageBean.getPage(), pageBean.getResult());
+			BssFlowApproveDetailModel model = param.getData();
+			PageBean<BssFlowApproveDetailModel> page = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
+			rs = new Result(page);
 		}catch (CoBusinessException e) {
 			log.error("", e);
 			rs = new Result(e.getCode(), e);

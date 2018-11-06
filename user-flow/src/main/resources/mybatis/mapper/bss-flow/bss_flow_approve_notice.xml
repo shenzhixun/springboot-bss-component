@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ejet.bss.userflow.mapper.BssFlowApproveNoticeDao">
+
+	<sql id="SqlWhere">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+			<if test="bussType!=null and bussType!='' ">and buss_type=#{bussType} </if>
+			<if test="bussUuid!=null and bussUuid!='' ">and buss_uuid=#{bussUuid} </if>
+			<if test="bussRecordUuid!=null and bussRecordUuid!='' ">and buss_record_uuid=#{bussRecordUuid} </if>
+			<if test="approveApplyUuid!=null and approveApplyUuid!='' ">and approve_apply_uuid=#{approveApplyUuid} </if>
+			<if test="flowId!=null ">and flow_id=#{flowId} </if>
+			<if test="nodeId!=null ">and node_id=#{nodeId} </if>
+			<if test="toUser!=null and toUser!='' ">and to_user=#{toUser} </if>
+			<if test="toAccountUuid!=null and toAccountUuid!='' ">and to_account_uuid=#{toAccountUuid} </if>
+			<if test="approveTime!=null and approveTime!='' ">and approve_time=#{approveTime} </if>
+			<if test="flowStatus!=null and flowStatus!='' ">and flow_status=#{flowStatus} </if>
+			<if test="status!=null and status!='' ">and status=#{status} </if>
+			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
+			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
+		</where>
+	</sql>
+	<sql id="SqlWherePK">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+		</where>
+	</sql>
+	<sql id="SqlSet">
+		<set>
+			<if test="id!=null "> id=#{id}, </if>
+			<if test="bussType!=null and bussType!='' "> buss_type=#{bussType}, </if>
+			<if test="bussUuid!=null and bussUuid!='' "> buss_uuid=#{bussUuid}, </if>
+			<if test="bussRecordUuid!=null and bussRecordUuid!='' "> buss_record_uuid=#{bussRecordUuid}, </if>
+			<if test="approveApplyUuid!=null and approveApplyUuid!='' "> approve_apply_uuid=#{approveApplyUuid}, </if>
+			<if test="flowId!=null "> flow_id=#{flowId}, </if>
+			<if test="nodeId!=null "> node_id=#{nodeId}, </if>
+			<if test="toUser!=null and toUser!='' "> to_user=#{toUser}, </if>
+			<if test="toAccountUuid!=null and toAccountUuid!='' "> to_account_uuid=#{toAccountUuid}, </if>
+			<if test="approveTime!=null and approveTime!='' "> approve_time=#{approveTime}, </if>
+			<if test="flowStatus!=null and flowStatus!='' "> flow_status=#{flowStatus}, </if>
+			<if test="status!=null and status!='' "> status=#{status}, </if>
+			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
+			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
+		</set>
+	</sql>
+
+
+	<insert  id="insertAutoKey" parameterType="com.ejet.bss.userflow.model.BssFlowApproveNoticeModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bss_flow_approve_notice (
+ 			buss_type, buss_uuid, buss_record_uuid, approve_apply_uuid, 
+ 			flow_id, node_id, to_user, to_account_uuid, approve_time, 
+ 			flow_status, status, remark, ext ) 	 VALUES ( 
+ 			#{bussType}, #{bussUuid}, #{bussRecordUuid}, #{approveApplyUuid}, 
+ 			#{flowId}, #{nodeId}, #{toUser}, #{toAccountUuid}, #{approveTime}, 
+ 			#{flowStatus}, #{status}, #{remark}, #{ext} ) 
+	</insert>
+
+	<insert  id="insertSingle" parameterType="com.ejet.bss.userflow.model.BssFlowApproveNoticeModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO bss_flow_approve_notice (
+ 			buss_type, buss_uuid, buss_record_uuid, approve_apply_uuid, 
+ 			flow_id, node_id, to_user, to_account_uuid, approve_time, 
+ 			flow_status, status, remark, ext,  id ) 
+		 VALUES( 
+ 			#{bussType}, #{bussUuid}, #{bussRecordUuid}, #{approveApplyUuid}, 
+ 			#{flowId}, #{nodeId}, #{toUser}, #{toAccountUuid}, #{approveTime}, 
+ 			#{flowStatus}, #{status}, #{remark}, #{ext},  #{id} ) 
+	</insert>
+
+	<delete  id="delete" parameterType="com.ejet.bss.userflow.model.BssFlowApproveNoticeModel" >
+		 DELETE FROM bss_flow_approve_notice
+		 <include refid="SqlWhere"></include> 
+	</delete>
+
+	<update  id="update" parameterType="com.ejet.bss.userflow.model.BssFlowApproveNoticeModel" >
+		 UPDATE bss_flow_approve_notice
+		 <include refid="SqlSet"></include> 
+		 <include refid="SqlWherePK"></include> 
+	</update>
+
+	<select  id="findByPK" parameterType="com.ejet.bss.userflow.model.BssFlowApproveNoticeModel" resultType="com.ejet.bss.userflow.model.BssFlowApproveNoticeModel" >
+		 SELECT * FROM bss_flow_approve_notice
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByCond" parameterType="com.ejet.bss.userflow.model.BssFlowApproveNoticeModel" resultType="com.ejet.bss.userflow.model.BssFlowApproveNoticeModel" >
+		 SELECT * FROM bss_flow_approve_notice
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryTree" parameterType="com.ejet.bss.userflow.model.BssFlowApproveNoticeModel" resultType="com.ejet.bss.userflow.model.BssFlowApproveNoticeModel" >
+		 SELECT * FROM bss_flow_approve_notice
+		 <include refid="SqlWhere"></include> 
+		 <if test=" extSQL !=null "> ${extSQL} </if> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByPage" parameterType="com.ejet.bss.userflow.model.BssFlowApproveNoticeModel" resultType="com.ejet.bss.userflow.model.BssFlowApproveNoticeModel" >
+		 SELECT * FROM bss_flow_approve_notice
+		 <include refid="SqlWhere"></include> 
+		 <if test="extSQL!=null "> ${extSQL} </if> 
+	</select>
+
+	<select  id="findMaxId" parameterType="com.ejet.bss.userflow.model.BssFlowApproveNoticeModel" resultType="int" >
+		 SELECT max(id) FROM bss_flow_approve_notice
+		 <include refid="SqlWhere"></include> 
+	</select>
+
+</mapper>

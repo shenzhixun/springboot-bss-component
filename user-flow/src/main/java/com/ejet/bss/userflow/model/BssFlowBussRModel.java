@@ -18,9 +18,9 @@ public class BssFlowBussRModel extends CoBaseVO {
 	/**  优先级， 0：表示默认流程 1:定义流程  */ 
  	private Integer priority;
 	/**  有效期限开始时间  */ 
- 	private String effectStart;
+ 	private String effectStartTime;
 	/**  有效期限结束时间  */ 
- 	private String effectEnd;
+ 	private String effectEndTime;
 	/**  状态, 1: 正常，0：禁用  */ 
  	private Integer status;
 	/**  备注  */ 
@@ -84,20 +84,20 @@ public class BssFlowBussRModel extends CoBaseVO {
 		return priority;
 	}
 
-	public void setEffectStart(String effectStart) {
-		this.effectStart=effectStart;
+	public void setEffectStartTime(String effectStartTime) {
+		this.effectStartTime=effectStartTime;
 	} 
 
-	public String getEffectStart(){
-		return effectStart;
+	public String getEffectStartTime(){
+		return effectStartTime;
 	}
 
-	public void setEffectEnd(String effectEnd) {
-		this.effectEnd=effectEnd;
+	public void setEffectEndTime(String effectEndTime) {
+		this.effectEndTime=effectEndTime;
 	} 
 
-	public String getEffectEnd(){
-		return effectEnd;
+	public String getEffectEndTime(){
+		return effectEndTime;
 	}
 
 	public void setStatus(Integer status) {

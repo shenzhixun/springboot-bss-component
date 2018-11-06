@@ -83,14 +83,15 @@ public class BssFlowNodeController extends CoBaseController {
 
 
 	@ResponseBody
-	@RequestMapping(value="/query-by-page")
-	public Result queryByPage(@RequestBody(required=true)Param param, BindingResult bindResult) {
+	@RequestMapping(value="/query_by_page")
+	public Result queryByPage(@RequestBody(required=true)Param<BssFlowNodeModel> param, BindingResult bindResult) {
 		Result rs = new Result();
 		try{
 			checkBindResult(bindResult);
-			BssFlowNodeModel model = toBean(param, new TypeReference<BssFlowNodeModel>(){});
-			PageBean<BssFlowNodeModel> pageBean = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
-			rs = new Result(pageBean.getPage(), pageBean.getResult());
+			checkParam(param);
+			BssFlowNodeModel model = param.getData();
+			PageBean<BssFlowNodeModel> page = mService.queryByPage(model, param.getPage().getPageNum(), param.getPage().getPageSize());
+			rs = new Result(page);
 		}catch (CoBusinessException e) {
 			log.error("", e);
 			rs = new Result(e.getCode(), e);

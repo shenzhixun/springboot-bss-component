@@ -11,7 +11,7 @@ import com.ejet.bss.userrights.model.SysAccountRoleRModel;
  * @author ShenYijie
  *
  */
-public class SysFlowVo {
+public class BssFlowBO {
 	/**
 	 * 流程信息
 	 */
@@ -19,7 +19,7 @@ public class SysFlowVo {
 	/**
 	 * 流程节点
 	 */
-	private List<SysFlowNodeVo> flowNodes;
+	private List<BssFlowNodeBO> flowNodes;
 	/**
 	 * 	抄送类型
 	 */
@@ -38,11 +38,11 @@ public class SysFlowVo {
 	}
 
 
-	public List<SysFlowNodeVo> getFlowNodes() {
+	public List<BssFlowNodeBO> getFlowNodes() {
 		return flowNodes;
 	}
 
-	public void setFlowNodes(List<SysFlowNodeVo> flowNodes) {
+	public void setFlowNodes(List<BssFlowNodeBO> flowNodes) {
 		this.flowNodes = flowNodes;
 	}
 

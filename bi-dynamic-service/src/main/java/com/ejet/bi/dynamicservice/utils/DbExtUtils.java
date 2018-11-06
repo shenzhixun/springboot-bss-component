@@ -37,21 +37,21 @@ public class DbExtUtils {
         return list;
     }
 
-    // /**
-    //  * 执行sql查询并返回结果
-    //  * @return
-    //  */
-    // public static List<Map<String,Object>> executeQuery(String dataSourceBeanName, String sql) {
-    //     List<Map<String,Object>> list =  new ArrayList<>();
-    //     try {
-    //         DruidDataSource dataSource = (DruidDataSource) CoApplicationContext.getBean(dataSourceBeanName);
-    //         QueryRunner qr = new QueryRunner(dataSource);
-    //         list = qr.query(sql, new MapListHandler());
-    //     } catch (SQLException e) {
-    //         e.printStackTrace();
-    //     }
-    //     return list;
-    // }
+    /**
+     * 执行存储过程
+     * @return
+     */
+    public static List<Map<String,Object>> executeCallProcedure(String dataSourceBeanName, String sql, Object... params) {
+        List<Map<String,Object>> list =  new ArrayList<>();
+        try {
+            DruidDataSource dataSource = (DruidDataSource) CoApplicationContext.getBean(dataSourceBeanName);
+            QueryRunner qr = new QueryRunner(dataSource);
+            list = qr.query(sql, new MapListHandler());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
 
 

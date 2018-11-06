@@ -13,16 +13,18 @@ public class BssFlowModel extends CoBaseVO {
  	private String flowType;
 	/**  流程名称  */ 
  	private String flowName;
+	/**  全名  */ 
+ 	private String fullname;
 	/**  流程版本  */ 
  	private String flowVersion;
 	/**  优先级， 0：表示默认流程 1:定义流程  */ 
  	private Integer priority;
-	/**  全名  */ 
- 	private String fullname;
 	/**  抄送类型，0：无抄送人员，1：按角色，2：按人员  */ 
  	private Integer ccType;
 	/**  启用时间  */ 
- 	private String runtime;
+ 	private String effectStartTime;
+	/**  停用时间  */ 
+ 	private String effectEndTime;
 	/**  状态, 1: 正常，0：禁用  */ 
  	private Integer status;
 	/**  备注  */ 
@@ -72,6 +74,14 @@ public class BssFlowModel extends CoBaseVO {
 		return flowName;
 	}
 
+	public void setFullname(String fullname) {
+		this.fullname=fullname;
+	} 
+
+	public String getFullname(){
+		return fullname;
+	}
+
 	public void setFlowVersion(String flowVersion) {
 		this.flowVersion=flowVersion;
 	} 
@@ -88,14 +98,6 @@ public class BssFlowModel extends CoBaseVO {
 		return priority;
 	}
 
-	public void setFullname(String fullname) {
-		this.fullname=fullname;
-	} 
-
-	public String getFullname(){
-		return fullname;
-	}
-
 	public void setCcType(Integer ccType) {
 		this.ccType=ccType;
 	} 
@@ -104,12 +106,20 @@ public class BssFlowModel extends CoBaseVO {
 		return ccType;
 	}
 
-	public void setRuntime(String runtime) {
-		this.runtime=runtime;
+	public void setEffectStartTime(String effectStartTime) {
+		this.effectStartTime=effectStartTime;
 	} 
 
-	public String getRuntime(){
-		return runtime;
+	public String getEffectStartTime(){
+		return effectStartTime;
+	}
+
+	public void setEffectEndTime(String effectEndTime) {
+		this.effectEndTime=effectEndTime;
+	} 
+
+	public String getEffectEndTime(){
+		return effectEndTime;
 	}
 
 	public void setStatus(Integer status) {

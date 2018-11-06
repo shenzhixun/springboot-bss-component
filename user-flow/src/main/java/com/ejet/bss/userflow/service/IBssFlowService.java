@@ -7,7 +7,7 @@ import com.ejet.bss.userflow.model.BssFlowModel;
 public interface IBssFlowService { 
 
 
-	public void insertAutoKey(BssFlowModel model) throws CoBusinessException; 
+	public int insertAutoKey(BssFlowModel model) throws CoBusinessException; 
 
 	public void update(BssFlowModel model) throws CoBusinessException;
 

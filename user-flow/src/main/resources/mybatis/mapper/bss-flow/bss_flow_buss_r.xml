@@ -13,8 +13,8 @@
 			<if test="flowId!=null ">and flow_id=#{flowId} </if>
 			<if test="flowCode!=null and flowCode!='' ">and flowCode=#{flowCode} </if>
 			<if test="priority!=null ">and priority=#{priority} </if>
-			<if test="effectStart!=null and effectStart!='' ">and effect_start=#{effectStart} </if>
-			<if test="effectEnd!=null and effectEnd!='' ">and effect_end=#{effectEnd} </if>
+			<if test="effectStartTime!=null and effectStartTime!='' ">and effect_start_time=#{effectStartTime} </if>
+			<if test="effectEndTime!=null and effectEndTime!='' ">and effect_end_time=#{effectEndTime} </if>
 			<if test="status!=null and status!='' ">and status=#{status} </if>
 			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
 			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
@@ -35,8 +35,8 @@
 			<if test="flowId!=null "> flow_id=#{flowId}, </if>
 			<if test="flowCode!=null and flowCode!='' "> flowCode=#{flowCode}, </if>
 			<if test="priority!=null "> priority=#{priority}, </if>
-			<if test="effectStart!=null and effectStart!='' "> effect_start=#{effectStart}, </if>
-			<if test="effectEnd!=null and effectEnd!='' "> effect_end=#{effectEnd}, </if>
+			<if test="effectStartTime!=null and effectStartTime!='' "> effect_start_time=#{effectStartTime}, </if>
+			<if test="effectEndTime!=null and effectEndTime!='' "> effect_end_time=#{effectEndTime}, </if>
 			<if test="status!=null and status!='' "> status=#{status}, </if>
 			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
 			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
@@ -47,21 +47,21 @@
 	<insert  id="insertAutoKey" parameterType="com.ejet.bss.userflow.model.BssFlowBussRModel" useGeneratedKeys="true" keyProperty="id" >
 		 INSERT INTO bss_flow_buss_r (
  			buss_type, buss_uuid, buss_condition_id, flow_id, 
- 			flowCode, priority, effect_start, effect_end, status, 
+ 			flowCode, priority, effect_start_time, effect_end_time, status, 
  			remark, ext ) 	 VALUES ( 
  			#{bussType}, #{bussUuid}, #{bussConditionId}, #{flowId}, 
- 			#{flowCode}, #{priority}, #{effectStart}, #{effectEnd}, #{status}, 
+ 			#{flowCode}, #{priority}, #{effectStartTime}, #{effectEndTime}, #{status}, 
  			#{remark}, #{ext} ) 
 	</insert>
 
 	<insert  id="insertSingle" parameterType="com.ejet.bss.userflow.model.BssFlowBussRModel" useGeneratedKeys="true" keyProperty="id" >
 		 INSERT INTO bss_flow_buss_r (
  			buss_type, buss_uuid, buss_condition_id, flow_id, 
- 			flowCode, priority, effect_start, effect_end, status, 
+ 			flowCode, priority, effect_start_time, effect_end_time, status, 
  			remark, ext,  id ) 
 		 VALUES( 
  			#{bussType}, #{bussUuid}, #{bussConditionId}, #{flowId}, 
- 			#{flowCode}, #{priority}, #{effectStart}, #{effectEnd}, #{status}, 
+ 			#{flowCode}, #{priority}, #{effectStartTime}, #{effectEndTime}, #{status}, 
  			#{remark}, #{ext},  #{id} ) 
 	</insert>
 

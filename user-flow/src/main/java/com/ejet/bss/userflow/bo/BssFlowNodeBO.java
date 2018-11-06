@@ -12,7 +12,7 @@ import com.ejet.bss.userrights.model.SysAccountRoleRModel;
  * @author ShenYijie
  *
  */
-public class SysFlowNodeVo extends BssFlowNodeModel {
+public class BssFlowNodeBO extends BssFlowNodeModel {
 	
 	/**
 	 * 节点审批人

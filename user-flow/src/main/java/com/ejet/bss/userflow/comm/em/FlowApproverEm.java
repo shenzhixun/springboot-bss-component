@@ -1,4 +1,4 @@
-package com.ejet.bss.userflow.comm.constant;
+package com.ejet.bss.userflow.comm.em;
 
 
 /**
