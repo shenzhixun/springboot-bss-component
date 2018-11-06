@@ -31,7 +31,7 @@ public class UserInfoApplication extends SpringBootServletInitializer {
 
     //每一个模块，都可以有自己的启动回调实现接口，只需要将实现类添加进去即可
     static {
-        logger.info("======== [comm-bss-userinfo] init ======");
+        logger.info("======== [comm-bss-bss-userinfo] init ======");
         BssUserInfoAppCallback callback = new BssUserInfoAppCallback();
         CoApplicationContext.getInstance().addApplicationBootCallback(callback);
 

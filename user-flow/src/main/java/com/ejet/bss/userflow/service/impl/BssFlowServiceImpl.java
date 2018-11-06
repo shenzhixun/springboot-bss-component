@@ -4,7 +4,7 @@ package com.ejet.bss.userflow.service.impl;
 import com.ejet.bss.userflow.bo.BssFlowBO;
 import com.ejet.bss.userflow.bo.BssFlowNodeBO;
 import com.ejet.bss.userflow.bo.BssFlowRequestBO;
-import com.ejet.bss.userflow.comm.ExceptionCode;
+import com.ejet.bss.userflow.comm.ExceptionCodeFlow;
 import com.ejet.bss.userflow.mapper.BssFlowDao;
 import com.ejet.bss.userflow.model.BssFlowBussRModel;
 import com.ejet.bss.userflow.model.BssFlowModel;
@@ -46,7 +46,7 @@ public class BssFlowServiceImpl implements IBssFlowService {
 	@Override
 	public void update(BssFlowModel model) throws CoBusinessException { 
  		if(model.getId()==null) { 
- 			throw new CoBusinessException(ExceptionCode.PARAM_MISSING_ID);
+ 			throw new CoBusinessException(ExceptionCodeFlow.PARAM_MISSING_ID);
  		}
  		mDao.update(model);
  	}  
@@ -78,6 +78,7 @@ public class BssFlowServiceImpl implements IBssFlowService {
  		maxId = maxId==null? 1 : maxId+1;
  		model.setId(maxId);
  		model.setFlowId(maxId);
+ 		model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
  		mDao.insertSingle(model);
  		return maxId;
  	}
@@ -85,19 +86,19 @@ public class BssFlowServiceImpl implements IBssFlowService {
     public void checkFlow(BssFlowBO flowBO) throws CoBusinessException {
 
         if(flowBO==null || flowBO.getFlow()==null) {
-            throw new CoBusinessException(ExceptionCode.FLOW_ADD_FLOW_NAME_EMPTY);
+            throw new CoBusinessException(ExceptionCodeFlow.FLOW_ADD_FLOW_NAME_EMPTY);
         }
 
         if(flowBO.getFlowNodes()==null || flowBO.getFlowNodes().size()==0) {
-            throw new CoBusinessException(ExceptionCode.FLOW_ADD_FLOW_NODES_EMPTY);
+            throw new CoBusinessException(ExceptionCodeFlow.FLOW_ADD_FLOW_NODES_EMPTY);
         }
 
         BssFlowModel flowModel = flowBO.getFlow();
         if(StringUtils.isEmpty(flowModel.getFlowName())) {
-            throw new CoBusinessException(ExceptionCode.FLOW_ADD_FLOW_NAME_EMPTY);
+            throw new CoBusinessException(ExceptionCodeFlow.FLOW_ADD_FLOW_NAME_EMPTY);
         }
         if(flowModel.getPriority()==null) {
-            throw new CoBusinessException(ExceptionCode.FLOW_ADD_FLOW_PRIORITY_EMPTY);
+            throw new CoBusinessException(ExceptionCodeFlow.FLOW_ADD_FLOW_PRIORITY_EMPTY);
         }
 
         //忽略监测的字段
@@ -133,7 +134,7 @@ public class BssFlowServiceImpl implements IBssFlowService {
 
         if(flowReqBO==null || StringUtil.isEmpty(flowReqBO.getBussUuid())
                 || StringUtil.isEmpty(flowReqBO.getBussType())) {
-            throw new CoBusinessException(ExceptionCode.FLOW_ADD_FORM_EMPTY); //表单ID、类型为空
+            throw new CoBusinessException(ExceptionCodeFlow.FLOW_ADD_FORM_EMPTY); //表单ID、类型为空
         }
 
         BssFlowBO flowBO = flowReqBO.getFlowBO();

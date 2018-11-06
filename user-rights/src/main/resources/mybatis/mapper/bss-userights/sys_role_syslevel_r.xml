@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ejet.bss.userrights.mapper.SysRoleSyslevelRDao">
+
+	<sql id="SqlWhere">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+			<if test="roleId!=null ">and role_id=#{roleId} </if>
+			<if test="syslevelId!=null ">and syslevel_id=#{syslevelId} </if>
+			<if test="syslevelType!=null ">and syslevel_type=#{syslevelType} </if>
+			<if test="levels!=null ">and levels=#{levels} </if>
+			<if test="status!=null and status!='' ">and status=#{status} </if>
+			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
+			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
+		</where>
+	</sql>
+	<sql id="SqlWherePK">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+		</where>
+	</sql>
+	<sql id="SqlSet">
+		<set>
+			<if test="id!=null "> id=#{id}, </if>
+			<if test="roleId!=null "> role_id=#{roleId}, </if>
+			<if test="syslevelId!=null "> syslevel_id=#{syslevelId}, </if>
+			<if test="syslevelType!=null "> syslevel_type=#{syslevelType}, </if>
+			<if test="levels!=null "> levels=#{levels}, </if>
+			<if test="status!=null and status!='' "> status=#{status}, </if>
+			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
+			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
+		</set>
+	</sql>
+
+
+	<insert  id="insertAutoKey" parameterType="com.ejet.bss.userrights.model.SysRoleSyslevelRModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO sys_role_syslevel_r (
+ 			role_id, syslevel_id, syslevel_type, levels, 
+ 			status, remark, ext ) 	 VALUES ( 
+ 			#{roleId}, #{syslevelId}, #{syslevelType}, #{levels}, 
+ 			#{status}, #{remark}, #{ext} ) 
+	</insert>
+
+	<insert  id="insertSingle" parameterType="com.ejet.bss.userrights.model.SysRoleSyslevelRModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO sys_role_syslevel_r (
+ 			role_id, syslevel_id, syslevel_type, levels, 
+ 			status, remark, ext,  id ) 
+		 VALUES( 
+ 			#{roleId}, #{syslevelId}, #{syslevelType}, #{levels}, 
+ 			#{status}, #{remark}, #{ext},  #{id} ) 
+	</insert>
+
+	<delete  id="delete" parameterType="com.ejet.bss.userrights.model.SysRoleSyslevelRModel" >
+		 DELETE FROM sys_role_syslevel_r
+		 <include refid="SqlWhere"></include> 
+	</delete>
+
+	<update  id="update" parameterType="com.ejet.bss.userrights.model.SysRoleSyslevelRModel" >
+		 UPDATE sys_role_syslevel_r
+		 <include refid="SqlSet"></include> 
+		 <include refid="SqlWherePK"></include> 
+	</update>
+
+	<select  id="findByPK" parameterType="com.ejet.bss.userrights.model.SysRoleSyslevelRModel" resultType="com.ejet.bss.userrights.model.SysRoleSyslevelRModel" >
+		 SELECT * FROM sys_role_syslevel_r
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByCond" parameterType="com.ejet.bss.userrights.model.SysRoleSyslevelRModel" resultType="com.ejet.bss.userrights.model.SysRoleSyslevelRModel" >
+		 SELECT * FROM sys_role_syslevel_r
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryTree" parameterType="com.ejet.bss.userrights.model.SysRoleSyslevelRModel" resultType="com.ejet.bss.userrights.model.SysRoleSyslevelRModel" >
+		 SELECT * FROM sys_role_syslevel_r
+		 <include refid="SqlWhere"></include> 
+		 <if test=" extSQL !=null "> ${extSQL} </if> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByPage" parameterType="com.ejet.bss.userrights.model.SysRoleSyslevelRModel" resultType="com.ejet.bss.userrights.model.SysRoleSyslevelRModel" >
+		 SELECT * FROM sys_role_syslevel_r
+		 <include refid="SqlWhere"></include> 
+		 <if test="extSQL!=null "> ${extSQL} </if> 
+	</select>
+
+	<select  id="findMaxId" parameterType="com.ejet.bss.userrights.model.SysRoleSyslevelRModel" resultType="int" >
+		 SELECT max(id) FROM sys_role_syslevel_r
+		 <include refid="SqlWhere"></include> 
+	</select>
+
+
+    <!-- 查询角色组对应数据权限 -->
+    <select  id="listRolesSyslevels" resultType="com.ejet.bss.userrights.model.SysSyslevelModel" parameterType="com.ejet.bss.userrights.vo.SysSyslevelVO">
+        SELECT DISTINCT M.*
+        FROM sys_syslevel M, sys_role_syslevel_r T
+        WHERE M.syslevel_id = T.syslevel_id AND M.syslevel_type = T.syslevel_type AND M.levels = T.levels
+        <if test="null != accountRoles and accountRoles.size > 0">
+            AND T.role_id IN
+            <foreach collection="accountRoles" item="obj" index="index"
+                     open="(" close=")" separator=",">
+                #{obj.roleId}
+            </foreach>
+        </if>
+
+        <if test="null != syslevels and syslevels.size > 0">
+            AND T.syslevel_type IN
+            <foreach collection="syslevels" item="obj" index="index"
+                     open="(" close=")" separator=",">
+                #{obj.syslevelType}
+            </foreach>
+        </if>
+        ORDER BY M.levels, M.syslevel_type
+        <!--    <if test="extSQL!=null "> ${extSQL} </if>
+           <if test=" orderCond !=null ">  order by ${orderCond} </if>  -->
+
+    </select>
+
+    <select  id="listRoleSyslevelsSpecial" resultType="com.ejet.bss.userrights.model.SysSyslevelModel" parameterType="com.ejet.bss.userrights.vo.SysAccountSpecialVO">
+        SELECT
+        S.*
+        FROM sys_syslevel S,
+        sys_account U,
+        sys_account_role_r R,
+        sys_role_type K,
+        sys_role M
+        WHERE U.amputate=1 and
+        M.role_type_id = K.role_type_id
+        AND M.role_type_code = K.role_type_code
+        AND M.role_id = R.role_id
+        AND U.dept_id = S.syslevel_id
+        AND R.account_uuid = U.uuid
+        AND U.uuid = #{accountUuid}
+        <if test="roleTypeCode!=null and roleTypeCode!='' "> AND M.role_type_code=#{roleTypeCode} </if>
+        <if test="syslevelType!=null "> AND S.syslevel_type=#{syslevelType} </if>
+        <if test="extSQL!=null "> ${extSQL} </if>
+    </select>
+
+
+</mapper>

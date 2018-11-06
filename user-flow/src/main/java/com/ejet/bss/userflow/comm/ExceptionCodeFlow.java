@@ -2,14 +2,14 @@ package com.ejet.bss.userflow.comm;
 
 /**
  * Copyright (C), 2016-2018, 武汉康华数海有限公司
- * FileName: ExceptionCode
+ * FileName: ExceptionCodeFlow
  * Author:   ShenYijie
  * CreateDate:     2018-10-15 19:26
  * Description: 返回码
  * History:
  * Version: 1.0
  */
-public class ExceptionCode extends com.ejet.comm.exception.ExceptionCode {
+public class ExceptionCodeFlow extends com.ejet.comm.exception.ExceptionCode {
 
     /** 表单ID、类型为空 */
     public static final String FLOW_ADD_FORM_EMPTY = "500001";
@@ -29,7 +29,9 @@ public class ExceptionCode extends com.ejet.comm.exception.ExceptionCode {
     /** 流程为空 */
     public static final String FLOW_ADD_FLOW_NULL = "500008";
 
+
     static {
+        System.out.println("***(((((ExceptionCodeFlow***" + messageMap.size());
         put(FLOW_ADD_FLOW_NULL, "流程为空");
         put(FLOW_ADD_FORM_EMPTY, "表单ID、类型为空");
         put(FLOW_ADD_FLOW_NAME_EMPTY, "流程名称为空");

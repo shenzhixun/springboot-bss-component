@@ -1,6 +1,9 @@
 package com.ejet.bss.userflow;
 
 import com.ejet.CommWebApplication;
+import com.ejet.bss.userinfo.UserInfoApplication;
+import com.ejet.bss.userrights.UserRightsApplication;
+import com.ejet.comm.redis.CommWebRedisApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -39,6 +42,9 @@ public class UserFlowApplication extends SpringBootServletInitializer {
         List<Class> list  = new ArrayList<>();
         list.add(UserFlowApplication.class);       //本项目
         list.add(CommWebApplication.class);         //基础项目
+        list.add(CommWebRedisApplication.class);     //redis项目
+        list.add(UserInfoApplication.class);         //userinfo项目
+        list.add(UserRightsApplication.class);        //userrights项目
 
         SpringApplication.run(list.toArray(new Class[list.size()]), args);
 

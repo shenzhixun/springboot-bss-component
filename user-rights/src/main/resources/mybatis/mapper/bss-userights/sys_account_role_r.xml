@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ejet.bss.userrights.mapper.SysAccountRoleRDao">
+
+	<sql id="SqlWhere">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+			<if test="accountUuid!=null and accountUuid!='' ">and account_uuid=#{accountUuid} </if>
+            <if test="roleTypeId!=null ">and role_type_id=#{roleTypeId} </if>
+            <if test="roleId!=null ">and role_id=#{roleId} </if>
+			<if test="status!=null and status!='' ">and status=#{status} </if>
+			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
+			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>
+		</where>
+	</sql>
+	<sql id="SqlWherePK">
+		<where>
+			1=1
+			<if test="id!=null ">and id=#{id} </if>
+		</where>
+	</sql>
+	<sql id="SqlSet">
+		<set>
+			<if test="id!=null "> id=#{id}, </if>
+			<if test="accountUuid!=null and accountUuid!='' "> account_uuid=#{accountUuid}, </if>
+			<if test="roleId!=null "> role_id=#{roleId}, </if>
+			<if test="roleTypeId!=null "> role_type_id=#{roleTypeId}, </if>
+			<if test="status!=null and status!='' "> status=#{status}, </if>
+			<if test="remark!=null and remark!='' "> remark=#{remark}, </if>
+			<if test="ext!=null and ext!='' "> ext=#{ext}, </if>
+		</set>
+	</sql>
+
+	<insert  id="insertAutoKey" parameterType="com.ejet.bss.userrights.model.SysAccountRoleRModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO sys_account_role_r (
+ 			account_uuid, role_id, role_type_id, status, 
+ 			remark, ext ) 	 VALUES ( 
+ 			#{accountUuid}, #{roleId}, #{roleTypeId}, #{status}, 
+ 			#{remark}, #{ext} ) 
+	</insert>
+
+	<insert  id="insertSingle" parameterType="com.ejet.bss.userrights.model.SysAccountRoleRModel" useGeneratedKeys="true" keyProperty="id" >
+		 INSERT INTO sys_account_role_r (
+ 			account_uuid, role_id, role_type_id, status, 
+ 			remark, ext,  id ) 
+		 VALUES( 
+ 			#{accountUuid}, #{roleId}, #{roleTypeId}, #{status}, 
+ 			#{remark}, #{ext},  #{id} ) 
+	</insert>
+
+	<delete  id="delete" parameterType="com.ejet.bss.userrights.model.SysAccountRoleRModel" >
+		 DELETE FROM sys_account_role_r
+		 <include refid="SqlWherePK"></include>
+	</delete>
+
+	<update  id="update" parameterType="com.ejet.bss.userrights.model.SysAccountRoleRModel" >
+		 UPDATE sys_account_role_r
+		 <include refid="SqlSet"></include> 
+		 <include refid="SqlWherePK"></include> 
+	</update>
+
+	<select  id="findByPK" parameterType="com.ejet.bss.userrights.model.SysAccountRoleRModel" resultType="com.ejet.bss.userrights.model.SysAccountRoleRModel" >
+		 SELECT * FROM sys_account_role_r
+		 <include refid="SqlWherePK"></include>
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByCond" parameterType="com.ejet.bss.userrights.model.SysAccountRoleRModel" resultType="com.ejet.bss.userrights.model.SysAccountRoleRModel" >
+		 SELECT * FROM sys_account_role_r
+		 <include refid="SqlWhere"></include> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryTree" parameterType="com.ejet.bss.userrights.model.SysAccountRoleRModel" resultType="com.ejet.bss.userrights.model.SysAccountRoleRModel" >
+		 SELECT * FROM sys_account_role_r
+		 <include refid="SqlWhere"></include> 
+		 <if test=" extSQL !=null "> ${extSQL} </if> 
+		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
+	</select>
+
+	<select  id="queryByPage" parameterType="com.ejet.bss.userrights.model.SysAccountRoleRModel" resultType="com.ejet.bss.userrights.model.SysAccountRoleRModel" >
+		 SELECT * FROM sys_account_role_r
+		 <include refid="SqlWhere"></include> 
+		 <if test="extSQL!=null "> ${extSQL} </if> 
+	</select>
+
+	<select  id="findMaxId" parameterType="com.ejet.bss.userrights.model.SysAccountRoleRModel" resultType="int" >
+		 SELECT max(id) FROM sys_account_role_r
+		 <include refid="SqlWhere"></include> 
+	</select>
+
+
+    <select  id="listAccountRoles" parameterType="com.ejet.bss.userrights.vo.SysAccountRoleRVO" resultType="com.ejet.bss.userrights.vo.SysAccountRoleRVO" >
+        SELECT M.*, R.role_name, T.role_type_name
+        FROM sys_account_role_r M, sys_role R, sys_role_type T
+        WHERE M.role_id=R.role_id AND M.role_type_id=T.role_type_id AND R.role_type_id = T.role_type_id
+        <if test="accountUuid!=null ">and M.user_id=#{accountUuid} </if>
+        <if test="roleId!=null ">and M.role_id=#{roleId} </if>
+        <if test="roleTypeId!=null ">and M.role_type_id=#{roleTypeId} </if>
+        <if test="status!=null and status!='' ">and M.status=#{status} </if>
+        <if test=" orderCond !=null ">  order by ${orderCond} </if>
+    </select>
+
+
+
+
+</mapper>

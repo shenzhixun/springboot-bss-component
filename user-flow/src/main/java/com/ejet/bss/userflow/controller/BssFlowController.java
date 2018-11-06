@@ -107,12 +107,10 @@ public class BssFlowController extends CoBaseController {
 
     @ResponseBody
     @RequestMapping(value="/add-flow")
-    public Result addFlow(@RequestBody(required=true)Param<BssFlowRequestBO> param, BindingResult bindResult) {
+    public Result addFlow(@RequestBody(required=true)BssFlowRequestBO bo, BindingResult bindResult) {
         Result rs = new Result();
         try{
             checkBindResult(bindResult);
-            checkParam(param);
-            BssFlowRequestBO bo = param.getData();
             mService.addFlow(bo);
         }catch (CoBusinessException e) {
             log.error("", e);

@@ -1,5 +1,7 @@
 package com.ejet.bss.userflow.service.impl;
 
+import com.ejet.bss.userflow.mapper.BssFlowBussRDao;
+import com.ejet.global.CoConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -60,6 +62,8 @@ public class BssFlowBussRServiceImpl implements IBssFlowBussRService {
  		Integer maxId = mDao.findMaxId(null);
  		maxId = maxId==null? 1 : maxId+1;
  		model.setId(maxId);
+
+        model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
  		mDao.insertSingle(model);
  		return maxId;
  	}
