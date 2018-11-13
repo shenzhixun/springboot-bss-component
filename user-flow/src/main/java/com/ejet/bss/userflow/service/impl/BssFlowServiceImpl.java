@@ -1,15 +1,20 @@
 package com.ejet.bss.userflow.service.impl;
 
 
+import com.ejet.bss.userflow.bo.BssApplyBO;
 import com.ejet.bss.userflow.bo.BssFlowBO;
 import com.ejet.bss.userflow.bo.BssFlowNodeBO;
 import com.ejet.bss.userflow.bo.BssFlowRequestBO;
 import com.ejet.bss.userflow.comm.ExceptionCodeFlow;
+import com.ejet.bss.userflow.comm.FlowConstant;
 import com.ejet.bss.userflow.mapper.BssFlowDao;
 import com.ejet.bss.userflow.model.BssFlowBussRModel;
 import com.ejet.bss.userflow.model.BssFlowModel;
+import com.ejet.bss.userflow.model.BssFlowNodeModel;
 import com.ejet.bss.userflow.service.IBssFlowService;
+import com.ejet.comm.exception.ExceptionCode;
 import com.ejet.comm.utils.StringUtils;
+import com.ejet.comm.utils.time.TimeUtils;
 import com.ejet.global.CoConstant;
 import com.github.pagehelper.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +42,11 @@ public class BssFlowServiceImpl implements IBssFlowService {
     private BssFlowBussRServiceImpl flowBussRService;
     @Autowired
     private BssFlowNodeServiceImpl flowNodeService;
+    @Autowired
+    private BssFlowApproveApplyServiceImpl approveApplyService;
 
-	@Override
+
+    @Override
 	public int insertAutoKey(BssFlowModel model) throws CoBusinessException {
  		return mDao.insertAutoKey(model);
  	}  
@@ -129,7 +137,7 @@ public class BssFlowServiceImpl implements IBssFlowService {
      * @throws CoBusinessException
      */
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT,
-            timeout=36000, rollbackFor={Exception.class,CoBusinessException.class})
+            timeout= FlowConstant.TRANSACTION_TIME_OUT, rollbackFor={Exception.class,CoBusinessException.class})
     public void addFlow(BssFlowRequestBO flowReqBO) throws CoBusinessException {
 
         if(flowReqBO==null || StringUtil.isEmpty(flowReqBO.getBussUuid())
@@ -164,11 +172,55 @@ public class BssFlowServiceImpl implements IBssFlowService {
             flowNodeService.insertSingle(nodeVo);
         }
 
-
     }
 
 
+    /**
+     *  提交表单
+     * @throws CoBusinessException
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT,
+            timeout= FlowConstant.TRANSACTION_TIME_OUT, rollbackFor={Exception.class,CoBusinessException.class})
+    public void applyBuss(BssApplyBO applyBO) throws CoBusinessException {
+        //提交后，同时进行通知。
+        if(applyBO.getBussUuid()==null || applyBO.getBussRecordUuid()==null
+                || applyBO.getBussTitle()==null) {
+            throw new CoBusinessException(ExceptionCode.PARAM_MISSING);
+        }
 
+        //查询表单对应流程id
+        BssFlowBussRModel flowbussR = new BssFlowBussRModel();
+        flowbussR.setBussUuid(applyBO.getBussUuid());
+        flowbussR.setStatus(CoConstant.STATUS_NORMAL);
+        //flowbussR.setEffectEndTime(TimeUtils.getCurrentTime());
+        flowbussR.setOrderCond(" priority desc "); //降序
+        List<BssFlowBussRModel> bussRList = flowBussRService.queryByCond(flowbussR);
+        if(bussRList==null || bussRList.size()==0) {
+            throw new CoBusinessException(ExceptionCodeFlow.FLOW_NOT_FOUND);
+        }
+        Integer flowId = bussRList.get(0).getFlowId();
+        applyBO.setFlowId(flowId);
+
+        applyBO.setFlowStatus(FlowConstant.FLOW_APPROVE_STATUS_START);  //开始
+        applyBO.setApproverResult(FlowConstant.FLOW_APPROVE_RESULT_GOING); //审核中
+        approveApplyService.insertSingle(applyBO);
+
+        //通知审批者,查询流程节点信息
+        BssFlowNodeModel nodeQuery = new BssFlowNodeModel();
+        nodeQuery.setFlowId(flowId);
+        nodeQuery.setStatus(CoConstant.STATUS_NORMAL);
+        nodeQuery.setOrderCond(" node_step asc ");
+
+        List<BssFlowNodeModel> nodeResult = flowNodeService.queryByCond(nodeQuery);
+        if(nodeResult==null || nodeResult.size()==0) {
+            throw new CoBusinessException(ExceptionCodeFlow.FLOW_ADD_FLOW_NODES_EMPTY);
+        }
+        System.out.println();
+
+
+
+
+    }
 
 
 

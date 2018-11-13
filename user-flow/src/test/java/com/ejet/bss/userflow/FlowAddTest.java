@@ -7,8 +7,11 @@ import com.ejet.bss.userflow.bo.BssFlowRequestBO;
 import com.ejet.bss.userflow.comm.em.FlowApproverEm;
 import com.ejet.bss.userflow.comm.em.FlowCcTypeEm;
 import com.ejet.bss.userflow.comm.em.FlowNodeApproveModeEm;
+import com.ejet.bss.userflow.model.BssFlowApproveApplyModel;
+import com.ejet.bss.userflow.model.BssFlowBussRModel;
 import com.ejet.bss.userflow.model.BssFlowModel;
 import com.ejet.bss.userrights.model.SysAccountRoleRModel;
+import com.ejet.comm.utils.UuidUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,9 @@ import java.util.List;
  */
 public class FlowAddTest extends BaseTest {
 
+
+    public static final String buss_uuid = "123";
+    public static final String buss_type = "leave";
 
     /**
      * 上级主管审批
@@ -141,13 +147,25 @@ public class FlowAddTest extends BaseTest {
     public static void main(String[] args) {
 
         BssFlowRequestBO bo = new BssFlowRequestBO();
-        bo.setBussUuid("123");
-        bo.setBussType("leave");
+        bo.setBussUuid(buss_uuid);
+        bo.setBussType(buss_type);
         bo.setFlowBO(addFlow());
 
         String result = gson.toJson(bo);
 
+        BssFlowApproveApplyModel applay = new BssFlowApproveApplyModel();
+        applay.setBussUuid(buss_uuid);
+        applay.setBussType(buss_type);
+        applay.setBussRecordUuid(UuidUtils.getUUID());
+        applay.setBussTitle("提交了[传染病]7月度数量上报!");
+        applay.setFromUser("wangyue");
+        applay.setFromAccountUuid("98765");
+
         System.out.println(result);
+
+        System.out.println("\r\n");
+
+        System.out.println(gson.toJson(applay));
     }
 
 }

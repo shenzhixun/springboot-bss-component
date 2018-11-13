@@ -29,10 +29,14 @@ public class ExceptionCodeFlow extends com.ejet.comm.exception.ExceptionCode {
     /** 流程为空 */
     public static final String FLOW_ADD_FLOW_NULL = "500008";
 
+    /** 根据业务查询流程为空 */
+    public static final String FLOW_NOT_FOUND = "500009";
+
 
     static {
         System.out.println("***(((((ExceptionCodeFlow***" + messageMap.size());
         put(FLOW_ADD_FLOW_NULL, "流程为空");
+        put(FLOW_NOT_FOUND, "根据业务查询流程为空");
         put(FLOW_ADD_FORM_EMPTY, "表单ID、类型为空");
         put(FLOW_ADD_FLOW_NAME_EMPTY, "流程名称为空");
         put(FLOW_ADD_FLOW_PRIORITY_EMPTY, "流程优先级为空");

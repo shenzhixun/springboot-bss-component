@@ -1,5 +1,6 @@
 package com.ejet.bss.userflow.controller;
 
+import com.ejet.bss.userflow.bo.BssApplyBO;
 import com.ejet.bss.userflow.bo.BssFlowRequestBO;
 import com.ejet.comm.exception.CoBusinessException;
 import org.slf4j.Logger;
@@ -122,5 +123,27 @@ public class BssFlowController extends CoBaseController {
         return rs;
     }
 
+    /**
+     * 提交表单，进行审批
+     * @param bo
+     * @param bindResult
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/apply-buss")
+    public Result applyBuss(@RequestBody(required=true) BssApplyBO bo, BindingResult bindResult) {
+        Result rs = new Result();
+        try{
+            checkBindResult(bindResult);
+            mService.applyBuss(bo);
+        }catch (CoBusinessException e) {
+            log.error("", e);
+            rs = new Result(e.getCode(), e);
+        }catch (Exception e) {
+            log.error("", e);
+            rs = new Result(SYS_ERROR, e);
+        }
+        return rs;
+    }
 
 }

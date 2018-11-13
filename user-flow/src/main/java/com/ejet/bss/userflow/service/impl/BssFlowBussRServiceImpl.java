@@ -1,6 +1,7 @@
 package com.ejet.bss.userflow.service.impl;
 
 import com.ejet.bss.userflow.mapper.BssFlowBussRDao;
+import com.ejet.comm.utils.time.TimeUtils;
 import com.ejet.global.CoConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,6 +64,8 @@ public class BssFlowBussRServiceImpl implements IBssFlowBussRService {
  		maxId = maxId==null? 1 : maxId+1;
  		model.setId(maxId);
 
+ 		model.setEffectStartTime(model.getEffectStartTime()==null ? TimeUtils.getCurrentTime() : model.getEffectStartTime());
+ 		model.setEffectEndTime(model.getEffectEndTime()==null ? "2099-01-01 00:00:001" : model.getEffectEndTime());
         model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
  		mDao.insertSingle(model);
  		return maxId;

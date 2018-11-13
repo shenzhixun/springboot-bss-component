@@ -13,8 +13,8 @@
 			<if test="flowId!=null ">and flow_id=#{flowId} </if>
 			<if test="flowCode!=null and flowCode!='' ">and flowCode=#{flowCode} </if>
 			<if test="priority!=null ">and priority=#{priority} </if>
-			<if test="effectStartTime!=null and effectStartTime!='' ">and effect_start_time=#{effectStartTime} </if>
-			<if test="effectEndTime!=null and effectEndTime!='' ">and effect_end_time=#{effectEndTime} </if>
+            <if test="effectStartTime!=null and effectStartTime!='' ">and effect_start_time <![CDATA[<=]]> #{effectStartTime} </if>
+            <if test="effectEndTime!=null and effectEndTime!='' ">and effect_end_time <![CDATA[>=]]> #{effectEndTime} </if>
 			<if test="status!=null and status!='' ">and status=#{status} </if>
 			<if test="remark!=null and remark!='' ">and remark=#{remark} </if>
 			<if test="ext!=null and ext!='' ">and ext=#{ext} </if>

@@ -1,6 +1,10 @@
 package com.ejet.bss.userflow.service.impl;
 
 import java.sql.SQLException;
+
+import com.ejet.comm.utils.UuidUtils;
+import com.ejet.comm.utils.time.TimeUtils;
+import com.ejet.global.CoConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
@@ -62,6 +66,10 @@ public class BssFlowApproveApplyServiceImpl implements IBssFlowApproveApplyServi
  		Integer maxId = mDao.findMaxId(null);
  		maxId = maxId==null? 1 : maxId+1;
  		model.setId(maxId);
+
+ 		model.setUuid(model.getUuid()==null ? UuidUtils.getUUID() : model.getUuid());
+        model.setStatus(model.getStatus()==null ? CoConstant.STATUS_NORMAL : model.getStatus());
+        model.setBussApplyTime(TimeUtils.getCurrentTime());
  		mDao.insertSingle(model);
  		return maxId;
  	}
