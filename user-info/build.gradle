@@ -62,6 +62,7 @@ dependencies {
     //runtime 'io.jsonwebtoken:jjwt-impl:0.10.5',
     // Uncomment the next line if you want to use RSASSA-PSS (PS256, PS384, PS512) algorithms:
     //'org.bouncycastle:bcprov-jdk15on:1.60',
+    compile group: 'org.yaml', name: 'snakeyaml', version: '1.19'
     runtime group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.10.5'
 
     //====== redis 采用gson序列化对象 ===========
