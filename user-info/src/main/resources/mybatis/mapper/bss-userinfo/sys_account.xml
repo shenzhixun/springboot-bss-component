@@ -122,16 +122,6 @@
 		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
 	</select>
 
-	<select  id="queryTree" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" resultType="com.ejet.bss.userinfo.model.SysAccountModel" >
-		 SELECT uuid, name, nickname,
-        account_type, account_state, effect_start, effect_end, last_login,
-        login_state, status, remark, create_time, modify_time,
-        modify_user, ext, ext1, ext2, id FROM sys_account
-		 <include refid="SqlWhere"></include> 
-		 <if test=" extSQL !=null "> ${extSQL} </if> 
-		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
-	</select>
-
 	<select  id="queryByPage" parameterType="com.ejet.bss.userinfo.model.SysAccountModel" resultType="com.ejet.bss.userinfo.model.SysAccountModel" >
 		 SELECT uuid, name, nickname,
         account_type, account_state, effect_start, effect_end, last_login,

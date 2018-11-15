@@ -24,10 +24,7 @@ public interface SysAccountModuleRDao {
 
 	public abstract List<SysAccountModuleRModel>  queryByPage(SysAccountModuleRModel obj) throws CoBusinessException; 
 
-	public abstract List<SysAccountModuleRModel>  queryTree(SysAccountModuleRModel obj) throws CoBusinessException; 
-
 	public abstract Integer  findMaxId(SysAccountModuleRModel obj) throws CoBusinessException;
-
 
     public abstract List<SysModuleModel> listAccountModules(SysAccountModuleRModel model) throws CoBusinessException;
 }

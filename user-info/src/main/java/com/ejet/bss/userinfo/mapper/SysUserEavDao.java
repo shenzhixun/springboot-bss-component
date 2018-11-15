@@ -23,8 +23,6 @@ public interface SysUserEavDao {
 
 	public abstract List<SysUserEavModel>  queryByPage(SysUserEavModel obj) throws CoBusinessException; 
 
-	public abstract List<SysUserEavModel>  queryTree(SysUserEavModel obj) throws CoBusinessException; 
-
 	public abstract Integer  findMaxId(SysUserEavModel obj) throws CoBusinessException; 
 
 

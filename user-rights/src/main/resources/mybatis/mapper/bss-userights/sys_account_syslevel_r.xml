@@ -78,13 +78,6 @@
 		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
 	</select>
 
-	<select  id="queryTree" parameterType="com.ejet.bss.userrights.model.SysAccountSyslevelRModel" resultType="com.ejet.bss.userrights.model.SysAccountSyslevelRModel" >
-		 SELECT * FROM sys_account_syslevel_r
-		 <include refid="SqlWhere"></include> 
-		 <if test=" extSQL !=null "> ${extSQL} </if> 
-		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
-	</select>
-
 	<select  id="queryByPage" parameterType="com.ejet.bss.userrights.model.SysAccountSyslevelRModel" resultType="com.ejet.bss.userrights.model.SysAccountSyslevelRModel" >
 		 SELECT * FROM sys_account_syslevel_r
 		 <include refid="SqlWhere"></include> 

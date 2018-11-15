@@ -23,8 +23,6 @@ public interface SysOrgzDao {
 
 	public abstract List<SysOrgzModel>  queryByPage(SysOrgzModel obj) throws CoBusinessException; 
 
-	public abstract List<SysOrgzModel>  queryTree(SysOrgzModel obj) throws CoBusinessException; 
-
 	public abstract Integer  findMaxId(SysOrgzModel obj) throws CoBusinessException; 
 
 

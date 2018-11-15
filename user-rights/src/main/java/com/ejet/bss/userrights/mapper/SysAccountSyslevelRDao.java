@@ -24,8 +24,6 @@ public interface SysAccountSyslevelRDao {
 
 	public abstract List<SysAccountSyslevelRModel>  queryByPage(SysAccountSyslevelRModel obj) throws CoBusinessException; 
 
-	public abstract List<SysAccountSyslevelRModel>  queryTree(SysAccountSyslevelRModel obj) throws CoBusinessException; 
-
 	public abstract Integer  findMaxId(SysAccountSyslevelRModel obj) throws CoBusinessException;
 
 

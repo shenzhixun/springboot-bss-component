@@ -84,13 +84,6 @@
 		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
 	</select>
 
-	<select  id="queryTree" parameterType="com.ejet.bss.userinfo.model.SysUserEavModel" resultType="com.ejet.bss.userinfo.model.SysUserEavModel" >
-		 SELECT * FROM sys_user_eav
-		 <include refid="SqlWhere"></include> 
-		 <if test=" extSQL !=null "> ${extSQL} </if> 
-		 <if test=" orderCond !=null ">  order by ${orderCond} </if> 
-	</select>
-
 	<select  id="queryByPage" parameterType="com.ejet.bss.userinfo.model.SysUserEavModel" resultType="com.ejet.bss.userinfo.model.SysUserEavModel" >
 		 SELECT * FROM sys_user_eav
 		 <include refid="SqlWhere"></include> 

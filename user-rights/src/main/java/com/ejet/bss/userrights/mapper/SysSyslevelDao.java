@@ -23,8 +23,6 @@ public interface SysSyslevelDao {
 
 	public abstract List<SysSyslevelModel>  queryByPage(SysSyslevelModel obj) throws CoBusinessException; 
 
-	public abstract List<SysSyslevelModel>  queryTree(SysSyslevelModel obj) throws CoBusinessException; 
-
 	public abstract Integer  findMaxId(SysSyslevelModel obj) throws CoBusinessException; 
 
 

@@ -83,12 +83,6 @@
 		 <if test=" orderCond !=null ">  order by ${orderCond} </if>
 	</select>
 
-	<select  id="queryByPage" parameterType="com.ejet.bss.userrights.model.SysAccountModuleRModel" resultType="com.ejet.bss.userrights.model.SysAccountModuleRModel" >
-		 SELECT * FROM sys_account_module_r
-		 <include refid="SqlWhere"></include>
-		 <if test="extSQL!=null "> ${extSQL} </if>
-	</select>
-
 	<select  id="findMaxId" parameterType="com.ejet.bss.userrights.model.SysAccountModuleRModel" resultType="int" >
 		 SELECT max(id) FROM sys_account_module_r
 		 <include refid="SqlWhere"></include>

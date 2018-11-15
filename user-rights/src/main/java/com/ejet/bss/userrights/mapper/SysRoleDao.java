@@ -24,8 +24,6 @@ public interface SysRoleDao {
 
 	public abstract List<SysRoleModel>  queryByPage(SysRoleModel obj) throws CoBusinessException; 
 
-	public abstract List<SysRoleModel>  queryTree(SysRoleModel obj) throws CoBusinessException; 
-
 	public abstract Integer  findMaxId(SysRoleModel obj) throws CoBusinessException;
 
 

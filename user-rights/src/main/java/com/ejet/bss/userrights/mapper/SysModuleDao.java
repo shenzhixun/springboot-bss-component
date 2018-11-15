@@ -22,8 +22,6 @@ public interface SysModuleDao {
 
 	public abstract List<SysModuleModel>  queryByPage(SysModuleModel obj) throws CoBusinessException;
 
-	public abstract List<SysModuleModel>  queryTree(SysModuleModel obj) throws CoBusinessException;
-
 	public abstract Integer findMaxId(SysModuleModel obj) throws CoBusinessException;
 
 }
