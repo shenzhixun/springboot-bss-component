@@ -8,6 +8,7 @@ import com.ejet.comm.utils.StringUtils;
 import com.ejet.comm.utils.UuidUtils;
 import com.ejet.comm.utils.io.IOUtils;
 import com.ejet.context.CoApplicationContext;
+import com.ejet.filter.CoSessionManager;
 import com.ejet.global.CoGlobal;
 import com.ejet.utils.CookieUtils;
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.yaml.snakeyaml.Yaml;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -134,12 +136,19 @@ public abstract class TokenHelper {
     public static String getAccountUuid() {
         String uuid = null;
         try {
-            HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-            String tokenId = getToken(request);
-            if(tokenId!=null) {
-                uuid = (String) redis.get(tokenId);
+            if(global.isTokenAuth()) {
+                String tokenId = getToken();
+                if(tokenId!=null) {
+                    uuid = (String) redis.get(tokenId);
+                }
+            } if(!global.isSessionIgnore()) { //不忽略session，这时能取到
+                HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+                HttpSession session = request.getSession();
+                Object data = session.getAttribute(CoSessionManager.USER_SESSION_KEY);
+                if(data!=null) {
+                 uuid = ((SysAccountVO)data).getUuid();
+                }
             }
-            //uuid = redis.get(tokenId)
         } catch (CoBusinessException e) {
             logger.error("", e);
         }

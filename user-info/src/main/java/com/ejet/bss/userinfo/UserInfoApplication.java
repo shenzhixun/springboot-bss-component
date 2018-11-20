@@ -26,9 +26,6 @@ import java.util.List;
 public class UserInfoApplication extends SpringBootServletInitializer {
     private static final Logger logger = LoggerFactory.getLogger(UserInfoApplication.class);
 
-    @Autowired
-    private static CoGlobal global;
-
     //每一个模块，都可以有自己的启动回调实现接口，只需要将实现类添加进去即可
     static {
         logger.info("======== [comm-bss-bss-userinfo] init ======");
