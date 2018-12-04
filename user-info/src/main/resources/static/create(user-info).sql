@@ -18,7 +18,7 @@ CREATE TABLE `sys_account` (
        `remark`  				  varchar(100) 	  NULL DEFAULT NULL  			  COMMENT '备注,描述' ,
        `create_time`  		varchar(32) 		NULL DEFAULT NULL  			  COMMENT '创建时间',
        `modify_time`  		varchar(32) 		NULL DEFAULT NULL  			  COMMENT '修改时间',
-       `modify_user`  		varchar(32) 		NULL DEFAULT NULL  			  COMMENT '修改人' ,
+       `modify_user`  		varchar(64) 		NULL DEFAULT NULL  			  COMMENT '修改人' ,
        `ext`  					  varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
        `ext1`  				    varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
        `ext2`  				    varchar(100)		NULL DEFAULT NULL     		COMMENT '预留字段',
@@ -35,7 +35,7 @@ CREATE TABLE `sys_account` (
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
        `id`          		    int(11) 			  NOT NULL 				          AUTO_INCREMENT ,
-       `user_id`  			    bigint(18)			NOT NULL  					      COMMENT '用户id(取身份证号)' ,
+       `user_id`  			    bigint(20)			NOT NULL  					      COMMENT '用户id(取身份证号)' ,
        `user_name`  			  varchar(64)		  NOT NULL  					      COMMENT '用户名' ,
        `fullname`  			    varchar(100)		NULL DEFAULT NULL         COMMENT '姓名',
        `orgz_id`  	        int(11)         NULL DEFAULT NULL         COMMENT '组织架构ID',
@@ -67,7 +67,7 @@ CREATE TABLE `sys_user` (
 DROP TABLE IF EXISTS `sys_user_eav`;
 CREATE TABLE `sys_user_eav` (
        `id`          		    int(11) 			  NOT NULL 				        AUTO_INCREMENT ,
-       `user_id`  			    bigint(18)			NOT NULL  					    COMMENT '用户id' ,
+       `user_id`  			    bigint(20)			NOT NULL  					    COMMENT '用户id' ,
        `dict_key`  			    varchar(64)			NOT NULL  		          COMMENT '字段key',
        `dict_code`  			  varchar(64)			NOT NULL  		          COMMENT '字段编码',
        `dict_value`  			  varchar(64)			NOT NULL  		          COMMENT '字段值',
