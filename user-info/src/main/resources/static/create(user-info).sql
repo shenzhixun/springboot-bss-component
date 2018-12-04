@@ -41,7 +41,7 @@ CREATE TABLE `sys_user` (
        `orgz_id`  	        int(11)         NULL DEFAULT NULL         COMMENT '组织架构ID',
        `user_photo`         varchar(255)    NULL DEFAULT NULL         COMMENT '个人头像',
        `phone`              varchar(32)     NULL DEFAULT NULL         COMMENT '电话号码',
-       `idcard`             varchar(255)    NULL DEFAULT NULL         COMMENT '身份证号',
+       `idcard`             varchar(20)    NULL DEFAULT NULL         COMMENT '身份证号',
        `email`              varchar(255)    NULL DEFAULT NULL         COMMENT '邮箱',
 
        `has_account`  			tinyint(1) 			NOT NULL  DEFAULT '1'     COMMENT '状态, 1: 分配账号，0：不分配',
@@ -50,7 +50,7 @@ CREATE TABLE `sys_user` (
        `status`  				    tinyint(1) 			NOT NULL  DEFAULT '1'     COMMENT '用户状态, 1: 正常，0：禁用',
        `remark`  				    varchar(100) 	  NULL DEFAULT NULL  			  COMMENT '备注,描述' ,
        `modify_time`  		  varchar(32) 		NULL DEFAULT NULL  			  COMMENT '修改时间',
-       `modify_user`  		  varchar(32) 		NULL DEFAULT NULL  			  COMMENT '修改人' ,
+       `modify_user`  		  varchar(64) 		NULL DEFAULT NULL  			  COMMENT '修改人' ,
        `ext`  					    varchar(100)		NULL DEFAULT NULL         COMMENT '预留字段',
        PRIMARY KEY (`id`),
        UNIQUE INDEX `account_uuid_user_id` (`account_uuid`,`user_id`) USING BTREE,
@@ -74,7 +74,7 @@ CREATE TABLE `sys_user_eav` (
        `status`  				    tinyint(1) 			NOT NULL  DEFAULT '1'   COMMENT '状态, 1: 正常，0：禁用',
        `remark`  				    varchar(100) 	  NULL DEFAULT NULL  			COMMENT '备注,描述' ,
        `modify_time`  		  varchar(32) 		NULL DEFAULT NULL  			COMMENT '修改时间',
-       `modify_user`  		  varchar(32) 		NULL DEFAULT NULL  			COMMENT '修改人' ,
+       `modify_user`  		  varchar(64) 		NULL DEFAULT NULL  			COMMENT '修改人' ,
        `ext`  					    varchar(100)		NULL DEFAULT NULL       COMMENT '预留字段',
        PRIMARY KEY (`id`),
        UNIQUE INDEX `user_id_dict_code` (`user_id`,`dict_code`) USING BTREE
